@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Parking Rental Space.props" />
+</Project>

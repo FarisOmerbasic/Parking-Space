@@ -4,9 +4,8 @@ public class User{
     public string Email {get; set;}
 
 
-    public List<ParkingSpace> OwnedParkingSpaces {get; set;}
-    public List<Booking> Bookings {get; set;}
-
+    public virtual ICollection<ParkingSpace>? OwnedParkingSpaces { get; set; } = new List<ParkingSpace>();
+    public virtual ICollection<Booking>? Bookings { get; set; } = new List<Booking>();
 }
 
 

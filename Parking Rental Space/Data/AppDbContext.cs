@@ -4,7 +4,7 @@ namespace Parking_Rental_Space.Data
 {
     public class AppDbContext : DbContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) {}
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         public DbSet<User> Users { get; set; }
         public DbSet<ParkingSpace> ParkingSpaces { get; set; }
@@ -22,12 +22,14 @@ namespace Parking_Rental_Space.Data
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Bookings)
                 .WithOne(b => b.User)
-                .HasForeignKey(b => b.UserId);
+                .HasForeignKey(b => b.UserId)
+                .OnDelete(DeleteBehavior.Restrict); 
 
             modelBuilder.Entity<ParkingSpace>()
                 .HasMany(p => p.Bookings)
                 .WithOne(b => b.ParkingSpace)
-                .HasForeignKey(b => b.ParkingSpaceId);
+                .HasForeignKey(b => b.ParkingSpaceId)
+                .OnDelete(DeleteBehavior.Cascade); 
 
             modelBuilder.Entity<Booking>()
                 .HasOne(b => b.Payment)
