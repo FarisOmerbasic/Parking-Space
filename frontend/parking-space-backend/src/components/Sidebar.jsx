@@ -17,17 +17,14 @@ const Sidebar = () => {
         <div className="p-6 text-2xl font-bold text-purple-700">ParkEasy</div>
         <nav className="px-4">
           <ul className="space-y-2">
-            <Link
-              to="/"
-              className={`font-medium transition-colors relative `}
-            >
+            <Link to="/" className={`font-medium transition-colors relative `}>
               Find Spot
             </Link>
             <Link
-              to="/bookings"
+              to="/myBookings"
               className={`font-medium transition-colors relative `}
             >
-              My Bookings 
+              My Bookings
             </Link>
             <Link
               to="/list-spaces"
@@ -47,7 +44,7 @@ const Sidebar = () => {
             Account
           </div>
           <ul className="space-y-2 mt-2">
-          <Link
+            <Link
               to="/profile"
               className={`font-medium transition-colors relative `}
             >
