@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\ParkingRentalSpace",
+    "\\ParkingRentalSpace\\Controllers"
   ],
-  "SelectedNode": "\\Parking Rental Space.sln",
+  "SelectedNode": "\\ParkingRentalSpace\\Controllers\\BookingController.cs",
   "PreviewInSolutionExplorer": false
 }

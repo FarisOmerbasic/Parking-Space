@@ -1,90 +1,102 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\",
+  "WorkspaceRootPath": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\emirk\\source\\repos\\parking-space\\parking rental space\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|solutionrelative:parking rental space\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\emirk\\source\\repos\\parking-space\\parking rental space\\data\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|solutionrelative:parking rental space\\data\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\emirk\\source\\repos\\parking-space\\parking rental space\\entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|solutionrelative:parking rental space\\entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\emirk\\source\\repos\\parking-space\\parking rental space\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|solutionrelative:parking rental space\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\emirk\\source\\repos\\parking-space\\parking rental space\\dtos\\createuserdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\korisnik\\desktop\\projects\\parking-space\\parking rental space\\dtos\\createuserdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|solutionrelative:parking rental space\\dtos\\createuserdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\emirk\\source\\repos\\parking-space\\parking rental space\\dtos\\createbookingdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|solutionrelative:parking rental space\\dtos\\createbookingdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\emirk\\source\\repos\\parking-space\\parking rental space\\data\\repositories\\bookingrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|solutionrelative:parking rental space\\data\\repositories\\bookingrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\emirk\\source\\repos\\parking-space\\parking rental space\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\korisnik\\desktop\\projects\\parking-space\\parking rental space\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|solutionrelative:parking rental space\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\emirk\\source\\repos\\parking-space\\parking rental space\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|solutionrelative:parking rental space\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\korisnik\\desktop\\projects\\parking-space\\parking rental space\\entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|solutionrelative:parking rental space\\entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\emirk\\source\\repos\\parking-space\\parking rental space\\controllers\\qrcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|solutionrelative:parking rental space\\controllers\\qrcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\emirk\\source\\repos\\parking-space\\parking rental space\\data\\appdbcontextfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|solutionrelative:parking rental space\\data\\appdbcontextfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\emirk\\source\\repos\\parking-space\\parking rental space\\entities\\qrcheckin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\korisnik\\desktop\\projects\\parking-space\\parking rental space\\entities\\qrcheckin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|solutionrelative:parking rental space\\entities\\qrcheckin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\emirk\\source\\repos\\parking-space\\parking rental space\\entities\\booking.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|solutionrelative:parking rental space\\entities\\booking.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\emirk\\source\\repos\\parking-space\\parking rental space\\services\\dashboardservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|solutionrelative:parking rental space\\services\\dashboardservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\emirk\\source\\repos\\parking-space\\parking rental space\\services\\bookingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|solutionrelative:parking rental space\\services\\bookingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\emirk\\source\\repos\\parking-space\\parking rental space\\entities\\payment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\korisnik\\desktop\\projects\\parking-space\\parking rental space\\entities\\payment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|solutionrelative:parking rental space\\entities\\payment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\emirk\\source\\repos\\parking-space\\parking rental space\\entities\\parkingspace.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\korisnik\\desktop\\projects\\parking-space\\parking rental space\\entities\\parkingspace.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|solutionrelative:parking rental space\\entities\\parkingspace.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\emirk\\source\\repos\\parking-space\\parking rental space\\dtos\\recurringbookingdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\korisnik\\desktop\\projects\\parking-space\\parking rental space\\entities\\booking.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|solutionrelative:parking rental space\\entities\\booking.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\korisnik\\desktop\\projects\\parking-space\\parking rental space\\dtos\\recurringbookingdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|solutionrelative:parking rental space\\dtos\\recurringbookingdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\emirk\\source\\repos\\parking-space\\parking rental space\\dtos\\parkingspacedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\korisnik\\desktop\\projects\\parking-space\\parking rental space\\dtos\\parkingspacedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|solutionrelative:parking rental space\\dtos\\parkingspacedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\emirk\\source\\repos\\parking-space\\parking rental space\\controllers\\bookingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\korisnik\\desktop\\projects\\parking-space\\parking rental space\\dtos\\createbookingdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|solutionrelative:parking rental space\\dtos\\createbookingdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\korisnik\\desktop\\projects\\parking-space\\parking rental space\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|solutionrelative:parking rental space\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\korisnik\\desktop\\projects\\parking-space\\parking rental space\\data\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|solutionrelative:parking rental space\\data\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\korisnik\\desktop\\projects\\parking-space\\parking rental space\\data\\repositories\\parkingspacerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|solutionrelative:parking rental space\\data\\repositories\\parkingspacerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\korisnik\\desktop\\projects\\parking-space\\parking rental space\\data\\repositories\\irepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|solutionrelative:parking rental space\\data\\repositories\\irepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\korisnik\\desktop\\projects\\parking-space\\parking rental space\\data\\repositories\\bookingrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|solutionrelative:parking rental space\\data\\repositories\\bookingrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\korisnik\\desktop\\projects\\parking-space\\parking rental space\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|solutionrelative:parking rental space\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\korisnik\\desktop\\projects\\parking-space\\parking rental space\\controllers\\qrcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|solutionrelative:parking rental space\\controllers\\qrcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\korisnik\\desktop\\projects\\parking-space\\parking rental space\\controllers\\listingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|solutionrelative:parking rental space\\controllers\\listingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\korisnik\\desktop\\projects\\parking-space\\parking rental space\\controllers\\dashboardcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|solutionrelative:parking rental space\\controllers\\dashboardcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\korisnik\\desktop\\projects\\parking-space\\parking rental space\\controllers\\bookingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|solutionrelative:parking rental space\\controllers\\bookingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\emirk\\source\\repos\\parking-space\\parking rental space\\controllers\\dashboardcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|solutionrelative:parking rental space\\controllers\\dashboardcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\korisnik\\desktop\\projects\\parking-space\\parking rental space\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|solutionrelative:parking rental space\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\korisnik\\desktop\\projects\\parking-space\\parking rental space\\data\\appdbcontextfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|solutionrelative:parking rental space\\data\\appdbcontextfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\korisnik\\desktop\\projects\\parking-space\\parking rental space\\services\\dashboardservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|solutionrelative:parking rental space\\services\\dashboardservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|c:\\users\\korisnik\\desktop\\projects\\parking-space\\parking rental space\\services\\bookingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DC3C1918-6B0C-442A-AC37-6FAEF07C1EB8}|Parking Rental Space\\Parking Rental Space.csproj|solutionrelative:parking rental space\\services\\bookingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -94,7 +106,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -102,132 +114,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "User.cs",
-              "DocumentMoniker": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\Entities\\User.cs",
-              "RelativeDocumentMoniker": "Parking Rental Space\\Entities\\User.cs",
-              "ToolTip": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\Entities\\User.cs",
-              "RelativeToolTip": "Parking Rental Space\\Entities\\User.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAABWAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-19T13:58:40.55Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "CreateUserDto.cs",
-              "DocumentMoniker": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\DTOs\\CreateUserDto.cs",
-              "RelativeDocumentMoniker": "Parking Rental Space\\DTOs\\CreateUserDto.cs",
-              "ToolTip": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\DTOs\\CreateUserDto.cs",
-              "RelativeToolTip": "Parking Rental Space\\DTOs\\CreateUserDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-19T13:56:25.089Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "BookingRepository.cs",
-              "DocumentMoniker": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\Data\\Repositories\\BookingRepository.cs",
-              "RelativeDocumentMoniker": "Parking Rental Space\\Data\\Repositories\\BookingRepository.cs",
-              "ToolTip": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\Data\\Repositories\\BookingRepository.cs",
-              "RelativeToolTip": "Parking Rental Space\\Data\\Repositories\\BookingRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-19T13:47:31.2Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\Program.cs",
-              "RelativeDocumentMoniker": "Parking Rental Space\\Program.cs",
-              "ToolTip": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\Program.cs",
-              "RelativeToolTip": "Parking Rental Space\\Program.cs",
-              "ViewState": "AgIAAAcAAAAAAAAAAAAUwA0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-19T12:16:57.297Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "UserRepository.cs",
-              "DocumentMoniker": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\Data\\Repositories\\UserRepository.cs",
-              "RelativeDocumentMoniker": "Parking Rental Space\\Data\\Repositories\\UserRepository.cs",
-              "ToolTip": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\Data\\Repositories\\UserRepository.cs",
-              "RelativeToolTip": "Parking Rental Space\\Data\\Repositories\\UserRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-19T12:14:28.606Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "UsersController.cs",
-              "DocumentMoniker": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\Controllers\\UsersController.cs",
-              "RelativeDocumentMoniker": "Parking Rental Space\\Controllers\\UsersController.cs",
-              "ToolTip": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\Controllers\\UsersController.cs",
-              "RelativeToolTip": "Parking Rental Space\\Controllers\\UsersController.cs",
-              "ViewState": "AgIAABUAAAAAAAAAAAAIwBwAAAA+AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-19T12:13:29.442Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "DashboardService.cs",
-              "DocumentMoniker": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\Services\\DashboardService.cs",
-              "RelativeDocumentMoniker": "Parking Rental Space\\Services\\DashboardService.cs",
-              "ToolTip": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\Services\\DashboardService.cs",
-              "RelativeToolTip": "Parking Rental Space\\Services\\DashboardService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-19T12:13:21.515Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "BookingService.cs",
-              "DocumentMoniker": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\Services\\BookingService.cs",
-              "RelativeDocumentMoniker": "Parking Rental Space\\Services\\BookingService.cs",
-              "ToolTip": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\Services\\BookingService.cs",
-              "RelativeToolTip": "Parking Rental Space\\Services\\BookingService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-19T12:13:19.411Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "QrController.cs",
-              "DocumentMoniker": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\Controllers\\QrController.cs",
-              "RelativeDocumentMoniker": "Parking Rental Space\\Controllers\\QrController.cs",
-              "ToolTip": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\Controllers\\QrController.cs",
-              "RelativeToolTip": "Parking Rental Space\\Controllers\\QrController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-19T11:57:38.741Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "QrCheckin.cs",
-              "DocumentMoniker": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\Entities\\QrCheckin.cs",
-              "RelativeDocumentMoniker": "Parking Rental Space\\Entities\\QrCheckin.cs",
-              "ToolTip": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\Entities\\QrCheckin.cs",
-              "RelativeToolTip": "Parking Rental Space\\Entities\\QrCheckin.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-19T11:55:47.24Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 10,
               "Title": "AppDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\Data\\AppDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Data\\AppDbContext.cs",
               "RelativeDocumentMoniker": "Parking Rental Space\\Data\\AppDbContext.cs",
-              "ToolTip": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\Data\\AppDbContext.cs",
+              "ToolTip": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Data\\AppDbContext.cs",
               "RelativeToolTip": "Parking Rental Space\\Data\\AppDbContext.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAC8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -235,71 +126,72 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "Booking.cs",
-              "DocumentMoniker": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\Entities\\Booking.cs",
-              "RelativeDocumentMoniker": "Parking Rental Space\\Entities\\Booking.cs",
-              "ToolTip": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\Entities\\Booking.cs",
-              "RelativeToolTip": "Parking Rental Space\\Entities\\Booking.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-19T11:14:29.435Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\appsettings.json",
-              "RelativeDocumentMoniker": "Parking Rental Space\\appsettings.json",
-              "ToolTip": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\appsettings.json",
-              "RelativeToolTip": "Parking Rental Space\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-04-19T11:37:39.88Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "Payment.cs",
-              "DocumentMoniker": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\Entities\\Payment.cs",
-              "RelativeDocumentMoniker": "Parking Rental Space\\Entities\\Payment.cs",
-              "ToolTip": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\Entities\\Payment.cs",
-              "RelativeToolTip": "Parking Rental Space\\Entities\\Payment.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-19T12:12:46.279Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 9,
               "Title": "CreateBookingDto.cs",
-              "DocumentMoniker": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\DTOs\\CreateBookingDto.cs",
-              "RelativeDocumentMoniker": "Parking Rental Space\\DTOs\\CreateBookingDto.cs",
-              "ToolTip": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\DTOs\\CreateBookingDto.cs",
-              "RelativeToolTip": "Parking Rental Space\\DTOs\\CreateBookingDto.cs",
+              "DocumentMoniker": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Dtos\\CreateBookingDto.cs",
+              "RelativeDocumentMoniker": "Parking Rental Space\\Dtos\\CreateBookingDto.cs",
+              "ToolTip": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Dtos\\CreateBookingDto.cs",
+              "RelativeToolTip": "Parking Rental Space\\Dtos\\CreateBookingDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-19T11:14:35.672Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "AppDbContextFactory.cs",
-              "DocumentMoniker": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\Data\\AppDbContextFactory.cs",
-              "RelativeDocumentMoniker": "Parking Rental Space\\Data\\AppDbContextFactory.cs",
-              "ToolTip": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\Data\\AppDbContextFactory.cs",
-              "RelativeToolTip": "Parking Rental Space\\Data\\AppDbContextFactory.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAJAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "CreateUserDto.cs",
+              "DocumentMoniker": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Dtos\\CreateUserDto.cs",
+              "RelativeDocumentMoniker": "Parking Rental Space\\Dtos\\CreateUserDto.cs",
+              "ToolTip": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Dtos\\CreateUserDto.cs",
+              "RelativeToolTip": "Parking Rental Space\\Dtos\\CreateUserDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-19T12:46:15.42Z"
+              "WhenOpened": "2025-04-19T13:56:25.089Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 8,
+              "Title": "ParkingSpaceDto.cs",
+              "DocumentMoniker": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Dtos\\ParkingSpaceDto.cs",
+              "RelativeDocumentMoniker": "Parking Rental Space\\Dtos\\ParkingSpaceDto.cs",
+              "ToolTip": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Dtos\\ParkingSpaceDto.cs",
+              "RelativeToolTip": "Parking Rental Space\\Dtos\\ParkingSpaceDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-19T11:16:02.187Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "RecurringBookingDto.cs",
+              "DocumentMoniker": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Dtos\\RecurringBookingDto.cs",
+              "RelativeDocumentMoniker": "Parking Rental Space\\Dtos\\RecurringBookingDto.cs",
+              "ToolTip": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Dtos\\RecurringBookingDto.cs",
+              "RelativeToolTip": "Parking Rental Space\\Dtos\\RecurringBookingDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-19T11:59:21.539Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Booking.cs",
+              "DocumentMoniker": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Entities\\Booking.cs",
+              "RelativeDocumentMoniker": "Parking Rental Space\\Entities\\Booking.cs",
+              "ToolTip": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Entities\\Booking.cs",
+              "RelativeToolTip": "Parking Rental Space\\Entities\\Booking.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwA8AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-19T11:14:29.435Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "ParkingSpace.cs",
-              "DocumentMoniker": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\Entities\\ParkingSpace.cs",
+              "DocumentMoniker": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Entities\\ParkingSpace.cs",
               "RelativeDocumentMoniker": "Parking Rental Space\\Entities\\ParkingSpace.cs",
-              "ToolTip": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\Entities\\ParkingSpace.cs",
+              "ToolTip": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Entities\\ParkingSpace.cs",
               "RelativeToolTip": "Parking Rental Space\\Entities\\ParkingSpace.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -307,51 +199,207 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "RecurringBookingDto.cs",
-              "DocumentMoniker": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\DTOs\\RecurringBookingDto.cs",
-              "RelativeDocumentMoniker": "Parking Rental Space\\DTOs\\RecurringBookingDto.cs",
-              "ToolTip": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\DTOs\\RecurringBookingDto.cs",
-              "RelativeToolTip": "Parking Rental Space\\DTOs\\RecurringBookingDto.cs",
+              "DocumentIndex": 4,
+              "Title": "Payment.cs",
+              "DocumentMoniker": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Entities\\Payment.cs",
+              "RelativeDocumentMoniker": "Parking Rental Space\\Entities\\Payment.cs",
+              "ToolTip": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Entities\\Payment.cs",
+              "RelativeToolTip": "Parking Rental Space\\Entities\\Payment.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAA6wAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-19T12:12:46.279Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "QrCheckin.cs",
+              "DocumentMoniker": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Entities\\QrCheckin.cs",
+              "RelativeDocumentMoniker": "Parking Rental Space\\Entities\\QrCheckin.cs",
+              "ToolTip": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Entities\\QrCheckin.cs",
+              "RelativeToolTip": "Parking Rental Space\\Entities\\QrCheckin.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-19T11:55:47.24Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Entities\\User.cs",
+              "RelativeDocumentMoniker": "Parking Rental Space\\Entities\\User.cs",
+              "ToolTip": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Entities\\User.cs",
+              "RelativeToolTip": "Parking Rental Space\\Entities\\User.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAcAAABWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-19T13:58:40.55Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Program.cs",
+              "RelativeDocumentMoniker": "Parking Rental Space\\Program.cs",
+              "ToolTip": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Program.cs",
+              "RelativeToolTip": "Parking Rental Space\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-19T12:16:57.297Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "UserRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Data\\Repositories\\UserRepository.cs",
+              "RelativeDocumentMoniker": "Parking Rental Space\\Data\\Repositories\\UserRepository.cs",
+              "ToolTip": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Data\\Repositories\\UserRepository.cs",
+              "RelativeToolTip": "Parking Rental Space\\Data\\Repositories\\UserRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-19T12:14:28.606Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "ParkingSpaceRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Data\\Repositories\\ParkingSpaceRepository.cs",
+              "RelativeDocumentMoniker": "Parking Rental Space\\Data\\Repositories\\ParkingSpaceRepository.cs",
+              "ToolTip": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Data\\Repositories\\ParkingSpaceRepository.cs",
+              "RelativeToolTip": "Parking Rental Space\\Data\\Repositories\\ParkingSpaceRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-19T11:59:21.539Z"
+              "WhenOpened": "2025-04-22T16:03:42.738Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "IRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Data\\Repositories\\IRepository.cs",
+              "RelativeDocumentMoniker": "Parking Rental Space\\Data\\Repositories\\IRepository.cs",
+              "ToolTip": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Data\\Repositories\\IRepository.cs",
+              "RelativeToolTip": "Parking Rental Space\\Data\\Repositories\\IRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-22T16:03:40.281Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "UsersController.cs",
+              "DocumentMoniker": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Controllers\\UsersController.cs",
+              "RelativeDocumentMoniker": "Parking Rental Space\\Controllers\\UsersController.cs",
+              "ToolTip": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Controllers\\UsersController.cs",
+              "RelativeToolTip": "Parking Rental Space\\Controllers\\UsersController.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAAIwBwAAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-19T12:13:29.442Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "QrController.cs",
+              "DocumentMoniker": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Controllers\\QrController.cs",
+              "RelativeDocumentMoniker": "Parking Rental Space\\Controllers\\QrController.cs",
+              "ToolTip": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Controllers\\QrController.cs",
+              "RelativeToolTip": "Parking Rental Space\\Controllers\\QrController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-19T11:57:38.741Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "ListingController.cs",
+              "DocumentMoniker": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Controllers\\ListingController.cs",
+              "RelativeDocumentMoniker": "Parking Rental Space\\Controllers\\ListingController.cs",
+              "ToolTip": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Controllers\\ListingController.cs",
+              "RelativeToolTip": "Parking Rental Space\\Controllers\\ListingController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-22T16:03:25.24Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 20,
-              "Title": "DashboardController.cs",
-              "DocumentMoniker": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\Controllers\\DashboardController.cs",
-              "RelativeDocumentMoniker": "Parking Rental Space\\Controllers\\DashboardController.cs",
-              "ToolTip": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\Controllers\\DashboardController.cs",
-              "RelativeToolTip": "Parking Rental Space\\Controllers\\DashboardController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAGAAAAAAAAAA==",
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\appsettings.json",
+              "RelativeDocumentMoniker": "Parking Rental Space\\appsettings.json",
+              "ToolTip": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\appsettings.json",
+              "RelativeToolTip": "Parking Rental Space\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-04-19T11:37:39.88Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "BookingService.cs",
+              "DocumentMoniker": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Services\\BookingService.cs",
+              "RelativeDocumentMoniker": "Parking Rental Space\\Services\\BookingService.cs",
+              "ToolTip": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Services\\BookingService.cs",
+              "RelativeToolTip": "Parking Rental Space\\Services\\BookingService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-19T11:28:56.785Z"
+              "WhenOpened": "2025-04-19T12:13:19.411Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "DashboardService.cs",
+              "DocumentMoniker": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Services\\DashboardService.cs",
+              "RelativeDocumentMoniker": "Parking Rental Space\\Services\\DashboardService.cs",
+              "ToolTip": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Services\\DashboardService.cs",
+              "RelativeToolTip": "Parking Rental Space\\Services\\DashboardService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-19T12:13:21.515Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 19,
               "Title": "BookingController.cs",
-              "DocumentMoniker": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\Controllers\\BookingController.cs",
+              "DocumentMoniker": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Controllers\\BookingController.cs",
               "RelativeDocumentMoniker": "Parking Rental Space\\Controllers\\BookingController.cs",
-              "ToolTip": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\Controllers\\BookingController.cs",
+              "ToolTip": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Controllers\\BookingController.cs",
               "RelativeToolTip": "Parking Rental Space\\Controllers\\BookingController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACcAAAAIAAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAACcAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-19T11:27:09.838Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "ParkingSpaceDto.cs",
-              "DocumentMoniker": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\DTOs\\ParkingSpaceDto.cs",
-              "RelativeDocumentMoniker": "Parking Rental Space\\DTOs\\ParkingSpaceDto.cs",
-              "ToolTip": "C:\\Users\\emirk\\source\\repos\\Parking-Space\\Parking Rental Space\\DTOs\\ParkingSpaceDto.cs",
-              "RelativeToolTip": "Parking Rental Space\\DTOs\\ParkingSpaceDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "DocumentIndex": 14,
+              "Title": "BookingRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Data\\Repositories\\BookingRepository.cs",
+              "RelativeDocumentMoniker": "Parking Rental Space\\Data\\Repositories\\BookingRepository.cs",
+              "ToolTip": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Data\\Repositories\\BookingRepository.cs",
+              "RelativeToolTip": "Parking Rental Space\\Data\\Repositories\\BookingRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-19T11:16:02.187Z"
+              "WhenOpened": "2025-04-19T13:47:31.2Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "DashboardController.cs",
+              "DocumentMoniker": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Controllers\\DashboardController.cs",
+              "RelativeDocumentMoniker": "Parking Rental Space\\Controllers\\DashboardController.cs",
+              "ToolTip": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Controllers\\DashboardController.cs",
+              "RelativeToolTip": "Parking Rental Space\\Controllers\\DashboardController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-19T11:28:56.785Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "AppDbContextFactory.cs",
+              "DocumentMoniker": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Data\\AppDbContextFactory.cs",
+              "RelativeDocumentMoniker": "Parking Rental Space\\Data\\AppDbContextFactory.cs",
+              "ToolTip": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\Parking Rental Space\\Data\\AppDbContextFactory.cs",
+              "RelativeToolTip": "Parking Rental Space\\Data\\AppDbContextFactory.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-19T12:46:15.42Z"
             }
           ]
         }

@@ -1,6 +1,0 @@
-@Parking_Rental_Space_HostAddress = http://localhost:5044
-
-GET {{Parking_Rental_Space_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
