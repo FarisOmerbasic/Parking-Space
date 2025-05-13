@@ -1,0 +1,16 @@
+C:\Users\Korisnik\Desktop\projects\Parking-Space\ParkingRentalSpace\ParkingRentalSpace.Application\bin\Debug\net8.0\ParkingRentalSpace.Application.deps.json
+C:\Users\Korisnik\Desktop\projects\Parking-Space\ParkingRentalSpace\ParkingRentalSpace.Application\bin\Debug\net8.0\ParkingRentalSpace.Application.dll
+C:\Users\Korisnik\Desktop\projects\Parking-Space\ParkingRentalSpace\ParkingRentalSpace.Application\bin\Debug\net8.0\ParkingRentalSpace.Application.pdb
+C:\Users\Korisnik\Desktop\projects\Parking-Space\ParkingRentalSpace\ParkingRentalSpace.Application\obj\Debug\net8.0\ParkingRentalSpace.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Korisnik\Desktop\projects\Parking-Space\ParkingRentalSpace\ParkingRentalSpace.Application\obj\Debug\net8.0\ParkingRentalSpace.Application.AssemblyInfoInputs.cache
+C:\Users\Korisnik\Desktop\projects\Parking-Space\ParkingRentalSpace\ParkingRentalSpace.Application\obj\Debug\net8.0\ParkingRentalSpace.Application.AssemblyInfo.cs
+C:\Users\Korisnik\Desktop\projects\Parking-Space\ParkingRentalSpace\ParkingRentalSpace.Application\obj\Debug\net8.0\ParkingRentalSpace.Application.csproj.CoreCompileInputs.cache
+C:\Users\Korisnik\Desktop\projects\Parking-Space\ParkingRentalSpace\ParkingRentalSpace.Application\obj\Debug\net8.0\ParkingRentalSpace.Application.sourcelink.json
+C:\Users\Korisnik\Desktop\projects\Parking-Space\ParkingRentalSpace\ParkingRentalSpace.Application\obj\Debug\net8.0\ParkingRentalSpace.Application.dll
+C:\Users\Korisnik\Desktop\projects\Parking-Space\ParkingRentalSpace\ParkingRentalSpace.Application\obj\Debug\net8.0\refint\ParkingRentalSpace.Application.dll
+C:\Users\Korisnik\Desktop\projects\Parking-Space\ParkingRentalSpace\ParkingRentalSpace.Application\obj\Debug\net8.0\ParkingRentalSpace.Application.pdb
+C:\Users\Korisnik\Desktop\projects\Parking-Space\ParkingRentalSpace\ParkingRentalSpace.Application\obj\Debug\net8.0\ref\ParkingRentalSpace.Application.dll
+C:\Users\Korisnik\Desktop\projects\Parking-Space\ParkingRentalSpace\ParkingRentalSpace.Application\bin\Debug\net8.0\ParkingRentalSpace.Domain.dll
+C:\Users\Korisnik\Desktop\projects\Parking-Space\ParkingRentalSpace\ParkingRentalSpace.Application\bin\Debug\net8.0\ParkingRentalSpace.Domain.pdb
+C:\Users\Korisnik\Desktop\projects\Parking-Space\ParkingRentalSpace\ParkingRentalSpace.Application\obj\Debug\net8.0\ParkingRentalSpace.Application.csproj.AssemblyReference.cache
+C:\Users\Korisnik\Desktop\projects\Parking-Space\ParkingRentalSpace\ParkingRentalSpace.Application\obj\Debug\net8.0\ParkingR.44AB976E.Up2Date

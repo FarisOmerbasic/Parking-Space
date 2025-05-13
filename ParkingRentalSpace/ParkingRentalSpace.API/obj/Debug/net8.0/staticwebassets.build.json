@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "LHfPAFbcrREixaxMYtrO1dEBc+R747cxV+NwQ0M5H0g=",
+  "Source": "ParkingRentalSpace.API",
+  "BasePath": "_content/ParkingRentalSpace.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
