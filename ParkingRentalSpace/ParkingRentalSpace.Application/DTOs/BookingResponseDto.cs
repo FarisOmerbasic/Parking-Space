@@ -1,7 +1,7 @@
 ﻿public class BookingResponseDto
 {
     public int Id { get; set; }
-    public string Location { get; set; }
+    public string LocationVM { get; set; }
     public string Spot { get; set; }
     public DateTime StartTime { get; set; }
     public DateTime EndTime { get; set; }

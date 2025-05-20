@@ -25,11 +25,11 @@ public class ParkingSpacesController : ControllerBase
         return Ok(spaces.Select(s => new ParkingSpaceResponseDto
         {
             Id = s.Id,
-            Address = s.Address,
+            Location = s.Address,
+            SpaceName = s.SpaceName,
             Description = s.Description,
-            PricePerHour = s.PricePerHour,
-            Latitude = s.Latitude,
-            Longitude = s.Longitude,
+            Price = s.PricePerHour,
+            AvailableTimes = s.AvailableTimes,
             IsAvailable = s.IsAvailable
         }));
     }
@@ -43,13 +43,41 @@ public class ParkingSpacesController : ControllerBase
         return Ok(new ParkingSpaceResponseDto
         {
             Id = space.Id,
-            Address = space.Address,
+            Location = space.Address,
+            SpaceName = space.SpaceName,
             Description = space.Description,
-            PricePerHour = space.PricePerHour,
-            Latitude = space.Latitude,
-            Longitude = space.Longitude,
+            Price = space.PricePerHour,
+            AvailableTimes = space.AvailableTimes,
             IsAvailable = space.IsAvailable
         });
+    }
+
+    [HttpGet("mine")]
+    [Authorize]
+    public async Task<ActionResult<IEnumerable<ParkingSpaceResponseDto>>> GetMySpaces()
+    {
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+        if (userIdClaim == null)
+            return Unauthorized("User not authenticated.");
+
+        int ownerId = int.Parse(userIdClaim.Value);
+
+        var spaces = await _repo.GetAllAsync();
+        var mySpaces = spaces
+            .Where(space => space.OwnerId == ownerId)
+            .Select(space => new ParkingSpaceResponseDto
+            {
+                Id = space.Id,
+                Location = space.Address,
+                SpaceName = space.SpaceName,
+                Description = space.Description,
+                Price = space.PricePerHour,
+                AvailableTimes = space.AvailableTimes,
+                IsAvailable = space.IsAvailable
+            })
+            .ToList();
+
+        return Ok(mySpaces);
     }
 
     [HttpPost]
@@ -68,9 +96,10 @@ public class ParkingSpacesController : ControllerBase
         {
             OwnerId = ownerId,
             Address = dto.Location,
+            SpaceName = dto.SpaceName,           // <-- FIXED: Save SpaceName
             Description = dto.Description,
             PricePerHour = dto.Price,
-            // Optionally: SpaceName = dto.SpaceName, AvailableTimes = dto.AvailableTimes
+            AvailableTimes = dto.AvailableTimes, // <-- FIXED: Save AvailableTimes
             IsAvailable = true
         };
 
@@ -81,12 +110,29 @@ public class ParkingSpacesController : ControllerBase
             new ParkingSpaceResponseDto
             {
                 Id = space.Id,
-                Address = space.Address,
+                Location = space.Address,
+                SpaceName = space.SpaceName,           // <-- FIXED: Return SpaceName
                 Description = space.Description,
-                PricePerHour = space.PricePerHour,
-                Latitude = space.Latitude,
-                Longitude = space.Longitude,
+                Price = space.PricePerHour,
+                AvailableTimes = space.AvailableTimes, // <-- FIXED: Return AvailableTimes
                 IsAvailable = space.IsAvailable
             });
     }
+    [HttpDelete("{id}")]
+[Authorize]
+public async Task<IActionResult> DeleteParkingSpace(int id)
+{
+    var space = await _repo.GetByIdAsync(id);
+    if (space == null)
+        return NotFound();
+
+    // Optional: Only allow the owner to delete
+    var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+    if (userIdClaim == null || space.OwnerId != int.Parse(userIdClaim.Value))
+        return Forbid();
+
+    await _repo.DeleteAsync(space.Id);
+    await _repo.SaveChangesAsync();
+    return NoContent();
+}
 }

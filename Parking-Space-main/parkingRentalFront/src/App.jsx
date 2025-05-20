@@ -15,6 +15,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AppLayout from "./pages/AppLayout";
 import ProfileLayout from "./pages/ProfileLayout";
+import MySpaces from "./pages/MySpaces";
 
 export default function App() {
   const router = createBrowserRouter(
@@ -32,6 +33,7 @@ export default function App() {
               { path: "/profile", element: <UserProfile /> },
               { path: "/listSpace", element: <ListSpace /> },
               { path: "/dashboard", element: <Dashboard /> },
+              { path: "/mySpaces", element: <MySpaces /> },
 
             ],
           },
