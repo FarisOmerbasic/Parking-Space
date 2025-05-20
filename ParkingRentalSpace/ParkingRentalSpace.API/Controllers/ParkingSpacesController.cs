@@ -2,6 +2,8 @@
 using ParkingRentalSpace.Application.DTOs;
 using ParkingRentalSpace.Domain.Entities;
 using ParkingRentalSpace.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace ParkingRentalSpace.API.Controllers;
 
@@ -32,7 +34,6 @@ public class ParkingSpacesController : ControllerBase
         }));
     }
 
-    // Add this missing endpoint
     [HttpGet("{id}")]
     public async Task<ActionResult<ParkingSpaceResponseDto>> GetParkingSpace(int id)
     {
@@ -52,22 +53,29 @@ public class ParkingSpacesController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize]
     public async Task<ActionResult<ParkingSpaceResponseDto>> CreateParkingSpace(
         [FromBody] CreateParkingSpaceDto dto)
     {
+        // Get user id from JWT claims
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+        if (userIdClaim == null)
+            return Unauthorized("User not authenticated.");
+
+        int ownerId = int.Parse(userIdClaim.Value);
+
         var space = new ParkingSpace
         {
-            OwnerId = dto.OwnerId,
-            Address = dto.Address,
+            OwnerId = ownerId,
+            Address = dto.Location,
             Description = dto.Description,
-            PricePerHour = dto.PricePerHour,
-            Latitude = dto.Latitude,
-            Longitude = dto.Longitude,
+            PricePerHour = dto.Price,
+            // Optionally: SpaceName = dto.SpaceName, AvailableTimes = dto.AvailableTimes
             IsAvailable = true
         };
 
         await _repo.AddAsync(space);
-        await _repo.SaveChangesAsync(); 
+        await _repo.SaveChangesAsync();
 
         return CreatedAtAction(nameof(GetParkingSpace), new { id = space.Id },
             new ParkingSpaceResponseDto

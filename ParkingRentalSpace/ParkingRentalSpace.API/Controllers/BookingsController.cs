@@ -81,8 +81,6 @@ public class BookingsController : ControllerBase
         StartTime = booking.StartTime,
         EndTime = booking.EndTime,
         Status = booking.Status,
-        ParkingSpaceId = booking.ParkingSpaceId,
-        UserId = booking.UserId,
-        QrCodeData = booking.QrCheckin?.QrData
+   
     };
 }

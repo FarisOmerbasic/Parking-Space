@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../services/AuthContext";
-import { Link } from "react-router-dom";
-import ProfileHeader from "../components/ProfileHeader";
+import axios from "axios";
 
 const UserProfile = () => {
   const { user, logout } = useAuth();
@@ -13,6 +12,9 @@ const UserProfile = () => {
     newPassword: "",
     confirmPassword: "",
   });
+
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
 
   // Populate form with user data when available
   useEffect(() => {
@@ -33,14 +35,63 @@ const UserProfile = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // TODO: Add API call to update user profile
+    setMessage("");
+    setError("");
+
+    // Only attempt password change if any password field is filled
+    if (
+      formData.currentPassword ||
+      formData.newPassword ||
+      formData.confirmPassword
+    ) {
+      if (
+        !formData.currentPassword ||
+        !formData.newPassword ||
+        !formData.confirmPassword
+      ) {
+        setError("Please fill in all password fields.");
+        return;
+      }
+      if (formData.newPassword !== formData.confirmPassword) {
+        setError("New password and confirmation do not match.");
+        return;
+      }
+
+      try {
+        await axios.post(
+          "http://localhost:5164/api/auth/change-password",
+          {
+            currentPassword: formData.currentPassword,
+            newPassword: formData.newPassword,
+            confirmPassword: formData.confirmPassword,
+          },
+          { withCredentials: true }
+        );
+        setMessage("Password changed successfully!");
+        setFormData((prev) => ({
+          ...prev,
+          currentPassword: "",
+          newPassword: "",
+          confirmPassword: "",
+        }));
+      } catch (err) {
+        setError(
+          err.response?.data || "Failed to change password. Please try again."
+        );
+      }
+    } else {
+      setMessage("Profile updated (no password change).");
+    }
   };
 
   if (!user) {
-    return <div className="p-8 ml-64 max-w-4xl">Please log in to view your profile.</div>;
+    return (
+      <div className="p-8 ml-64 max-w-4xl">
+        Please log in to view your profile.
+      </div>
+    );
   }
 
   return (
@@ -50,7 +101,6 @@ const UserProfile = () => {
       <form onSubmit={handleSubmit} className="space-y-8">
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-xl font-semibold mb-4">Account details</h2>
-
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -62,9 +112,9 @@ const UserProfile = () => {
                 value={formData.fullName}
                 onChange={handleChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                disabled // Remove this if you want to allow editing name
               />
             </div>
-
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Email
@@ -75,7 +125,7 @@ const UserProfile = () => {
                 value={formData.email}
                 onChange={handleChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                disabled // Usually email is not editable
+                disabled
               />
             </div>
           </div>
@@ -84,7 +134,8 @@ const UserProfile = () => {
         {/* Change Password Section */}
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-xl font-semibold mb-4">Change password</h2>
-
+          {message && <div className="mb-2 text-green-600">{message}</div>}
+          {error && <div className="mb-2 text-red-600">{error}</div>}
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -99,7 +150,6 @@ const UserProfile = () => {
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
-
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 New password
@@ -113,7 +163,6 @@ const UserProfile = () => {
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
-
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Confirm password

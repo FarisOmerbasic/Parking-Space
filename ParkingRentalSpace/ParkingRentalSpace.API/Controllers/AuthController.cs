@@ -132,6 +132,28 @@ public class AuthController : ControllerBase
         return Ok("Logged out successfully");
     }
 
+    [HttpPost("change-password")]
+[Authorize]
+public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto dto)
+{
+    if (dto.NewPassword != dto.ConfirmPassword)
+        return BadRequest("New password and confirmation do not match.");
+
+    var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+    var user = await _context.Users.FindAsync(userId);
+
+    if (user == null)
+        return NotFound("User not found.");
+
+    if (!BCrypt.Net.BCrypt.Verify(dto.CurrentPassword, user.PasswordHash))
+        return BadRequest("Current password is incorrect.");
+
+    user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.NewPassword);
+    await _context.SaveChangesAsync();
+
+    return Ok("Password changed successfully.");
+}
+
     private string GenerateJwtToken(User user)
     {
         var claims = new[]
