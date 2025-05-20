@@ -38,7 +38,7 @@ export default function App() {
         ],
       },
       { path: "/login", element: <Login /> },
-      { path: "/signup", element: <Register /> },
+      { path: "/register", element: <Register /> },
     ],
     {
       future: {

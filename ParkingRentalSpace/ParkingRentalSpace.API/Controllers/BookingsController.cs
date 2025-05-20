@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ParkingRentalSpace.Application.DTOs;
 using ParkingRentalSpace.Domain.Entities;
 using ParkingRentalSpace.Infrastructure.Repositories;
 using QRCoder;

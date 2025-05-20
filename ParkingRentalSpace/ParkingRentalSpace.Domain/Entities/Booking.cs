@@ -1,5 +1,7 @@
-﻿using ParkingRentalSpace.Domain.Entities;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿
+
+
+using ParkingRentalSpace.Domain.Entities;
 
 public class Booking
 {

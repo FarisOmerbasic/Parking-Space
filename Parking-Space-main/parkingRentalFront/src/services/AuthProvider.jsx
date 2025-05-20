@@ -1,46 +1,72 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { AuthContext } from "./AuthContext";
 import PropTypes from "prop-types";
-import { userLogout } from "./userLogout";
+import axios from "axios";
 
 function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const checkAuth = async () => {
+  const checkAuth = useCallback(async () => {
     try {
-      const res = await fetch("http://localhost:5173/api/auth-check", {
-        method: "GET",
-        credentials: "include", // Ensure cookies are included with the request
+      const response = await axios.get("http://localhost:5164/api/Auth/auth-check", {
+        withCredentials: true
       });
+      
+      if (response.data?.user) {
+        setUser(response.data.user);
+      } else {
+        setUser(null);
+      }
+    } catch (error) {
+      console.error("Auth check failed:", error);
+      setUser(null);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
-      if (!res.ok) throw new Error("Not authenticated");
+  const login = useCallback(async (userData) => {
+    setUser(userData);
+    await checkAuth(); // Verify the auth status after login
+  }, [checkAuth]);
 
-      const data = await res.json();
-      setUser(data.user);
+  const logout = useCallback(async () => {
+    try {
+      await axios.post("http://localhost:5164/api/Auth/logout", {}, {
+        withCredentials: true
+      });
+      
+      // Clear all auth cookies
+      document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      document.cookie = "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      
+      setUser(null);
     } catch (error) {
       console.error("Logout failed:", error);
-      setUser(null);
     }
-  };
+  }, []);
 
   useEffect(() => {
     checkAuth();
-  }, []);
 
-  const logout = async () => {
-    try {
-      await userLogout();
-      document.cookie =
-        "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      setUser(null);
-    } catch (error) {
-      console.error("Logout failed:", error);
-    }
+    // Set up periodic auth checks (every 5 minutes)
+    const interval = setInterval(checkAuth, 5 * 60 * 1000);
+    return () => clearInterval(interval);
+  }, [checkAuth]);
+
+  const value = {
+    user,
+    setUser,
+    login,
+    logout,
+    checkAuth,
+    loading
   };
 
   return (
-    <AuthContext.Provider value={{ user, setUser, logout }}>
-      {children}
+    <AuthContext.Provider value={value}>
+      {!loading && children}
     </AuthContext.Provider>
   );
 }
@@ -50,4 +76,3 @@ AuthProvider.propTypes = {
 };
 
 export { AuthProvider };
-

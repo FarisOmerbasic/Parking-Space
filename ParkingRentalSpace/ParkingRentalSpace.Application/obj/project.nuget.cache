@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "2d5a37cWC+U=",
+  "dgSpecHash": "dUtbEG3x2/c=",
   "success": true,
   "projectFilePath": "C:\\Users\\Korisnik\\Desktop\\projects\\Parking-Space\\ParkingRentalSpace\\ParkingRentalSpace.Application\\ParkingRentalSpace.Application.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\Korisnik\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512"
+  ],
   "logs": []
 }

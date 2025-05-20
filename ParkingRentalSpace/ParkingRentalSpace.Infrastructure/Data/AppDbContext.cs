@@ -15,26 +15,33 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+
+        // User configuration
+        modelBuilder.Entity<User>()
+            .HasIndex(u => u.Email)
+            .IsUnique();
+
         // ParkingSpace -> Owner (User)
         modelBuilder.Entity<ParkingSpace>()
             .HasOne(p => p.Owner)
             .WithMany(u => u.OwnedParkingSpaces)
             .HasForeignKey(p => p.OwnerId)
-            .OnDelete(DeleteBehavior.Restrict); // Changed from Cascade
+            .OnDelete(DeleteBehavior.Restrict);
 
         // Booking -> User
         modelBuilder.Entity<Booking>()
             .HasOne(b => b.User)
             .WithMany(u => u.Bookings)
             .HasForeignKey(b => b.UserId)
-            .OnDelete(DeleteBehavior.Restrict); // Changed from Cascade
+            .OnDelete(DeleteBehavior.Restrict);
 
         // Booking -> ParkingSpace
         modelBuilder.Entity<Booking>()
             .HasOne(b => b.ParkingSpace)
             .WithMany(p => p.Bookings)
             .HasForeignKey(b => b.ParkingSpaceId)
-            .OnDelete(DeleteBehavior.Restrict); // Changed from Cascade
+            .OnDelete(DeleteBehavior.Restrict);
 
         // Decimal precision
         modelBuilder.Entity<ParkingSpace>()

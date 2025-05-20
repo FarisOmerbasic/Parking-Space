@@ -10,3 +10,4 @@ C:\Users\Korisnik\Desktop\projects\Parking-Space\ParkingRentalSpace\ParkingRenta
 C:\Users\Korisnik\Desktop\projects\Parking-Space\ParkingRentalSpace\ParkingRentalSpace.Domain\obj\Debug\net8.0\refint\ParkingRentalSpace.Domain.dll
 C:\Users\Korisnik\Desktop\projects\Parking-Space\ParkingRentalSpace\ParkingRentalSpace.Domain\obj\Debug\net8.0\ParkingRentalSpace.Domain.pdb
 C:\Users\Korisnik\Desktop\projects\Parking-Space\ParkingRentalSpace\ParkingRentalSpace.Domain\obj\Debug\net8.0\ref\ParkingRentalSpace.Domain.dll
+C:\Users\Korisnik\Desktop\projects\Parking-Space\ParkingRentalSpace\ParkingRentalSpace.Domain\obj\Debug\net8.0\ParkingRentalSpace.Domain.csproj.AssemblyReference.cache

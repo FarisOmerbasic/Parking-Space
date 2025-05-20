@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5173/api";
+const API_URL = "http://localhost:5164/api";
 
 export const fetchParkingSpaces = async () => {
     try {
