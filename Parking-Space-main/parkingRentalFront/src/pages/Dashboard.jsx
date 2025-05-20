@@ -1,12 +1,46 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
+import axios from "axios";
 
 const Dashboard = () => {
+  const [user, setUser] = useState(null);
+  const [spaces, setSpaces] = useState([]);
+  const [loadingSpaces, setLoadingSpaces] = useState(true);
+
+  useEffect(() => {
+    // Fetch user info
+    const fetchUser = async () => {
+      try {
+        const res = await axios.get("http://localhost:5164/api/auth/auth-check", {
+          withCredentials: true,
+        });
+        setUser(res.data.user);
+      } catch (err) {
+        setUser(null);
+      }
+    };
+
+    // Fetch user's spaces
+    const fetchSpaces = async () => {
+      try {
+        const res = await axios.get("http://localhost:5164/api/parkingspaces/mine", {
+          withCredentials: true,
+        });
+        setSpaces(res.data);
+      } catch (err) {
+        setSpaces([]);
+      } finally {
+        setLoadingSpaces(false);
+      }
+    };
+
+    fetchUser();
+    fetchSpaces();
+  }, []);
+
   return (
     <div className="p-8 ml-64">
-      {" "}
       <Sidebar />
-      {/* ml-64 to account for sidebar width */}
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">Dashboard Overview</h1>
@@ -36,14 +70,12 @@ const Dashboard = () => {
             </li>
           </ul>
         </div>
-
         {/* Earnings Card */}
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-lg font-semibold mb-2">Earnings</h2>
           <p className="text-2xl font-bold text-green-600 mb-2">$1,250</p>
           <p className="text-sm text-gray-500">Total earned this month</p>
         </div>
-
         {/* Occupancy Card */}
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-lg font-semibold mb-2">Occupancy</h2>
@@ -78,54 +110,31 @@ const Dashboard = () => {
         {/* My Spaces */}
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-xl font-semibold mb-4">My Spaces</h2>
-          <div className="space-y-4">
-            {/* Downtown Plaza */}
-            <div className="border-b pb-4">
-              <div className="flex justify-between items-start">
-                <h3 className="font-medium">Downtown Plaza</h3>
-                <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">
-                  Active
-                </span>
-              </div>
-              <div className="flex space-x-4 mt-2 text-sm">
-                <span className="text-gray-500">Office</span>
-                <span className="text-gray-500">2 spots</span>
-                <span className="text-gray-500">$8/hr</span>
-              </div>
+          {loadingSpaces ? (
+            <p>Loading...</p>
+          ) : spaces.length === 0 ? (
+            <p className="text-gray-600">You have not listed any spaces yet.</p>
+          ) : (
+            <div className="space-y-4">
+              {spaces.map((space) => (
+                <div key={space.id} className="border-b pb-4">
+                  <div className="flex justify-between items-start">
+                    <h3 className="font-medium">{space.spaceName}</h3>
+                    <span className={`text-xs px-2 py-1 rounded ${space.isAvailable ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
+                      {space.isAvailable ? "Active" : "Inactive"}
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap space-x-4 mt-2 text-sm">
+                    <span className="text-gray-500">{space.location}</span>
+                    <span className="text-gray-500">{space.price} KM/hr</span>
+                    <span className="text-gray-500">{space.availableTimes}</span>
+                  </div>
+                  <p className="text-gray-500 mt-1">{space.description}</p>
+                </div>
+              ))}
             </div>
-
-            {/* Maple Residences */}
-            <div className="border-b pb-4">
-              <div className="flex justify-between items-start">
-                <h3 className="font-medium">Maple Residences</h3>
-                <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">
-                  Active
-                </span>
-              </div>
-              <div className="flex space-x-4 mt-2 text-sm">
-                <span className="text-gray-500">Residential</span>
-                <span className="text-gray-500">1 spot</span>
-                <span className="text-gray-500">$5/hr</span>
-              </div>
-            </div>
-
-            {/* Green Garage */}
-            <div className="pb-2">
-              <div className="flex justify-between items-start">
-                <h3 className="font-medium">Green Garage</h3>
-                <span className="bg-red-100 text-red-800 text-xs px-2 py-1 rounded">
-                  Inactive
-                </span>
-              </div>
-              <div className="flex space-x-4 mt-2 text-sm">
-                <span className="text-gray-500">EV Charging</span>
-                <span className="text-gray-500">3 spots</span>
-                <span className="text-gray-500">$10/hr</span>
-              </div>
-            </div>
-          </div>
+          )}
         </div>
-
         {/* Recent Bookings */}
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-xl font-semibold mb-4">Recent Bookings</h2>
@@ -137,7 +146,6 @@ const Dashboard = () => {
                 Downtown Plaza · 2 hrs · $16
               </p>
             </div>
-
             {/* Emily Chen */}
             <div className="border-b pb-4">
               <p className="font-medium">Emily Chen</p>
@@ -145,7 +153,6 @@ const Dashboard = () => {
                 Maple Residences · 1 hr · $5
               </p>
             </div>
-
             {/* Carlos Rivera */}
             <div className="pb-2">
               <p className="font-medium">Carlos Rivera</p>
@@ -158,7 +165,9 @@ const Dashboard = () => {
       </div>
       {/* Footer */}
       <div className="text-center border-t pt-4">
-        <p className="font-medium">Alex Morgan</p>
+        <p className="font-medium">
+          {user ? user.name || user.email || user.id : "User"}
+        </p>
         <p className="text-gray-600">Owner</p>
       </div>
     </div>
