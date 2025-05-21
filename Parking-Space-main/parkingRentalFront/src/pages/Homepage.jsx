@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
 import { fetchParkingSpaces } from "../services/fetchParkingSpaces";
-import { useEffect, useState } from "react";
 import MapAllSpaces from "../components/MapAllSpaces";
+import axios from "axios";
+import { useNavigate } from "react-router-dom"; // <-- Add this import
 
 const Homepage = () => {
   const [parkingSpaces, setParkingSpaces] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [errors, setErrors] = useState({});
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate(); // <-- Add this line
 
   useEffect(() => {
     const getProducts = async () => {
@@ -15,173 +18,57 @@ const Homepage = () => {
       setParkingSpaces(data);
     };
     getProducts();
-  }, [setParkingSpaces]);
+
+    // Fetch current user
+    axios
+      .get("http://localhost:5164/api/auth/auth-check", { withCredentials: true })
+      .then((res) => setUser(res.data.user))
+      .catch(() => setUser(null));
+  }, []);
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
-      {/* Available Spaces Section */}
       <Sidebar />
+      {/* Available Spaces Section */}
       <section className="mb-12">
         <h1 className="text-3xl font-bold mb-6">Available Spaces</h1>
-
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          {/* All Categories */}
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold mb-4">All</h2>
-            <ul className="space-y-2">
-              <li className="hover:text-blue-600 cursor-pointer">Office</li>
-              <li className="hover:text-blue-600 cursor-pointer">
-                Residential
-              </li>
-              <li className="hover:text-blue-600 cursor-pointer">Covered</li>
-              <li className="hover:text-blue-600 cursor-pointer">
-                EV Charging
-              </li>
-            </ul>
+        {user && (
+          <div className="mb-4">
+            <span className="font-semibold text-blue-700">
+              Welcome, {user.name || user.email || user.id}!
+            </span>
           </div>
+        )}
 
-          {/* Office */}
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold mb-4">Office</h2>
-            <div className="mb-4">
-              <h3 className="font-medium">Downtown Plaza</h3>
-              <p className="text-sm text-gray-600">
-                2 spots - $6/hr - 24/7 access
-              </p>
-            </div>
-            <button className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">
-              Book Now
-            </button>
-          </div>
-
-          {/* Residential */}
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold mb-4">Residential</h2>
-            <div className="mb-4">
-              <h3 className="font-medium">Maple Residences</h3>
-              <p className="text-sm text-gray-600">
-                1 spot - $6/hr - dated entry
-              </p>
-            </div>
-            <button className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">
-              Details
-            </button>
-          </div>
-
-          {/* EV Charging */}
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold mb-4">EV Charging</h2>
-            <div className="mb-4">
-              <h3 className="font-medium">Green Garage</h3>
-              <p className="text-sm text-gray-600">
-                3 spots - $10/hr - EV charging
-              </p>
-            </div>
-            <button className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">
-              Book Now
-            </button>
-          </div>
-        </div>
-
-        {/* ------------------------------------------------------------------------------------------------ */}
-
+        {/* Display up to 3 available spaces */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {parkingSpaces.map((space) => (
+          {parkingSpaces.slice(0, 3).map((space) => (
             <div
               key={space.id}
               className="bg-white p-4 rounded-lg shadow-md flex justify-between items-center"
             >
               <div>
-                <h3 className="text-lg font-semibold">{space.address}</h3>
+                <h3 className="text-lg font-semibold">{space.address || space.location || space.spaceName}</h3>
                 <p className="text-sm text-gray-600">{space.description}</p>
                 <p className="text-sm text-gray-600">
-                  {space.pricePerHour} KM / hr
+                  {space.pricePerHour || space.price} KM / hr
                 </p>
-                <p className="text-sm text-gray-600">{space.isAvailable}</p>
+                <p className="text-sm text-gray-600">{space.isAvailable ? "Available" : "Unavailable"}</p>
               </div>
-              <button className="bg-blue-600 text-white px-3 py-1 rounded-md text-sm hover:bg-blue-700 transition">
-                {space.isAvailable === "Available" ? "Book Now" : "Details"}
+              <button
+                className="bg-blue-600 text-white px-3 py-1 rounded-md text-sm hover:bg-blue-700 transition"
+                onClick={() => navigate("/all-spaces")} // <-- Add this
+              >
+                {space.isAvailable ? "Book Now" : "Details"}
               </button>
             </div>
           ))}
         </div>
-
-        {showModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-xl shadow-lg p-6 w-full max-w-md">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    <FaClock className="inline-block mr-1" />
-                    Start Time
-                  </label>
-                  <DatePicker
-                    selected={startDate}
-                    onChange={(date) => setStartDate(date)}
-                    showTimeSelect
-                    timeFormat="HH:mm"
-                    timeIntervals={30}
-                    dateFormat="MMMM d, yyyy h:mm aa"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md"
-                  />
-                  {errors.startDate && (
-                    <p className="mt-1 text-sm text-red-600">
-                      {errors.startDate}
-                    </p>
-                  )}
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    <FaClock className="inline-block mr-1" />
-                    End Time
-                  </label>
-                  <DatePicker
-                    selected={endDate}
-                    onChange={(date) => setEndDate(date)}
-                    showTimeSelect
-                    timeFormat="HH:mm"
-                    timeIntervals={30}
-                    dateFormat="MMMM d, yyyy h:mm aa"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md"
-                  />
-                  {errors.endDate && (
-                    <p className="mt-1 text-sm text-red-600">
-                      {errors.endDate}
-                    </p>
-                  )}
-                </div>
-              </div>
-              <h2 className="text-xl font-bold text-smash-black mb-4">
-                Confirm Cancellation
-              </h2>
-              <p className="text-gray-700 mb-6">
-                Are you sure you want to cancel this order?
-              </p>
-              <div className="flex justify-end space-x-4">
-                <button
-                  className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 transition"
-                  onClick={() => setShowModal(false)}
-                >
-                  No, Go Back
-                </button>
-                <button
-                  className="px-4 py-2 rounded bg-red-500 text-white hover:bg-red-600 transition"
-                  onClick={async () => {
-                    await handleCancelOrder(orderToCancel.id);
-                  }}
-                >
-                  Yes, Cancel Order
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
       </section>
 
       <hr className="my-8 border-gray-200" />
 
       {/* Map Search Section */}
-
       <div className="mt-8">
         <MapAllSpaces parkingSpaces={parkingSpaces} />
       </div>
@@ -229,7 +116,7 @@ const Homepage = () => {
 
       {/* Owner Section */}
       <section className="text-center">
-        <p className="font-medium">Alex Morgan</p>
+        <p className="font-medium">{user ? (user.name || user.email || user.id) : "Owner"}</p>
         <p className="text-gray-600">Owner</p>
       </section>
     </div>

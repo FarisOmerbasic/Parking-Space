@@ -5,6 +5,8 @@ using ParkingRentalSpace.Domain.Entities;
 using ParkingRentalSpace.Infrastructure.Data;
 using System.Security.Claims;
 
+namespace ParkingRentalSpace.API.Controllers;
+
 [ApiController]
 [Route("api/[controller]")]
 public class BookingsController : ControllerBase
@@ -16,24 +18,36 @@ public class BookingsController : ControllerBase
         _context = context;
     }
 
+    // POST: api/bookings
     [HttpPost]
     [Authorize]
     public async Task<IActionResult> Book([FromBody] CreateBookingDto dto)
     {
         var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        var userEmail = User.FindFirstValue(ClaimTypes.Email);
+        var user = await _context.Users.FindAsync(userId);
 
         var space = await _context.ParkingSpaces.FindAsync(dto.ParkingSpaceId);
         if (space == null || !space.IsAvailable)
             return BadRequest("Space not available.");
 
+        var owner = await _context.Users.FindAsync(space.OwnerId);
+        if (owner == null)
+            return BadRequest("Owner not found.");
+
         var totalPrice = space.PricePerHour * dto.Hours;
+
+        if (user.Balance < totalPrice)
+            return BadRequest("Insufficient balance.");
+
+        // Deduct from user, add to owner
+        user.Balance -= totalPrice;
+        owner.Balance += totalPrice;
 
         var booking = new Booking
         {
             ParkingSpaceId = dto.ParkingSpaceId,
             UserId = userId,
-            UserEmail = userEmail,
+            UserEmail = user.Email,
             StartTime = dto.StartTime,
             Hours = dto.Hours,
             TotalPrice = totalPrice
@@ -45,7 +59,7 @@ public class BookingsController : ControllerBase
         return Ok(new { success = true });
     }
 
-    // Get bookings for owner dashboard
+    // GET: api/bookings/owner
     [HttpGet("owner")]
     [Authorize]
     public IActionResult GetOwnerBookings()
@@ -69,25 +83,49 @@ public class BookingsController : ControllerBase
         return Ok(bookings);
     }
 
+    // GET: api/bookings/my
     [HttpGet("my")]
-[Authorize]
-public IActionResult GetMyBookings()
-{
-    var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-    var bookings = _context.Bookings
-        .Where(b => b.UserId == userId)
-        .Select(b => new {
-            b.Id,
-            b.ParkingSpaceId,
-            ParkingSpaceName = b.ParkingSpace.SpaceName,
-            b.StartTime,
-            b.Hours,
-            b.TotalPrice,
-            b.Status
-        })
-        .OrderByDescending(b => b.StartTime)
-        .ToList();
+    [Authorize]
+    public IActionResult GetMyBookings()
+    {
+        var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var bookings = _context.Bookings
+            .Where(b => b.UserId == userId)
+            .Select(b => new
+            {
+                b.Id,
+                b.ParkingSpaceId,
+                ParkingSpaceName = b.ParkingSpace.SpaceName,
+                b.StartTime,
+                b.Hours,
+                b.TotalPrice,
+                b.Status
+            })
+            .OrderByDescending(b => b.StartTime)
+            .ToList();
 
-    return Ok(bookings);
-}
+        return Ok(bookings);
+    }
+
+    // GET: api/bookings/balance
+    [HttpGet("balance")]
+    [Authorize]
+    public async Task<IActionResult> GetBalance()
+    {
+        var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var user = await _context.Users.FindAsync(userId);
+        return Ok(new { balance = user.Balance });
+    }
+
+    // POST: api/bookings/topup
+    [HttpPost("topup")]
+    [Authorize]
+    public async Task<IActionResult> TopUp([FromBody] decimal amount)
+    {
+        var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var user = await _context.Users.FindAsync(userId);
+        user.Balance += amount;
+        await _context.SaveChangesAsync();
+        return Ok(new { balance = user.Balance });
+    }
 }

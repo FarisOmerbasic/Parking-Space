@@ -15,6 +15,7 @@ const UserProfile = () => {
 
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [balance, setBalance] = useState(null);
 
   // Populate form with user data when available
   useEffect(() => {
@@ -24,6 +25,11 @@ const UserProfile = () => {
         fullName: user.name || "",
         email: user.email || "",
       }));
+      // Fetch balance
+      axios
+        .get("http://localhost:5164/api/bookings/balance", { withCredentials: true })
+        .then(res => setBalance(res.data.balance))
+        .catch(() => setBalance(null));
     }
   }, [user]);
 
@@ -33,6 +39,15 @@ const UserProfile = () => {
       ...prev,
       [name]: value,
     }));
+  };
+
+  const handleTopUp = () => {
+    axios
+      .post("http://localhost:5164/api/bookings/topup", 100, {
+        withCredentials: true,
+        headers: { "Content-Type": "application/json" }
+      })
+      .then(res => setBalance(res.data.balance));
   };
 
   const handleSubmit = async (e) => {
@@ -97,6 +112,21 @@ const UserProfile = () => {
   return (
     <div className="p-8 ml-64 max-w-4xl">
       <h1 className="text-3xl font-bold mb-8">Profile</h1>
+
+      {/* Wallet/Balance Section */}
+      {balance !== null && (
+        <div className="mb-6 bg-blue-50 p-4 rounded flex items-center">
+          <span className="font-semibold text-blue-700">
+            Wallet Balance: {balance} KM
+          </span>
+          <button
+            onClick={handleTopUp}
+            className="ml-4 px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700"
+          >
+            Top Up 100 KM
+          </button>
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className="space-y-8">
         <div className="bg-white p-6 rounded-lg shadow-md">

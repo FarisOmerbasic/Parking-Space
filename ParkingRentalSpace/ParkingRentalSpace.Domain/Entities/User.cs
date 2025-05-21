@@ -5,6 +5,8 @@ namespace ParkingRentalSpace.Domain.Entities;
 public class User
 {
     public int Id { get; set; }
+
+    public decimal Balance { get; set; } 
     
     [Required]
     [StringLength(100)]
