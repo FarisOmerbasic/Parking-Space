@@ -128,4 +128,24 @@ public class BookingsController : ControllerBase
         await _context.SaveChangesAsync();
         return Ok(new { balance = user.Balance });
     }
+    [HttpPost("{id}/checkin")]
+[Authorize]
+public async Task<IActionResult> CheckIn(int id)
+{
+    var userId = int.Parse(User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier));
+    var booking = await _context.Bookings.FindAsync(id);
+    if (booking == null)
+        return NotFound();
+
+    // Only the user who made the booking can check in
+    if (booking.UserId != userId)
+        return Forbid();
+
+    if (booking.Status != "Pending")
+        return BadRequest("Booking is not pending.");
+
+    booking.Status = "active";
+    await _context.SaveChangesAsync();
+    return Ok(new { status = "active" });
+}
 }
