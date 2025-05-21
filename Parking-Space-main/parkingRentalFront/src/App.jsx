@@ -16,6 +16,7 @@ import Register from "./pages/Register";
 import AppLayout from "./pages/AppLayout";
 import ProfileLayout from "./pages/ProfileLayout";
 import MySpaces from "./pages/MySpaces";
+import AllSpaces from "./pages/AllSpaces"; // <-- Import the new page
 
 export default function App() {
   const router = createBrowserRouter(
@@ -27,6 +28,7 @@ export default function App() {
           { path: "/booking", element: <Booking /> },
           { path: "/myBookings", element: <MyBookings /> },
           { path: "/settings", element: <Settings /> },
+          { path: "/all-spaces", element: <AllSpaces /> }, // <-- Add route here
           {
             element: <ProfileLayout />,
             children: [
@@ -34,7 +36,6 @@ export default function App() {
               { path: "/listSpace", element: <ListSpace /> },
               { path: "/dashboard", element: <Dashboard /> },
               { path: "/mySpaces", element: <MySpaces /> },
-
             ],
           },
         ],

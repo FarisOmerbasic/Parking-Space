@@ -7,4 +7,6 @@
     public decimal Price { get; set; }
     public string AvailableTimes { get; set; }
     public bool IsAvailable { get; set; }
+
+    public int OwnerId { get; set; } 
 }

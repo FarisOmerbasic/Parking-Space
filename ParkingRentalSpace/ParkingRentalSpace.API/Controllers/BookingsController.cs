@@ -1,86 +1,93 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using ParkingRentalSpace.Application.DTOs;
 using ParkingRentalSpace.Domain.Entities;
-using ParkingRentalSpace.Infrastructure.Repositories;
-using QRCoder;
-
-namespace ParkingRentalSpace.API.Controllers;
+using ParkingRentalSpace.Infrastructure.Data;
+using System.Security.Claims;
 
 [ApiController]
 [Route("api/[controller]")]
 public class BookingsController : ControllerBase
 {
-    private readonly IRepository<Booking> _repo;
-    private readonly IRepository<ParkingSpace> _spaceRepo;
-    private readonly IRepository<User> _userRepo;
+    private readonly AppDbContext _context;
 
-    public BookingsController(
-        IRepository<Booking> repo,
-        IRepository<ParkingSpace> spaceRepo,
-        IRepository<User> userRepo)
+    public BookingsController(AppDbContext context)
     {
-        _repo = repo;
-        _spaceRepo = spaceRepo;
-        _userRepo = userRepo;
-    }
-
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<BookingResponseDto>>> GetBookings()
-    {
-        var bookings = await _repo.GetAllAsync();
-        return Ok(bookings.Select(b => MapToDto(b)));
-    }
-
-    [HttpGet("{id}")]
-    public async Task<ActionResult<BookingResponseDto>> GetBooking(int id)
-    {
-        var booking = await _repo.GetByIdAsync(id);
-        if (booking == null) return NotFound();
-
-        return Ok(MapToDto(booking));
+        _context = context;
     }
 
     [HttpPost]
-    public async Task<ActionResult<BookingResponseDto>> CreateBooking([FromBody] CreateBookingDto dto)
+    [Authorize]
+    public async Task<IActionResult> Book([FromBody] CreateBookingDto dto)
     {
-        var space = await _spaceRepo.GetByIdAsync(dto.ParkingSpaceId);
-        var user = await _userRepo.GetByIdAsync(dto.UserId);
+        var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var userEmail = User.FindFirstValue(ClaimTypes.Email);
 
-        if (space == null || user == null) return BadRequest("Invalid parking space or user");
+        var space = await _context.ParkingSpaces.FindAsync(dto.ParkingSpaceId);
+        if (space == null || !space.IsAvailable)
+            return BadRequest("Space not available.");
+
+        var totalPrice = space.PricePerHour * dto.Hours;
 
         var booking = new Booking
         {
             ParkingSpaceId = dto.ParkingSpaceId,
-            UserId = dto.UserId,
+            UserId = userId,
+            UserEmail = userEmail,
             StartTime = dto.StartTime,
-            EndTime = dto.EndTime,
-            IsRecurring = dto.IsRecurring,
-            RecurrencePattern = dto.RecurrencePattern,
-            Status = "Confirmed",
-            QrCheckin = new QrCheckin
-            {
-                QrData = GenerateQrCode($"{dto.UserId}|{dto.ParkingSpaceId}|{DateTime.UtcNow.Ticks}")
-            }
+            Hours = dto.Hours,
+            TotalPrice = totalPrice
         };
 
-        await _repo.AddAsync(booking);
-        await _repo.SaveChangesAsync();
+        _context.Bookings.Add(booking);
+        await _context.SaveChangesAsync();
 
-        return CreatedAtAction(nameof(GetBooking), new { id = booking.Id }, MapToDto(booking));
+        return Ok(new { success = true });
     }
 
-    private string GenerateQrCode(string data)
+    // Get bookings for owner dashboard
+    [HttpGet("owner")]
+    [Authorize]
+    public IActionResult GetOwnerBookings()
     {
-        var qrGenerator = new QRCodeGenerator();
-        var qrCodeData = qrGenerator.CreateQrCode(data, QRCodeGenerator.ECCLevel.Q);
-        return new Base64QRCode(qrCodeData).GetGraphic(20);
+        var ownerId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var bookings = _context.Bookings
+            .Where(b => b.ParkingSpace.OwnerId == ownerId)
+            .Select(b => new BookingDto
+            {
+                Id = b.Id,
+                ParkingSpaceId = b.ParkingSpaceId,
+                ParkingSpaceName = b.ParkingSpace.SpaceName,
+                UserEmail = b.UserEmail,
+                StartTime = b.StartTime,
+                Hours = b.Hours,
+                TotalPrice = b.TotalPrice
+            })
+            .OrderByDescending(b => b.StartTime)
+            .ToList();
+
+        return Ok(bookings);
     }
 
-    private BookingResponseDto MapToDto(Booking booking) => new()
-    {
-        Id = booking.Id,
-        StartTime = booking.StartTime,
-        EndTime = booking.EndTime,
-        Status = booking.Status,
-   
-    };
+    [HttpGet("my")]
+[Authorize]
+public IActionResult GetMyBookings()
+{
+    var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+    var bookings = _context.Bookings
+        .Where(b => b.UserId == userId)
+        .Select(b => new {
+            b.Id,
+            b.ParkingSpaceId,
+            ParkingSpaceName = b.ParkingSpace.SpaceName,
+            b.StartTime,
+            b.Hours,
+            b.TotalPrice,
+            b.Status
+        })
+        .OrderByDescending(b => b.StartTime)
+        .ToList();
+
+    return Ok(bookings);
+}
 }

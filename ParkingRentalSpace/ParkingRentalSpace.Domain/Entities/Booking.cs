@@ -1,26 +1,18 @@
-﻿
-
-
-using ParkingRentalSpace.Domain.Entities;
+﻿using ParkingRentalSpace.Domain.Entities;
 
 public class Booking
 {
     public int Id { get; set; }
     public int ParkingSpaceId { get; set; }
-    public int UserId { get; set; }
-    public DateTime StartTime { get; set; }
-    public DateTime EndTime { get; set; }
-    public bool IsRecurring { get; set; }
-    public string RecurrencePattern { get; set; } // e.g., "DAILY", "WEEKLY"
-    public string Status { get; set; } = "Pending";
-
-    
-
-
-
     public ParkingSpace ParkingSpace { get; set; }
+    public int UserId { get; set; }
     public User User { get; set; }
-    public Payment Payment { get; set; }
-    public QrCheckin QrCheckin { get; set; }
-    public DateTime? ActualCheckInTime { get; set; }
+    public string UserEmail { get; set; }
+    public DateTime StartTime { get; set; }
+    public int Hours { get; set; }
+    public decimal TotalPrice { get; set; }
+
+    // Add these properties:
+    public string Status { get; set; } = "Pending"; // or "Active", "Completed", etc.
+    public DateTime EndTime => StartTime.AddHours(Hours);
 }

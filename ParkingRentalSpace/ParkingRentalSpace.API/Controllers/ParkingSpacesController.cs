@@ -30,7 +30,8 @@ public class ParkingSpacesController : ControllerBase
             Description = s.Description,
             Price = s.PricePerHour,
             AvailableTimes = s.AvailableTimes,
-            IsAvailable = s.IsAvailable
+            IsAvailable = s.IsAvailable,
+            OwnerId = s.OwnerId // <-- Added OwnerId here
         }));
     }
 
@@ -48,7 +49,8 @@ public class ParkingSpacesController : ControllerBase
             Description = space.Description,
             Price = space.PricePerHour,
             AvailableTimes = space.AvailableTimes,
-            IsAvailable = space.IsAvailable
+            IsAvailable = space.IsAvailable,
+            OwnerId = space.OwnerId // <-- Added OwnerId here
         });
     }
 
@@ -73,7 +75,8 @@ public class ParkingSpacesController : ControllerBase
                 Description = space.Description,
                 Price = space.PricePerHour,
                 AvailableTimes = space.AvailableTimes,
-                IsAvailable = space.IsAvailable
+                IsAvailable = space.IsAvailable,
+                OwnerId = space.OwnerId // <-- Added OwnerId here
             })
             .ToList();
 
@@ -115,24 +118,26 @@ public class ParkingSpacesController : ControllerBase
                 Description = space.Description,
                 Price = space.PricePerHour,
                 AvailableTimes = space.AvailableTimes, // <-- FIXED: Return AvailableTimes
-                IsAvailable = space.IsAvailable
+                IsAvailable = space.IsAvailable,
+                OwnerId = space.OwnerId // <-- Added OwnerId here
             });
     }
+
     [HttpDelete("{id}")]
-[Authorize]
-public async Task<IActionResult> DeleteParkingSpace(int id)
-{
-    var space = await _repo.GetByIdAsync(id);
-    if (space == null)
-        return NotFound();
+    [Authorize]
+    public async Task<IActionResult> DeleteParkingSpace(int id)
+    {
+        var space = await _repo.GetByIdAsync(id);
+        if (space == null)
+            return NotFound();
 
-    // Optional: Only allow the owner to delete
-    var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
-    if (userIdClaim == null || space.OwnerId != int.Parse(userIdClaim.Value))
-        return Forbid();
+        // Optional: Only allow the owner to delete
+        var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+        if (userIdClaim == null || space.OwnerId != int.Parse(userIdClaim.Value))
+            return Forbid();
 
-    await _repo.DeleteAsync(space.Id);
-    await _repo.SaveChangesAsync();
-    return NoContent();
-}
+        await _repo.DeleteAsync(space.Id);
+        await _repo.SaveChangesAsync();
+        return NoContent();
+    }
 }

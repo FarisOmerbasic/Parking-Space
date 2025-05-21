@@ -11,6 +11,7 @@ import {
 } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 
+
 const Sidebar = () => {
   const { user } = useContext(AuthContext);
   const location = useLocation();
@@ -31,20 +32,20 @@ const Sidebar = () => {
       {/* Main Navigation */}
       <nav className="mb-8">
         <ul className="space-y-2">
-          <li>
-            <Link
-              to="/"
-              className={`
-              ${
-                isActive("/")
-                  ? "flex items-center p-3 rounded-lg hover:bg-blue-50 text-blue-600 font-medium"
-                  : "flex items-center p-3 rounded-lg hover:bg-gray-100 text-gray-700"
-              }`}
-            >
-              <FaHome className="mr-3" />
-              Find Parking Space
-            </Link>
-          </li>
+         <li>
+  <Link
+    to="/myBookings"
+    className={`
+      ${
+        isActive("/myBookings")
+          ? "flex items-center p-3 rounded-lg hover:bg-blue-50 text-blue-600 font-medium"
+          : "flex items-center p-3 rounded-lg hover:bg-gray-100 text-gray-700"
+      }`}
+  >
+    <FaClock className="mr-3" />
+    My Bookings
+  </Link>
+</li>
           <li>
             <a
               href="#"
@@ -87,6 +88,21 @@ const Sidebar = () => {
               My Spaces
             </Link>
           </li>
+          
+ <li>
+  <Link
+    to="/all-spaces"
+    className={`
+      ${
+        isActive("/all-spaces")
+          ? "flex items-center p-3 rounded-lg hover:bg-blue-50 text-blue-600 font-medium"
+          : "flex items-center p-3 rounded-lg hover:bg-gray-100 text-gray-700"
+      }`}
+  >
+    <FaCar className="mr-3" />
+    All Spaces
+  </Link>
+</li>
         </ul>
       </nav>
 

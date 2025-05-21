@@ -43,11 +43,17 @@ public class AppDbContext : DbContext
             .HasForeignKey(b => b.ParkingSpaceId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        // Decimal precision
+        // Decimal precision for ParkingSpace
         modelBuilder.Entity<ParkingSpace>()
             .Property(p => p.PricePerHour)
             .HasColumnType("decimal(18,2)");
 
+        // Decimal precision for Booking (TotalPrice)
+        modelBuilder.Entity<Booking>()
+            .Property(b => b.TotalPrice)
+            .HasColumnType("decimal(18,2)");
+
+        // Decimal precision for Payment
         modelBuilder.Entity<Payment>()
             .Property(p => p.Amount)
             .HasColumnType("decimal(18,2)");
