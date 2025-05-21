@@ -68,10 +68,6 @@ const Homepage = () => {
 
       <hr className="my-8 border-gray-200" />
 
-      {/* Map Search Section */}
-      <div className="mt-8">
-        <MapAllSpaces parkingSpaces={parkingSpaces} />
-      </div>
 
       <hr className="my-8 border-gray-200" />
 

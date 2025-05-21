@@ -26,31 +26,22 @@ const Sidebar = () => {
     }
   }, [user]);
 
-  const isActive = (path) => {
-    return location.pathname === path;
-  };
+  const isActive = (path) => location.pathname === path;
 
   return (
     <div className="w-56 bg-white h-screen fixed left-0 top-0 shadow-md p-4">
-      {/* Logo/Brand */}
       <div className="mb-8 p-4">
         <h1 className="text-2xl font-bold text-blue-600">
           Parking Rental Space
         </h1>
       </div>
 
-      {/* Main Navigation */}
       <nav className="mb-8">
         <ul className="space-y-2">
           <li>
             <Link
               to="/"
-              className={`
-                ${
-                  isActive("/")
-                    ? "flex items-center p-3 rounded-lg hover:bg-blue-50 text-blue-600 font-medium"
-                    : "flex items-center p-3 rounded-lg hover:bg-gray-100 text-gray-700"
-                }`}
+              className={`${isActive("/") ? "text-blue-600 font-medium" : "text-gray-700"} flex items-center p-3 rounded-lg hover:bg-blue-50`}
             >
               <FaHome className="mr-3" />
               Homepage
@@ -59,12 +50,7 @@ const Sidebar = () => {
           <li>
             <Link
               to="/dashboard"
-              className={`
-                ${
-                  isActive("/dashboard")
-                    ? "flex items-center p-3 rounded-lg hover:bg-blue-50 text-blue-600 font-medium"
-                    : "flex items-center p-3 rounded-lg hover:bg-gray-100 text-gray-700"
-                }`}
+              className={`${isActive("/dashboard") ? "text-blue-600 font-medium" : "text-gray-700"} flex items-center p-3 rounded-lg hover:bg-blue-50`}
             >
               <FaHome className="mr-3" />
               Dashboard
@@ -73,40 +59,26 @@ const Sidebar = () => {
           <li>
             <Link
               to="/myBookings"
-              className={`
-                ${
-                  isActive("/myBookings")
-                    ? "flex items-center p-3 rounded-lg hover:bg-blue-50 text-blue-600 font-medium"
-                    : "flex items-center p-3 rounded-lg hover:bg-gray-100 text-gray-700"
-                }`}
+              className={`${isActive("/myBookings") ? "text-blue-600 font-medium" : "text-gray-700"} flex items-center p-3 rounded-lg hover:bg-blue-50`}
             >
               <FaClock className="mr-3" />
               My Bookings
             </Link>
           </li>
           <li>
-            <a
-              href="#"
-              className={`
-                ${
-                  isActive("/map")
-                    ? "flex items-center p-3 rounded-lg hover:bg-blue-50 text-blue-600 font-medium"
-                    : "flex items-center p-3 rounded-lg hover:bg-gray-100 text-gray-700"
-                }`}
+            {/* Replace "/map" with actual route if implemented */}
+            <Link
+              to="/map"
+              className={`${isActive("/map") ? "text-blue-600 font-medium" : "text-gray-700"} flex items-center p-3 rounded-lg hover:bg-blue-50`}
             >
               <FaMapMarkerAlt className="mr-3" />
               Map View
-            </a>
+            </Link>
           </li>
           <li>
             <Link
               to="/mySpaces"
-              className={`
-                ${
-                  isActive("/mySpaces")
-                    ? "flex items-center p-3 rounded-lg hover:bg-blue-50 text-blue-600 font-medium"
-                    : "flex items-center p-3 rounded-lg hover:bg-gray-100 text-gray-700"
-                }`}
+              className={`${isActive("/mySpaces") ? "text-blue-600 font-medium" : "text-gray-700"} flex items-center p-3 rounded-lg hover:bg-blue-50`}
             >
               <FaCar className="mr-3" />
               My Spaces
@@ -115,12 +87,7 @@ const Sidebar = () => {
           <li>
             <Link
               to="/listSpace"
-              className={`
-                ${
-                  isActive("/listSpace")
-                    ? "flex items-center p-3 rounded-lg hover:bg-blue-50 text-blue-600 font-medium"
-                    : "flex items-center p-3 rounded-lg hover:bg-gray-100 text-gray-700"
-                }`}
+              className={`${isActive("/listSpace") ? "text-blue-600 font-medium" : "text-gray-700"} flex items-center p-3 rounded-lg hover:bg-blue-50`}
             >
               <FaCar className="mr-3" />
               List Space
@@ -129,12 +96,7 @@ const Sidebar = () => {
           <li>
             <Link
               to="/all-spaces"
-              className={`
-                ${
-                  isActive("/all-spaces")
-                    ? "flex items-center p-3 rounded-lg hover:bg-blue-50 text-blue-600 font-medium"
-                    : "flex items-center p-3 rounded-lg hover:bg-gray-100 text-gray-700"
-                }`}
+              className={`${isActive("/all-spaces") ? "text-blue-600 font-medium" : "text-gray-700"} flex items-center p-3 rounded-lg hover:bg-blue-50`}
             >
               <FaCar className="mr-3" />
               All Spaces
@@ -143,7 +105,6 @@ const Sidebar = () => {
         </ul>
       </nav>
 
-      {/* Bottom Navigation */}
       <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200">
         <ul className="space-y-2">
           {user && balance !== null && (
@@ -158,12 +119,7 @@ const Sidebar = () => {
               <li>
                 <Link
                   to="/profile"
-                  className={`
-              ${
-                isActive("/profile")
-                  ? "flex items-center p-3 rounded-lg hover:bg-blue-50 text-blue-600 font-medium"
-                  : "flex items-center p-3 rounded-lg hover:bg-gray-100 text-gray-700"
-              }`}
+                  className={`${isActive("/profile") ? "text-blue-600 font-medium" : "text-gray-700"} flex items-center p-3 rounded-lg hover:bg-blue-50`}
                 >
                   <FaUser className="mr-3" />
                   Profile
@@ -172,12 +128,7 @@ const Sidebar = () => {
               <li>
                 <Link
                   to="/settings"
-                  className={`
-              ${
-                isActive("/settings")
-                  ? "flex items-center p-3 rounded-lg hover:bg-blue-50 text-blue-600 font-medium"
-                  : "flex items-center p-3 rounded-lg hover:bg-gray-100 text-gray-700"
-              }`}
+                  className={`${isActive("/settings") ? "text-blue-600 font-medium" : "text-gray-700"} flex items-center p-3 rounded-lg hover:bg-blue-50`}
                 >
                   <FaCog className="mr-3" />
                   Settings
@@ -186,12 +137,7 @@ const Sidebar = () => {
               <li>
                 <Link
                   to="/help"
-                  className={`
-              ${
-                isActive("/help")
-                  ? "flex items-center p-3 rounded-lg hover:bg-blue-50 text-blue-600 font-medium"
-                  : "flex items-center p-3 rounded-lg hover:bg-gray-100 text-gray-700"
-              }`}
+                  className={`${isActive("/help") ? "text-blue-600 font-medium" : "text-gray-700"} flex items-center p-3 rounded-lg hover:bg-blue-50`}
                 >
                   <FaQuestionCircle className="mr-3" />
                   Help

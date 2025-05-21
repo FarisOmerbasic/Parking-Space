@@ -15,4 +15,7 @@ public class Booking
     // Add these properties:
     public string Status { get; set; } = "Pending"; // or "Active", "Completed", etc.
     public DateTime EndTime => StartTime.AddHours(Hours);
+
+   
+
 }

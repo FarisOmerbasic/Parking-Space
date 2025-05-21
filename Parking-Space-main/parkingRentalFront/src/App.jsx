@@ -10,13 +10,13 @@ import UserProfile from "./pages/UserProfile";
 import Booking from "./pages/Booking";
 import MyBookings from "./pages/MyBookings";
 import ListSpace from "./pages/ListSpace";
-import Settings from "./pages/Settigs";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AppLayout from "./pages/AppLayout";
 import ProfileLayout from "./pages/ProfileLayout";
 import MySpaces from "./pages/MySpaces";
-import AllSpaces from "./pages/AllSpaces"; // <-- Import the new page
+import AllSpaces from "./pages/AllSpaces";
+import MapAllSpaces from "./components/MapAllSpaces";
 
 export default function App() {
   const router = createBrowserRouter(
@@ -24,11 +24,11 @@ export default function App() {
       {
         element: <AppLayout />,
         children: [
-          { path: "/", element: <Homepage /> },
+          { path: "/", element: <Homepage /> }, // This ensures Homepage loads at the root
           { path: "/booking", element: <Booking /> },
           { path: "/myBookings", element: <MyBookings /> },
-          { path: "/settings", element: <Settings /> },
-          { path: "/all-spaces", element: <AllSpaces /> }, // <-- Add route here
+          { path: "/all-spaces", element: <AllSpaces /> },
+          { path: "/map", element: <MapAllSpaces /> },
           {
             element: <ProfileLayout />,
             children: [
@@ -45,9 +45,10 @@ export default function App() {
     ],
     {
       future: {
-        v7_startTransition: true, // ✅ Enable React.startTransition for React Router v7
+        v7_startTransition: true,
       },
     }
   );
+
   return <RouterProvider router={router} />;
 }
