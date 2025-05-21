@@ -129,23 +129,42 @@ public class BookingsController : ControllerBase
         return Ok(new { balance = user.Balance });
     }
     [HttpPost("{id}/checkin")]
+    [Authorize]
+    public async Task<IActionResult> CheckIn(int id)
+    {
+        var userId = int.Parse(User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier));
+        var booking = await _context.Bookings.FindAsync(id);
+        if (booking == null)
+            return NotFound();
+
+        // Only the user who made the booking can check in
+        if (booking.UserId != userId)
+            return Forbid();
+
+        if (booking.Status != "Pending")
+            return BadRequest("Booking is not pending.");
+
+        booking.Status = "active";
+        await _context.SaveChangesAsync();
+        return Ok(new { status = "active" });
+    }
+[HttpPost("{id}/complete")]
 [Authorize]
-public async Task<IActionResult> CheckIn(int id)
+public async Task<IActionResult> Complete(int id)
 {
     var userId = int.Parse(User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier));
     var booking = await _context.Bookings.FindAsync(id);
     if (booking == null)
         return NotFound();
 
-    // Only the user who made the booking can check in
     if (booking.UserId != userId)
         return Forbid();
 
-    if (booking.Status != "Pending")
-        return BadRequest("Booking is not pending.");
+    if (!string.Equals(booking.Status, "active", StringComparison.OrdinalIgnoreCase))
+        return BadRequest("Booking is not active.");
 
-    booking.Status = "active";
+    booking.Status = "completed";
     await _context.SaveChangesAsync();
-    return Ok(new { status = "active" });
+    return Ok(new { status = "completed" });
 }
 }
