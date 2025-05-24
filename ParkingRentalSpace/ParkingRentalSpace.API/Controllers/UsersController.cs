@@ -36,7 +36,7 @@ public class UsersController : ControllerBase
     {
         var user = await _repo.GetByIdAsync(id);
         if (user == null) return NotFound();
-        
+
         return Ok(new UserDto
         {
             Id = user.Id,
@@ -91,7 +91,7 @@ public class UsersController : ControllerBase
         var user = await _repo.GetByIdAsync(id);
         if (user == null) return NotFound();
 
-      
+
         await _repo.SaveChangesAsync();
 
         return NoContent();

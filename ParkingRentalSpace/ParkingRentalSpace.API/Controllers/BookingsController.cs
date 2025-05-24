@@ -112,60 +112,60 @@ public class BookingsController : ControllerBase
     }
 
     // GET: api/bookings/my/upcoming
-  [HttpGet("my/upcoming")]
-[Authorize]
-public async Task<IActionResult> GetMyUpcomingBookings()
-{
-    var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-    var upcomingBookings = await _context.Bookings
-        .Where(b => b.UserId == userId && b.StartTime > DateTime.Now)
-        .OrderBy(b => b.StartTime)
-        .Take(5)
-        .Include(b => b.ParkingSpace)
-        .Include(b => b.User) // Include user details
-        .Select(b => new
-        {
-            b.Id,
-            b.TotalPrice,
-            b.StartTime,
-            b.EndTime,
-            SpaceName = b.ParkingSpace.SpaceName,
-            UserName = b.User.Name, // <-- include user name
-        })
-        .ToListAsync();
+    [HttpGet("my/upcoming")]
+    [Authorize]
+    public async Task<IActionResult> GetMyUpcomingBookings()
+    {
+        var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var upcomingBookings = await _context.Bookings
+            .Where(b => b.UserId == userId && b.StartTime > DateTime.Now)
+            .OrderBy(b => b.StartTime)
+            .Take(5)
+            .Include(b => b.ParkingSpace)
+            .Include(b => b.User) // Include user details
+            .Select(b => new
+            {
+                b.Id,
+                b.TotalPrice,
+                b.StartTime,
+                b.EndTime,
+                SpaceName = b.ParkingSpace.SpaceName,
+                UserName = b.User.Name, // <-- include user name
+            })
+            .ToListAsync();
 
-    return Ok(upcomingBookings);
-}
+        return Ok(upcomingBookings);
+    }
 
 
     // GET: api/bookings/my/recent
-   [HttpGet("my/recent")]
-[Authorize]
-public async Task<IActionResult> GetRecentBookings()
-{
-    var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-    var now = DateTime.UtcNow;
+    [HttpGet("my/recent")]
+    [Authorize]
+    public async Task<IActionResult> GetRecentBookings()
+    {
+        var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var now = DateTime.UtcNow;
 
-    var recent = await _context.Bookings
-        .Where(b => b.UserId == userId && b.StartTime <= now)
-        .OrderByDescending(b => b.StartTime)
-        .Take(5)
-        .Include(b => b.ParkingSpace)
-        .Include(b => b.User)
-        .Select(b => new
-        {
-            b.Id,
-            b.TotalPrice,
-            UserName = b.User.Name,
-            SpaceName = b.ParkingSpace.SpaceName,
-            b.StartTime,
-            b.EndTime,
-            b.Status
-        })
-        .ToListAsync();
+        var recent = await _context.Bookings
+            .Where(b => b.UserId == userId && b.StartTime <= now)
+            .OrderByDescending(b => b.StartTime)
+            .Take(5)
+            .Include(b => b.ParkingSpace)
+            .Include(b => b.User)
+            .Select(b => new
+            {
+                b.Id,
+                b.TotalPrice,
+                UserName = b.User.Name,
+                SpaceName = b.ParkingSpace.SpaceName,
+                b.StartTime,
+                b.EndTime,
+                b.Status
+            })
+            .ToListAsync();
 
-    return Ok(recent);
-}
+        return Ok(recent);
+    }
 
     // GET: api/bookings/balance
     [HttpGet("balance")]

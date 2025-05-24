@@ -43,10 +43,10 @@ public class AuthController : ControllerBase
 
         var token = GenerateJwtToken(user);
         var refreshToken = GenerateRefreshToken();
-        
+
         user.RefreshToken = refreshToken;
         user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
-        
+
         await _context.SaveChangesAsync();
 
         SetTokenCookie(token, refreshToken);
@@ -63,10 +63,10 @@ public class AuthController : ControllerBase
 
         var token = GenerateJwtToken(user);
         var refreshToken = GenerateRefreshToken();
-        
+
         user.RefreshToken = refreshToken;
         user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
-        
+
         await _context.SaveChangesAsync();
 
         SetTokenCookie(token, refreshToken);
@@ -87,10 +87,10 @@ public class AuthController : ControllerBase
 
         var newJwtToken = GenerateJwtToken(user);
         var newRefreshToken = GenerateRefreshToken();
-        
+
         user.RefreshToken = newRefreshToken;
         user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
-        
+
         await _context.SaveChangesAsync();
 
         SetTokenCookie(newJwtToken, newRefreshToken);
@@ -118,7 +118,7 @@ public class AuthController : ControllerBase
     {
         var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
         var user = await _context.Users.FindAsync(userId);
-        
+
         if (user != null)
         {
             user.RefreshToken = null;
@@ -133,26 +133,26 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("change-password")]
-[Authorize]
-public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto dto)
-{
-    if (dto.NewPassword != dto.ConfirmPassword)
-        return BadRequest("New password and confirmation do not match.");
+    [Authorize]
+    public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto dto)
+    {
+        if (dto.NewPassword != dto.ConfirmPassword)
+            return BadRequest("New password and confirmation do not match.");
 
-    var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-    var user = await _context.Users.FindAsync(userId);
+        var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var user = await _context.Users.FindAsync(userId);
 
-    if (user == null)
-        return NotFound("User not found.");
+        if (user == null)
+            return NotFound("User not found.");
 
-    if (!BCrypt.Net.BCrypt.Verify(dto.CurrentPassword, user.PasswordHash))
-        return BadRequest("Current password is incorrect.");
+        if (!BCrypt.Net.BCrypt.Verify(dto.CurrentPassword, user.PasswordHash))
+            return BadRequest("Current password is incorrect.");
 
-    user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.NewPassword);
-    await _context.SaveChangesAsync();
+        user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.NewPassword);
+        await _context.SaveChangesAsync();
 
-    return Ok("Password changed successfully.");
-}
+        return Ok("Password changed successfully.");
+    }
 
     private string GenerateJwtToken(User user)
     {
