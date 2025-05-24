@@ -1,1 +1,19 @@
-".vs/" 
+
+## Visual Studio ##
+.vs/
+[Bb]in/
+[Oo]bj/
+*.user
+*.suo
+*.cache
+*.pdb
+*.dll
+*.exe
+
+## .NET ##
+**/bin/
+**/obj/
+*.csproj.user
+*.csproj.assemblyreference.cache
+*.assemblyinfo.cs
+EOF
