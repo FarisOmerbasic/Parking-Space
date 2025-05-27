@@ -20,8 +20,10 @@ const Sidebar = () => {
   useEffect(() => {
     if (user) {
       axios
-        .get("http://localhost:5164/api/bookings/balance", { withCredentials: true })
-        .then(res => setBalance(res.data.balance))
+        .get("http://localhost:5164/api/bookings/balance", {
+          withCredentials: true,
+        })
+        .then((res) => setBalance(res.data.balance))
         .catch(() => setBalance(null));
     }
   }, [user]);
@@ -41,7 +43,9 @@ const Sidebar = () => {
           <li>
             <Link
               to="/"
-              className={`${isActive("/") ? "text-blue-600 font-medium" : "text-gray-700"} flex items-center p-3 rounded-lg hover:bg-blue-50`}
+              className={`${
+                isActive("/") ? "text-blue-600 font-medium" : "text-gray-700"
+              } flex items-center p-3 rounded-lg hover:bg-blue-50`}
             >
               <FaHome className="mr-3" />
               Homepage
@@ -50,7 +54,11 @@ const Sidebar = () => {
           <li>
             <Link
               to="/dashboard"
-              className={`${isActive("/dashboard") ? "text-blue-600 font-medium" : "text-gray-700"} flex items-center p-3 rounded-lg hover:bg-blue-50`}
+              className={`${
+                isActive("/dashboard")
+                  ? "text-blue-600 font-medium"
+                  : "text-gray-700"
+              } flex items-center p-3 rounded-lg hover:bg-blue-50`}
             >
               <FaHome className="mr-3" />
               Dashboard
@@ -59,7 +67,11 @@ const Sidebar = () => {
           <li>
             <Link
               to="/myBookings"
-              className={`${isActive("/myBookings") ? "text-blue-600 font-medium" : "text-gray-700"} flex items-center p-3 rounded-lg hover:bg-blue-50`}
+              className={`${
+                isActive("/myBookings")
+                  ? "text-blue-600 font-medium"
+                  : "text-gray-700"
+              } flex items-center p-3 rounded-lg hover:bg-blue-50`}
             >
               <FaClock className="mr-3" />
               My Bookings
@@ -69,7 +81,9 @@ const Sidebar = () => {
             {/* Replace "/map" with actual route if implemented */}
             <Link
               to="/map"
-              className={`${isActive("/map") ? "text-blue-600 font-medium" : "text-gray-700"} flex items-center p-3 rounded-lg hover:bg-blue-50`}
+              className={`${
+                isActive("/map") ? "text-blue-600 font-medium" : "text-gray-700"
+              } flex items-center p-3 rounded-lg hover:bg-blue-50`}
             >
               <FaMapMarkerAlt className="mr-3" />
               Map View
@@ -78,7 +92,11 @@ const Sidebar = () => {
           <li>
             <Link
               to="/mySpaces"
-              className={`${isActive("/mySpaces") ? "text-blue-600 font-medium" : "text-gray-700"} flex items-center p-3 rounded-lg hover:bg-blue-50`}
+              className={`${
+                isActive("/mySpaces")
+                  ? "text-blue-600 font-medium"
+                  : "text-gray-700"
+              } flex items-center p-3 rounded-lg hover:bg-blue-50`}
             >
               <FaCar className="mr-3" />
               My Spaces
@@ -87,7 +105,11 @@ const Sidebar = () => {
           <li>
             <Link
               to="/listSpace"
-              className={`${isActive("/listSpace") ? "text-blue-600 font-medium" : "text-gray-700"} flex items-center p-3 rounded-lg hover:bg-blue-50`}
+              className={`${
+                isActive("/listSpace")
+                  ? "text-blue-600 font-medium"
+                  : "text-gray-700"
+              } flex items-center p-3 rounded-lg hover:bg-blue-50`}
             >
               <FaCar className="mr-3" />
               List Space
@@ -96,7 +118,11 @@ const Sidebar = () => {
           <li>
             <Link
               to="/all-spaces"
-              className={`${isActive("/all-spaces") ? "text-blue-600 font-medium" : "text-gray-700"} flex items-center p-3 rounded-lg hover:bg-blue-50`}
+              className={`${
+                isActive("/all-spaces")
+                  ? "text-blue-600 font-medium"
+                  : "text-gray-700"
+              } flex items-center p-3 rounded-lg hover:bg-blue-50`}
             >
               <FaCar className="mr-3" />
               All Spaces
@@ -119,16 +145,24 @@ const Sidebar = () => {
               <li>
                 <Link
                   to="/profile"
-                  className={`${isActive("/profile") ? "text-blue-600 font-medium" : "text-gray-700"} flex items-center p-3 rounded-lg hover:bg-blue-50`}
+                  className={`${
+                    isActive("/profile")
+                      ? "text-blue-600 font-medium"
+                      : "text-gray-700"
+                  } flex items-center p-3 rounded-lg hover:bg-blue-50`}
                 >
                   <FaUser className="mr-3" />
-                  Profile
+                  {user.name}
                 </Link>
               </li>
               <li>
                 <Link
                   to="/settings"
-                  className={`${isActive("/settings") ? "text-blue-600 font-medium" : "text-gray-700"} flex items-center p-3 rounded-lg hover:bg-blue-50`}
+                  className={`${
+                    isActive("/settings")
+                      ? "text-blue-600 font-medium"
+                      : "text-gray-700"
+                  } flex items-center p-3 rounded-lg hover:bg-blue-50`}
                 >
                   <FaCog className="mr-3" />
                   Settings
@@ -137,7 +171,11 @@ const Sidebar = () => {
               <li>
                 <Link
                   to="/help"
-                  className={`${isActive("/help") ? "text-blue-600 font-medium" : "text-gray-700"} flex items-center p-3 rounded-lg hover:bg-blue-50`}
+                  className={`${
+                    isActive("/help")
+                      ? "text-blue-600 font-medium"
+                      : "text-gray-700"
+                  } flex items-center p-3 rounded-lg hover:bg-blue-50`}
                 >
                   <FaQuestionCircle className="mr-3" />
                   Help
