@@ -17,3 +17,7 @@
 **/*.assemblyinfo.cs
 **/*.assemblyinfoinputs.cache
 EOF
+ParkingRentalSpace/ParkingRentalSpace.Infrastructure/obj/Debug/net8.0/ParkingRentalSpace.Infrastructure.AssemblyInfo.cs
+ParkingRentalSpace/ParkingRentalSpace.Infrastructure/obj/Debug/net8.0/ParkingRentalSpace.Infrastructure.AssemblyInfoInputs.cache
+ParkingRentalSpace/ParkingRentalSpace.Infrastructure/obj/Debug/net8.0/ParkingRentalSpace.Infrastructure.csproj.AssemblyReference.cache
+ParkingRentalSpace/ParkingRentalSpace.API/bin/Debug/net8.0/ParkingRentalSpace.API.dll
