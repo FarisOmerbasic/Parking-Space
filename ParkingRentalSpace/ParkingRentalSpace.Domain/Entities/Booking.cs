@@ -13,7 +13,7 @@ public class Booking
     public decimal TotalPrice { get; set; }
 
     // Add these properties:
-    public string Status { get; set; } = "Pending"; // or "Active", "Completed", etc.
+    public string Status { get; set; } = "Pending"; 
     public DateTime EndTime => StartTime.AddHours(Hours);
 
    

@@ -3,12 +3,12 @@ import ProfileHeader from "../components/ProfileHeader";
 
 function ProfileLayout() {
   return (
-    <>
+    <div className="w-full">
       <ProfileHeader />
-      <main className="">
+      <main className="mt-4">
         <Outlet />
       </main>
-</>
+    </div>
   );
 }
 

@@ -13,6 +13,8 @@ public class AppDbContext : DbContext
     public DbSet<Payment> Payments { get; set; }
     public DbSet<QrCheckin> QrCheckins { get; set; }
 
+
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -57,5 +59,9 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Payment>()
             .Property(p => p.Amount)
             .HasColumnType("decimal(18,2)");
+            
+        modelBuilder.Entity<User>()
+        .Property(u => u.Role)
+        .HasDefaultValue("User");
     }
 }

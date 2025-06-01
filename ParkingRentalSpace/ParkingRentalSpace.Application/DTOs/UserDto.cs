@@ -1,7 +1,8 @@
 ﻿public class UserDto
 {
     public int Id { get; set; }
-    public string Name { get; set; } // Changed from FullName to match your auth
+    public string Name { get; set; } 
     public string Email { get; set; }
-    public DateTime? CreatedAt { get; set; } // Optional: Add useful metadata
+    public string Role { get; set; } 
+    public DateTime? CreatedAt { get; set; } 
 }

@@ -1,4 +1,5 @@
-﻿using ParkingRentalSpace.Domain.Entities;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using ParkingRentalSpace.Domain.Entities;
 
 public class ParkingSpace
 {
@@ -13,5 +14,8 @@ public class ParkingSpace
     public double Latitude { get; set; }
     public double Longitude { get; set; }
     public bool IsAvailable { get; set; }
+
+   
+    
     public List<Booking> Bookings { get; set; } = new();
 }

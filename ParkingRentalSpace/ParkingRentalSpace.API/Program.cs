@@ -1,27 +1,28 @@
 using ParkingRentalSpace.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using ParkingRentalSpace.Infrastructure.Repositories;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
 using QRCoder;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;      
+using Microsoft.Extensions.Logging;  
+using System;                          
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
-
-// Add QR code generator service
 builder.Services.AddSingleton<QRCodeGenerator>();
 
-// Add JWT Authentication
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 var key = Encoding.ASCII.GetBytes(jwtSettings["Key"]!);
 
@@ -53,7 +54,6 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-// Add Authorization policies BEFORE builder.Build()
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("RequireOwnerRole", policy =>
@@ -61,25 +61,25 @@ builder.Services.AddAuthorization(options =>
 
     options.AddPolicy("RequireRenterRole", policy =>
         policy.RequireClaim(ClaimTypes.Role, "Renter"));
+
+    options.AddPolicy("RequireAdminRole", policy =>
+        policy.RequireClaim(ClaimTypes.Role, "Admin"));
 });
 
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+// Register your new services here:
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-// Configure CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
-        policy => policy.WithOrigins( "http://localhost:5173", "http://localhost:5174") // React dev server
-                       .AllowAnyMethod()
-                       .AllowAnyHeader()
-                       .AllowCredentials());
+        policy => policy.WithOrigins( "http://localhost:5173", "http://localhost:5174")
+                         .AllowAnyMethod()
+                         .AllowAnyHeader()
+                         .AllowCredentials());
 });
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -88,23 +88,27 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-// Use CORS policy
 app.UseCors("AllowFrontend");
-
-// Authentication must come before Authorization
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
 
-// Apply pending migrations
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
-    var context = services.GetRequiredService<AppDbContext>();
-    context.Database.Migrate();
+    try
+    {
+        var context = services.GetRequiredService<AppDbContext>();
+        context.Database.Migrate();
+        await DataSeeder.SeedInitialData(context);
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while applying migrations or seeding the database.");
+    }
 }
+
 app.MapGet("/api/test-auth", [Authorize] () => "Authenticated!");
 
 app.Run();
