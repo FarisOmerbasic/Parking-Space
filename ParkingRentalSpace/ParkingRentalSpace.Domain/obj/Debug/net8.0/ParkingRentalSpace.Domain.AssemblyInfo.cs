@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ParkingRentalSpace.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bee75b2f4647bd8fcd8af3908c4a085d6916ebcb")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+182151ecf4480fb5c488bf6b076dee74786c1aae")]
 [assembly: System.Reflection.AssemblyProductAttribute("ParkingRentalSpace.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ParkingRentalSpace.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
