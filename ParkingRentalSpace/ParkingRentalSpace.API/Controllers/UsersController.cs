@@ -8,7 +8,7 @@ namespace ParkingRentalSpace.API.Controllers;
 
 [ApiController]
 [Route("api/users")]
-[Authorize(Roles = "Admin")] // Restrict to admin users only
+[Authorize(Roles = "Admin")]
 public class UsersController : ControllerBase
 {
     private readonly IRepository<User> _repo;

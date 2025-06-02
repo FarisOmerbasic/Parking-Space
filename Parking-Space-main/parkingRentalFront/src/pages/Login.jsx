@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { useAuth } from "../services/AuthContext";
 
 
@@ -25,13 +24,13 @@ const Login = () => {
 
   const validateForm = () => {
     const newErrors = {};
-    
+
     if (!form.email.trim()) {
       newErrors.email = "Email is required";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
       newErrors.email = "Please enter a valid email";
     }
-    
+
     if (!form.password) {
       newErrors.password = "Password is required";
     }
@@ -42,31 +41,19 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    
-    if (!validateForm()) return;
-    
-    setIsSubmitting(true);
-    
-    try {
-      const response = await axios.post(
-        "http://localhost:5164/api/Auth/login",
-        {
-          email: form.email,
-          password: form.password
-        },
-        {
-          withCredentials: true // Important for cookies
-        }
-      );
 
-      // Assuming your backend returns user data and tokens
-      const { user, token } = response.data;
-      
-      // Store user in context/local storage
-      login(user, token);
-      
-      console.log("Login successful:", user);
+    if (!validateForm()) return;
+
+    setIsSubmitting(true);
+
+    try {
+      // --- CHANGE START ---
+      // Call the login function from AuthContext directly with email and password
+      const userData = await login(form.email, form.password); // AuthContext's login handles the axios call
+
+      console.log("Login successful:", userData); // userData will be the user object returned by AuthContext's login
       navigate("/"); // redirect to home after login
+      // --- CHANGE END ---
     } catch (error) {
       console.error("Login failed:", error.response?.data);
       setErrors({
@@ -82,13 +69,13 @@ const Login = () => {
     <div className="flex items-center justify-center min-h-screen bg-gray-50 px-4">
       <div className="bg-white p-8 rounded-lg shadow-md max-w-md w-full">
         <h2 className="text-2xl font-bold mb-6 text-center">Login to Your Account</h2>
-        
+
         {errors.apiError && (
           <div className="mb-4 p-2 bg-red-100 text-red-700 rounded">
             {errors.apiError}
           </div>
         )}
-        
+
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
             <label className="block mb-1 font-medium text-gray-700">Email</label>
@@ -103,7 +90,7 @@ const Login = () => {
             />
             {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
           </div>
-          
+
           <div>
             <label className="block mb-1 font-medium text-gray-700">Password</label>
             <input
@@ -117,7 +104,7 @@ const Login = () => {
             />
             {errors.password && <p className="mt-1 text-sm text-red-600">{errors.password}</p>}
           </div>
-          
+
           <button
             type="submit"
             disabled={isSubmitting}
@@ -128,7 +115,7 @@ const Login = () => {
             {isSubmitting ? "Logging in..." : "Login"}
           </button>
         </form>
-        
+
         <p className="text-sm text-center text-gray-600 mt-4">
           Don't have an account?{" "}
           <a href="/register" className="text-blue-600 hover:underline">

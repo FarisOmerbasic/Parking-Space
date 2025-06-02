@@ -11,7 +11,7 @@ import AppLayout from "./pages/AppLayout";
 import ProfileLayout from "./pages/ProfileLayout";
 import MySpaces from "./pages/MySpaces";
 import AllSpaces from "./pages/AllSpaces";
-import MapAllSpaces from "./components/MapAllSpaces";
+import MapView from "./components/MapView"; 
 
 export default function App() {
   const router = createBrowserRouter([
@@ -22,7 +22,7 @@ export default function App() {
         { path: "/booking", element: <Booking /> },
         { path: "/my-bookings", element: <MyBookings /> },
         { path: "/all-spaces", element: <AllSpaces /> },
-        { path: "/map", element: <MapAllSpaces /> },
+        { path: "/map", element: <MapView /> }, // Changed to dedicated MapView page
         {
           element: <ProfileLayout />,
           children: [
