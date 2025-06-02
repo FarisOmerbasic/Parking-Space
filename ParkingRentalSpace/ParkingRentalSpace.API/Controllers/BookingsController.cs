@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ParkingRentalSpace.Application.DTOs;
 using ParkingRentalSpace.Domain.Entities;
 using ParkingRentalSpace.Infrastructure.Data;
@@ -50,7 +51,8 @@ public class BookingsController : ControllerBase
             UserEmail = user.Email,
             StartTime = dto.StartTime,
             Hours = dto.Hours,
-            TotalPrice = totalPrice
+            TotalPrice = totalPrice,
+            Status = "Pending"
         };
 
         _context.Bookings.Add(booking);
@@ -66,6 +68,7 @@ public class BookingsController : ControllerBase
     {
         var ownerId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
         var bookings = _context.Bookings
+            .Include(b => b.ParkingSpace)
             .Where(b => b.ParkingSpace.OwnerId == ownerId)
             .Select(b => new BookingDto
             {
@@ -90,6 +93,7 @@ public class BookingsController : ControllerBase
     {
         var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
         var bookings = _context.Bookings
+            .Include(b => b.ParkingSpace)
             .Where(b => b.UserId == userId)
             .Select(b => new
             {
@@ -105,6 +109,62 @@ public class BookingsController : ControllerBase
             .ToList();
 
         return Ok(bookings);
+    }
+
+    // GET: api/bookings/my/upcoming
+    [HttpGet("my/upcoming")]
+    [Authorize]
+    public async Task<IActionResult> GetMyUpcomingBookings()
+    {
+        var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var upcomingBookings = await _context.Bookings
+            .Where(b => b.UserId == userId && b.StartTime > DateTime.Now)
+            .OrderBy(b => b.StartTime)
+            .Take(5)
+            .Include(b => b.ParkingSpace)
+            .Include(b => b.User) // Include user details
+            .Select(b => new
+            {
+                b.Id,
+                b.TotalPrice,
+                b.StartTime,
+                b.EndTime,
+                SpaceName = b.ParkingSpace.SpaceName,
+                UserName = b.User.Name, // <-- include user name
+            })
+            .ToListAsync();
+
+        return Ok(upcomingBookings);
+    }
+
+
+    // GET: api/bookings/my/recent
+    [HttpGet("my/recent")]
+    [Authorize]
+    public async Task<IActionResult> GetRecentBookings()
+    {
+        var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var now = DateTime.UtcNow;
+
+        var recent = await _context.Bookings
+            .Where(b => b.UserId == userId && b.StartTime <= now)
+            .OrderByDescending(b => b.StartTime)
+            .Take(5)
+            .Include(b => b.ParkingSpace)
+            .Include(b => b.User)
+            .Select(b => new
+            {
+                b.Id,
+                b.TotalPrice,
+                UserName = b.User.Name,
+                SpaceName = b.ParkingSpace.SpaceName,
+                b.StartTime,
+                b.EndTime,
+                b.Status
+            })
+            .ToListAsync();
+
+        return Ok(recent);
     }
 
     // GET: api/bookings/balance
@@ -128,43 +188,46 @@ public class BookingsController : ControllerBase
         await _context.SaveChangesAsync();
         return Ok(new { balance = user.Balance });
     }
+
+    // POST: api/bookings/{id}/checkin
     [HttpPost("{id}/checkin")]
     [Authorize]
     public async Task<IActionResult> CheckIn(int id)
     {
-        var userId = int.Parse(User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier));
+        var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
         var booking = await _context.Bookings.FindAsync(id);
         if (booking == null)
             return NotFound();
 
-        // Only the user who made the booking can check in
         if (booking.UserId != userId)
             return Forbid();
 
         if (booking.Status != "Pending")
             return BadRequest("Booking is not pending.");
 
-        booking.Status = "active";
+        booking.Status = "Active";
         await _context.SaveChangesAsync();
         return Ok(new { status = "active" });
     }
-[HttpPost("{id}/complete")]
-[Authorize]
-public async Task<IActionResult> Complete(int id)
-{
-    var userId = int.Parse(User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier));
-    var booking = await _context.Bookings.FindAsync(id);
-    if (booking == null)
-        return NotFound();
 
-    if (booking.UserId != userId)
-        return Forbid();
+    // POST: api/bookings/{id}/complete
+    [HttpPost("{id}/complete")]
+    [Authorize]
+    public async Task<IActionResult> Complete(int id)
+    {
+        var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var booking = await _context.Bookings.FindAsync(id);
+        if (booking == null)
+            return NotFound();
 
-    if (!string.Equals(booking.Status, "active", StringComparison.OrdinalIgnoreCase))
-        return BadRequest("Booking is not active.");
+        if (booking.UserId != userId)
+            return Forbid();
 
-    booking.Status = "completed";
-    await _context.SaveChangesAsync();
-    return Ok(new { status = "completed" });
-}
+        if (!string.Equals(booking.Status, "Active", StringComparison.OrdinalIgnoreCase))
+            return BadRequest("Booking is not active.");
+
+        booking.Status = "Completed";
+        await _context.SaveChangesAsync();
+        return Ok(new { status = "completed" });
+    }
 }

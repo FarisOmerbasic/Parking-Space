@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
+import Sidebar from "../components/Sidebar";
 import { fetchParkingSpaces } from "../services/fetchParkingSpaces";
-import { useNavigate } from "react-router-dom";
-// import axios from "axios"; // No longer needed directly for auth checks here
-import { useAuth } from "../services/AuthContext"; // Import useAuth
+import MapAllSpaces from "../components/MapAllSpaces";
+import axios from "axios";
+import { useNavigate } from "react-router-dom"; // <-- Add this import
 
 const Homepage = () => {
   const [parkingSpaces, setParkingSpaces] = useState([]);
-  const navigate = useNavigate();
-
-  // --- IMPORTANT CHANGE: Get user and loading from AuthContext ---
-  const { user, loading } = useAuth();
+  const [showModal, setShowModal] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate(); // <-- Add this line
 
   useEffect(() => {
     const getProducts = async () => {
@@ -18,26 +19,16 @@ const Homepage = () => {
     };
     getProducts();
 
-    // --- REMOVE THIS REDUNDANT AUTH CHECK ---
-    // axios
-    //   .get("http://localhost:5164/api/auth/auth-check", { withCredentials: true })
-    //   .then((res) => setUser(res.data.user))
-    //   .catch(() => setUser(null));
+    // Fetch current user
+    axios
+      .get("http://localhost:5164/api/auth/auth-check", { withCredentials: true })
+      .then((res) => setUser(res.data.user))
+      .catch(() => setUser(null));
   }, []);
 
-  // Show loading indicator if AuthContext is still loading
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <p>Loading user and parking spaces...</p>
-      </div>
-    );
-  }
-
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8 ml-56">
-      {" "}
-      {/* Added ml-56 to account for sidebar */}
+    <div className="max-w-6xl mx-auto px-4 py-8">
+      <Sidebar />
       {/* Available Spaces Section */}
       <section className="mb-12">
         <h1 className="text-3xl font-bold mb-6">Available Spaces</h1>
@@ -57,20 +48,16 @@ const Homepage = () => {
               className="bg-white p-4 rounded-lg shadow-md flex justify-between items-center"
             >
               <div>
-                <h3 className="text-lg font-semibold">
-                  {space.address || space.location || space.spaceName}
-                </h3>
+                <h3 className="text-lg font-semibold">{space.address || space.location || space.spaceName}</h3>
                 <p className="text-sm text-gray-600">{space.description}</p>
                 <p className="text-sm text-gray-600">
                   {space.pricePerHour || space.price} KM / hr
                 </p>
-                <p className="text-sm text-gray-600">
-                  {space.isAvailable ? "Available" : "Unavailable"}
-                </p>
+                <p className="text-sm text-gray-600">{space.isAvailable ? "Available" : "Unavailable"}</p>
               </div>
               <button
                 className="bg-blue-600 text-white px-3 py-1 rounded-md text-sm hover:bg-blue-700 transition"
-                onClick={() => navigate("/all-spaces")}
+                onClick={() => navigate("/all-spaces")} // <-- Add this
               >
                 {space.isAvailable ? "Book Now" : "Details"}
               </button>
@@ -78,6 +65,9 @@ const Homepage = () => {
           ))}
         </div>
       </section>
+
+      <hr className="my-8 border-gray-200" />
+
 
       <hr className="my-8 border-gray-200" />
 
@@ -122,12 +112,8 @@ const Homepage = () => {
 
       {/* Owner Section */}
       <section className="text-center">
-        <p className="font-medium">
-          {user ? (user.name || user.email || user.id) : "Guest"}
-        </p> {/* Changed "Owner" to "Guest" for clarity */}
-        <p className="text-gray-600">
-          {user ? user.role : "Please log in"}
-        </p> {/* Display user's role if logged in */}
+        <p className="font-medium">{user ? (user.name || user.email || user.id) : "Owner"}</p>
+        <p className="text-gray-600">Owner</p>
       </section>
     </div>
   );

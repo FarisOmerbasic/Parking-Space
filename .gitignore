@@ -1,24 +1,2 @@
-## Visual Studio ##
-.vs/
-[Bb]in/
-[Oo]bj/
-*.user
-*.suo
-*.cache
-*.pdb
-*.dll
-*.exe
-
-## .NET ##
-**/bin/
-**/obj/
-**/*.csproj.user
-**/*.csproj.assemblyreference.cache
-**/*.assemblyinfo.cs
-**/*.assemblyinfoinputs.cache
-EOF
-ParkingRentalSpace/ParkingRentalSpace.Infrastructure/obj/Debug/net8.0/ParkingRentalSpace.Infrastructure.AssemblyInfo.cs
-ParkingRentalSpace/ParkingRentalSpace.Infrastructure/obj/Debug/net8.0/ParkingRentalSpace.Infrastructure.AssemblyInfoInputs.cache
-ParkingRentalSpace/ParkingRentalSpace.Infrastructure/obj/Debug/net8.0/ParkingRentalSpace.Infrastructure.csproj.AssemblyReference.cache
-ParkingRentalSpace/ParkingRentalSpace.API/bin/Debug/net8.0/ParkingRentalSpace.API.dll
+".vs/" 
 node_modules

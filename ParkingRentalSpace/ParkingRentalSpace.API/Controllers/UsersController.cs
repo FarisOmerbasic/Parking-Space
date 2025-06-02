@@ -8,7 +8,7 @@ namespace ParkingRentalSpace.API.Controllers;
 
 [ApiController]
 [Route("api/users")]
-[Authorize(Roles = "Admin")]
+[Authorize(Roles = "Admin")] // Restrict to admin users only
 public class UsersController : ControllerBase
 {
     private readonly IRepository<User> _repo;
@@ -36,7 +36,7 @@ public class UsersController : ControllerBase
     {
         var user = await _repo.GetByIdAsync(id);
         if (user == null) return NotFound();
-        
+
         return Ok(new UserDto
         {
             Id = user.Id,
@@ -91,7 +91,7 @@ public class UsersController : ControllerBase
         var user = await _repo.GetByIdAsync(id);
         if (user == null) return NotFound();
 
-      
+
         await _repo.SaveChangesAsync();
 
         return NoContent();

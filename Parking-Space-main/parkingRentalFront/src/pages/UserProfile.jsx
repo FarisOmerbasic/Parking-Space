@@ -3,7 +3,7 @@ import { useAuth } from "../services/AuthContext";
 import axios from "axios";
 
 const UserProfile = () => {
-  const { user, logout } = useAuth();
+  const { user, logout } = useAuth(); // 'user' will contain 'role'
 
   const [formData, setFormData] = useState({
     fullName: "",

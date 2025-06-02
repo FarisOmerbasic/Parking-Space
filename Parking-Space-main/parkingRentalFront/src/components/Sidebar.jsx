@@ -1,13 +1,36 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../services/AuthContext";
-import { FaHome, FaMapMarkerAlt, FaClock, FaCar, FaUser, FaCog } from "react-icons/fa";
+import { FaHome, FaMapMarkerAlt, FaClock, FaCar, FaUser, FaCog, FaDollarSign, FaUsersCog } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 
 const Sidebar = () => {
-  const { user } = useContext(AuthContext);
+  const { user, loading, isAdmin } = useContext(AuthContext); 
+
   const location = useLocation();
 
-  const isActive = (path) => location.pathname === path;
+  console.log("Sidebar: user state (full object):", user);
+  console.log("Sidebar: loading state:", loading);
+
+  // Directly check user.role and the comparison
+  const roleFromUser = user?.role; // Safely access role
+  const isRoleAdmin = roleFromUser === "Admin";
+  const calculatedIsAdmin = Boolean(user && isRoleAdmin);
+
+  console.log("Sidebar: user?.role:", roleFromUser);
+  console.log("Sidebar: user?.role === 'Admin':", isRoleAdmin);
+  console.log("Sidebar: calculated isAdmin value:", calculatedIsAdmin); // This should be true/false
+
+  console.log("Sidebar: isAdmin value from context:", isAdmin); // This should still be undefined
+
+  const isActive = (path) => location.pathname === path || location.pathname.startsWith(`${path}/`);
+
+  if (loading) {
+    return (
+      <div className="w-56 bg-white h-screen fixed left-0 top-0 shadow-md p-4 flex flex-col items-center justify-center">
+        <p>Loading sidebar...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="w-56 bg-white h-screen fixed left-0 top-0 shadow-md p-4 flex flex-col">
@@ -17,7 +40,7 @@ const Sidebar = () => {
 
       {/* User Profile Section */}
       {user && (
-        <Link 
+        <Link
           to="/profile"
           className="mb-6 p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition"
         >
@@ -44,6 +67,16 @@ const Sidebar = () => {
           <NavItem to="/my-spaces" icon={<FaCar />} label="My Spaces" isActive={isActive("/my-spaces")} />
           <NavItem to="/list-space" icon={<FaCar />} label="List Space" isActive={isActive("/list-space")} />
           <NavItem to="/all-spaces" icon={<FaCar />} label="All Spaces" isActive={isActive("/all-spaces")} />
+
+          {/* Admin specific links - Use the calculated isAdmin for now */}
+          {calculatedIsAdmin && ( // <--- CHANGE THIS LINE TO USE calculatedIsAdmin
+            <>
+              <div className="border-t border-gray-200 my-4"></div>
+              <p className="text-xs text-gray-400 uppercase font-bold px-3 pt-2">Admin Panel</p>
+              <NavItem to="/admin/users" icon={<FaUsersCog />} label="Manage Users" isActive={isActive("/admin/users")} />
+              <NavItem to="/admin/payments" icon={<FaDollarSign />} label="Manage Payments" isActive={isActive("/admin/payments")} />
+            </>
+          )}
         </ul>
       </nav>
 
