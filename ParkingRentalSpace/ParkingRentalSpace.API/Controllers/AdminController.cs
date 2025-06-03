@@ -87,63 +87,112 @@ namespace ParkingRentalSpace.API.Controllers
         }
 
 
-    [HttpPost("payments/add-test")]
-    [Authorize(Roles = "Admin")] // Ensure only admins can use this test endpoint
-    public async Task<IActionResult> AddTestPayment([FromBody] AddTestPaymentDto model)
-    {
-        if (!ModelState.IsValid)
+        [HttpPost("payments/add-test")]
+        [Authorize(Roles = "Admin")] // Ensure only admins can use this test endpoint
+        public async Task<IActionResult> AddTestPayment([FromBody] AddTestPaymentDto model)
         {
-            return BadRequest(ModelState);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // Find the user and booking to ensure they exist in your actual database
+            var user = await _context.Users.FindAsync(model.UserId);
+            if (user == null)
+            {
+                return BadRequest($"User with ID {model.UserId} not found in your database.");
+            }
+
+            var booking = await _context.Bookings.FindAsync(model.BookingId);
+            if (booking == null)
+            {
+                return BadRequest($"Booking with ID {model.BookingId} not found in your database.");
+            }
+
+            var newPayment = new Payment
+            {
+                UserId = model.UserId,
+                BookingId = model.BookingId,
+                Amount = model.Amount,
+                PaidAt = DateTime.UtcNow, // Use current time
+                Status = model.Status
+            };
+
+            _context.Payments.Add(newPayment);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Test payment added successfully!", paymentId = newPayment.Id });
         }
 
-        // Find the user and booking to ensure they exist in your actual database
-        var user = await _context.Users.FindAsync(model.UserId);
-        if (user == null)
+
+        // List all pending bookings
+        [HttpGet("pending-bookings")]
+        public async Task<IActionResult> GetPendingBookings()
         {
-            return BadRequest($"User with ID {model.UserId} not found in your database.");
-        }
+            var bookings = await _context.Bookings
+                .Include(b => b.User)
+                .Include(b => b.ParkingSpace)
+                .Where(b => b.Status == "Pending")
+                .ToListAsync();
 
-        var booking = await _context.Bookings.FindAsync(model.BookingId);
-        if (booking == null)
-        {
-            return BadRequest($"Booking with ID {model.BookingId} not found in your database.");
-        }
-
-        var newPayment = new Payment
-        {
-            UserId = model.UserId,
-            BookingId = model.BookingId,
-            Amount = model.Amount,
-            PaidAt = DateTime.UtcNow, // Use current time
-            Status = model.Status
-        };
-
-        _context.Payments.Add(newPayment);
-        await _context.SaveChangesAsync();
-
-        return Ok(new { message = "Test payment added successfully!", paymentId = newPayment.Id });
-    }
-}
-    }
-    
-    public class AddTestPaymentDto
+           var result = bookings.Select(b => new
 {
-    public int UserId { get; set; }
-    public int BookingId { get; set; }
-    public decimal Amount { get; set; }
-    public string Status { get; set; } = "Completed"; // Default to Completed
-}
+    b.Id,
+    UserName = b.User.Name,
+    UserEmail = b.User.Email,
+    ParkingSpace = b.ParkingSpace.SpaceName,
+    b.Status,
+    BookingDate = b.StartTime, // <-- Use StartTime or another valid property
+    b.TotalPrice
+});
+
+            return Ok(result);
+        }
+
+        // Approve a booking
+        [HttpPost("approve-booking/{id}")]
+        public async Task<IActionResult> ApproveBooking(int id)
+        {
+            var booking = await _context.Bookings.FindAsync(id);
+            if (booking == null) return NotFound();
+
+            booking.Status = "Approved";
+            await _context.SaveChangesAsync();
+            return Ok(new { message = "Booking approved." });
+        }
+
+        // Reject a booking
+        [HttpPost("reject-booking/{id}")]
+        public async Task<IActionResult> RejectBooking(int id)
+        {
+            var booking = await _context.Bookings.FindAsync(id);
+            if (booking == null) return NotFound();
+
+            booking.Status = "Rejected";
+            await _context.SaveChangesAsync();
+            return Ok(new { message = "Booking rejected." });
+        }
+    }
+
+
+    public class AddTestPaymentDto
+    {
+        public int UserId { get; set; }
+        public int BookingId { get; set; }
+        public decimal Amount { get; set; }
+        public string Status { get; set; } = "Completed"; // Default to Completed
+    }
 
     // DTOs (assuming these are in separate files or nested)
-public class AdminUserDto
-{
-    public int Id { get; set; }
-    public string Name { get; set; } = string.Empty;
-    public string Email { get; set; } = string.Empty;
-    public decimal Balance { get; set; }
-    public int ParkingSpacesCount { get; set; }
-    public int BookingsCount { get; set; }
-}
+    public class AdminUserDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public decimal Balance { get; set; }
+        public int ParkingSpacesCount { get; set; }
+        public int BookingsCount { get; set; }
+    }
 
     public class PaymentRecordDto
     {
@@ -156,3 +205,4 @@ public class AdminUserDto
         public string Description { get; set; } = string.Empty;
         public string Status { get; set; } = string.Empty;
     }
+}

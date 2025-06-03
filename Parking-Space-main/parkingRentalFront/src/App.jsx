@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { createBrowserRouter, RouterProvider, Outlet, Navigate } from "react-router-dom";
-import { AuthProvider, AuthContext } from "./services/AuthContext";
+import AuthProvider from "./services/AuthProvider";
+import AuthContext from "./services/AuthContext";
 
 // Layout Components
 import AppLayout from "./pages/AppLayout";
@@ -17,13 +18,22 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import MySpaces from "./pages/MySpaces";
 import AllSpaces from "./pages/AllSpaces";
-import MapAllSpaces from "./components/MapAllSpaces";
 import Settings from "./pages/Settings";
 
 // Admin Pages
-// FIX: Corrected paths and name based on your file structure shown in the image
-import AdminPaymentsManagement from "./pages/AdminPaymentsManagement"; // Corrected path and component name
-import UsersManagement from "./pages/UsersManagement"; // Corrected path
+import AdminPaymentsManagement from "./pages/AdminPaymentsManagement";
+import UsersManagement from "./pages/UsersManagement";
+import AdminParkingManager from "./pages/AdminParkingManager"; // <-- FIXED: Import the component
+
+// Map Page (use a page wrapper for MapAllSpaces)
+import MapAllSpaces from "./components/MapAllSpaces";
+
+const MapAllSpacesPage = () => (
+  <div className="p-8 ml-64 max-w-5xl h-[600px]">
+    <h1 className="text-2xl font-bold mb-4">Map View</h1>
+    <MapAllSpaces />
+  </div>
+);
 
 // --- ProtectedRoute Component ---
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -51,11 +61,14 @@ export default function App() {
     {
       element: <AppLayout />,
       children: [
-        { index: true, element: <Homepage /> },
+        { index: true, element: <Homepage /> }, // PUBLIC
+        { path: "/map", element: <MapAllSpacesPage /> }, // PUBLIC
+        { path: "/login", element: <Login /> }, // PUBLIC
+        { path: "/register", element: <Register /> }, // PUBLIC
+
         { path: "/booking", element: <ProtectedRoute><Booking /></ProtectedRoute> },
         { path: "/my-bookings", element: <ProtectedRoute><MyBookings /></ProtectedRoute> },
         { path: "/all-spaces", element: <ProtectedRoute><AllSpaces /></ProtectedRoute> },
-        { path: "/map", element: <ProtectedRoute><MapAllSpaces /></ProtectedRoute> },
         { path: "/settings", element: <ProtectedRoute><Settings /></ProtectedRoute> },
 
         {
@@ -74,13 +87,12 @@ export default function App() {
           element: <ProtectedRoute allowedRoles={["Admin"]}><Outlet /></ProtectedRoute>,
           children: [
             { path: "users", element: <UsersManagement /> },
-            { path: "payments", element: <AdminPaymentsManagement /> }, // Use the correct imported component name here
+            { path: "payments", element: <AdminPaymentsManagement /> },
+            { path: "parking-manager", element: <AdminParkingManager /> }, // <-- FIXED
           ],
         },
       ],
     },
-    { path: "/login", element: <Login /> },
-    { path: "/register", element: <Register /> },
     { path: "/unauthorized", element: (
         <div className="flex flex-col items-center justify-center h-screen bg-red-50 text-red-700">
             <h1 className="text-4xl font-bold mb-4">403 - Unauthorized</h1>

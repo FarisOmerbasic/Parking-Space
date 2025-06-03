@@ -9,6 +9,7 @@ public class Booking
     public User User { get; set; }
     public string UserEmail { get; set; }
     public DateTime StartTime { get; set; }
+
     public int Hours { get; set; }
     public decimal TotalPrice { get; set; }
 

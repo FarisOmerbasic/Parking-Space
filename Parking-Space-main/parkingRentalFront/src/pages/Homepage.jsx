@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
 import { fetchParkingSpaces } from "../services/fetchParkingSpaces";
-import MapAllSpaces from "../components/MapAllSpaces";
 import axios from "axios";
-import { useNavigate } from "react-router-dom"; // <-- Add this import
+import { useNavigate } from "react-router-dom";
 
 const Homepage = () => {
   const [parkingSpaces, setParkingSpaces] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [errors, setErrors] = useState({});
   const [user, setUser] = useState(null);
-  const navigate = useNavigate(); // <-- Add this line
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getProducts = async () => {
@@ -57,7 +54,7 @@ const Homepage = () => {
               </div>
               <button
                 className="bg-blue-600 text-white px-3 py-1 rounded-md text-sm hover:bg-blue-700 transition"
-                onClick={() => navigate("/all-spaces")} // <-- Add this
+                onClick={() => navigate("/all-spaces")}
               >
                 {space.isAvailable ? "Book Now" : "Details"}
               </button>
@@ -68,13 +65,9 @@ const Homepage = () => {
 
       <hr className="my-8 border-gray-200" />
 
-
-      <hr className="my-8 border-gray-200" />
-
       {/* How it works Section */}
       <section className="mb-12">
         <h2 className="text-2xl font-bold mb-8">How it works</h2>
-
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="bg-white p-6 rounded-lg shadow-md">
             <div className="bg-blue-100 text-blue-800 w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl mb-4">
@@ -85,7 +78,6 @@ const Homepage = () => {
               Share your unused spot and set your price.
             </p>
           </div>
-
           <div className="bg-white p-6 rounded-lg shadow-md">
             <div className="bg-blue-100 text-blue-800 w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl mb-4">
               2
@@ -95,7 +87,6 @@ const Homepage = () => {
               Browse, filter, and reserve a spot instantly.
             </p>
           </div>
-
           <div className="bg-white p-6 rounded-lg shadow-md">
             <div className="bg-blue-100 text-blue-800 w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl mb-4">
               3

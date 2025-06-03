@@ -51,21 +51,37 @@ const MyBookings = () => {
                 {new Date(b.startTime).toLocaleString()} · {b.hours} hrs · {b.totalPrice} KM
               </div>
               <div>
-                Status: <span className="font-semibold">{b.status}</span>
+                Status:{" "}
                 {b.status && b.status.toLowerCase() === "pending" && (
+                  <span className="font-semibold text-yellow-600">Waiting for approval</span>
+                )}
+                {b.status && b.status.toLowerCase() === "approved" && (
+                  <span className="font-semibold text-green-600">Approved</span>
+                )}
+                {b.status && b.status.toLowerCase() === "rejected" && (
+                  <span className="font-semibold text-red-600">Rejected</span>
+                )}
+                {b.status && b.status.toLowerCase() === "active" && (
+                  <>
+                    <span className="font-semibold text-blue-600">Active</span>
+                    <button
+                      onClick={() => handleComplete(b.id)}
+                      className="ml-4 px-2 py-1 bg-blue-600 text-white rounded"
+                    >
+                      Complete
+                    </button>
+                  </>
+                )}
+                {b.status && b.status.toLowerCase() === "completed" && (
+                  <span className="font-semibold text-gray-600">Completed</span>
+                )}
+                {/* Only show Check In if approved and not yet active */}
+                {b.status && b.status.toLowerCase() === "approved" && (
                   <button
                     onClick={() => handleCheckIn(b.id)}
                     className="ml-4 px-2 py-1 bg-green-600 text-white rounded"
                   >
                     Check In
-                  </button>
-                )}
-                {b.status && b.status.toLowerCase() === "active" && (
-                  <button
-                    onClick={() => handleComplete(b.id)}
-                    className="ml-4 px-2 py-1 bg-blue-600 text-white rounded"
-                  >
-                    Complete
                   </button>
                 )}
               </div>
