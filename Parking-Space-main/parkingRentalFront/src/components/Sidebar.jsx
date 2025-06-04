@@ -1,181 +1,140 @@
 import React, { useEffect, useState } from "react";
-import { FaHome, FaMapMarkerAlt, FaClock, FaCar, FaUser, FaCog, FaDollarSign, FaUsersCog, FaWallet } from "react-icons/fa";
-import { Link, useLocation } from "react-router-dom";
-import { useAuth } from "../services/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { fetchParkingSpaces } from "../services/fetchParkingSpaces";
 import axios from "axios";
+import Header from "../components/Header";
+import FeatureCard from "../components/FeatureCard";
+import Testimonial from "../components/Testimonial";
+import { FaParking, FaCar, FaKey } from "react-icons/fa";
 
-const Sidebar = () => {
-  const { user, loading, isAdmin } = useAuth();
-  const location = useLocation();
-  const [balance, setBalance] = useState(null);
+const Homepage = () => {
+  const [parkingSpaces, setParkingSpaces] = useState([]);
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (user) {
-      axios
-        .get("http://localhost:5164/api/bookings/balance", { withCredentials: true })
-        .then((res) => setBalance(res.data.balance))
-        .catch(() => setBalance(user.wallet ?? user.balance ?? 0));
-    }
-  }, [user]);
+    const getProducts = async () => {
+      const data = await fetchParkingSpaces();
+      setParkingSpaces(data);
+    };
+    getProducts();
 
-  const isActive = (path) => location.pathname === path || location.pathname.startsWith(`${path}/`);
-
-  if (loading) {
-    return (
-      <div className="w-56 bg-white h-screen fixed left-0 top-0 shadow-md p-4 flex flex-col items-center justify-center">
-        <p>Loading sidebar...</p>
-      </div>
-    );
-  }
+    // Fetch current user
+    axios
+      .get("http://localhost:5164/api/auth/auth-check", { withCredentials: true })
+      .then((res) => setUser(res.data.user))
+      .catch(() => setUser(null));
+  }, []);
 
   return (
-    <aside className="w-56 bg-white h-screen fixed left-0 top-0 shadow-md p-4 flex flex-col">
-      {/* User Profile Section or Login/Register */}
-      {user ? (
-        <>
-          <Link
-            to="/profile"
-            className="mb-4 p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition"
-          >
-            <div className="flex items-center">
-              <div className="bg-blue-100 p-2 rounded-full mr-3">
-                <FaUser className="text-blue-600" />
-              </div>
-              <div>
-                <p className="font-medium text-gray-800 truncate">
-                  {user.name || user.email || `User #${user.id}`}
-                </p>
-                <p className="text-sm text-blue-700">View Profile</p>
-              </div>
-            </div>
-          </Link>
-          {/* Wallet Section */}
-          <div className="mb-6 flex items-center bg-green-50 rounded-lg p-3">
-            <FaWallet className="text-green-600 mr-2" />
-            <span className="font-semibold text-green-700">
-              Wallet: {balance !== null ? balance : (user.wallet ?? user.balance ?? 0)} KM
-            </span>
-          </div>
-        </>
-      ) : (
-        <div className="mb-6 flex flex-col gap-2">
-          <Link
-            to="/login"
-            className={`p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition text-center ${
-              isActive("/login") ? "text-blue-600 font-medium" : "text-gray-700"
-            }`}
-          >
-            Login
-          </Link>
-          <Link
-            to="/register"
-            className={`p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition text-center ${
-              isActive("/register") ? "text-blue-600 font-medium" : "text-gray-700"
-            }`}
-          >
-            Register
-          </Link>
-        </div>
-      )}
+    <div className="bg-gray-50 min-h-screen">
+      <Header />
+      <main className="pt-28 max-w-6xl mx-auto px-4">
+        {/* Hero Section */}
+        <section className="bg-green-100 py-16 text-center rounded-xl mb-12">
+          <h1 className="text-5xl font-bold mb-4 text-green-700">Welcome to AirPark</h1>
+          <p className="text-xl mb-8 text-green-900">The easiest way to rent, manage, and find parking spaces.</p>
+          <a href="/register" className="bg-green-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-green-600 transition">Create a free account</a>
+        </section>
 
-      <nav className="flex-1">
-        <ul className="space-y-2">
-          <li>
-            <Link
-              to="/"
-              className={`flex items-center p-3 rounded-lg hover:bg-blue-50 ${
-                isActive("/") ? "text-blue-600 font-medium" : "text-gray-700"
-              }`}
-            >
-              <FaHome className="mr-3" />
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/map"
-              className={`flex items-center p-3 rounded-lg hover:bg-blue-50 ${
-                isActive("/map") ? "text-blue-600 font-medium" : "text-gray-700"
-              }`}
-            >
-              <FaMapMarkerAlt className="mr-3" />
-              Map View
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/my-bookings"
-              className={`flex items-center p-3 rounded-lg hover:bg-blue-50 ${
-                isActive("/my-bookings") ? "text-blue-600 font-medium" : "text-gray-700"
-              }`}
-            >
-              <FaClock className="mr-3" />
-              My Bookings
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/all-spaces"
-              className={`flex items-center p-3 rounded-lg hover:bg-blue-50 ${
-                isActive("/all-spaces") ? "text-blue-600 font-medium" : "text-gray-700"
-              }`}
-            >
-              <FaCar className="mr-3" />
-              All Spaces
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/settings"
-              className={`flex items-center p-3 rounded-lg hover:bg-blue-50 ${
-                isActive("/settings") ? "text-blue-600 font-medium" : "text-gray-700"
-              }`}
-            >
-              <FaCog className="mr-3" />
-              Settings
-            </Link>
-          </li>
-          {isAdmin && (
-            <>
-              <li>
-                <Link
-                  to="/admin/users"
-                  className={`flex items-center p-3 rounded-lg hover:bg-blue-50 ${
-                    isActive("/admin/users") ? "text-blue-600 font-medium" : "text-gray-700"
-                  }`}
-                >
-                  <FaUsersCog className="mr-3" />
-                  Manage Users
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/admin/payments"
-                  className={`flex items-center p-3 rounded-lg hover:bg-blue-50 ${
-                    isActive("/admin/payments") ? "text-blue-600 font-medium" : "text-gray-700"
-                  }`}
-                >
-                  <FaDollarSign className="mr-3" />
-                  Payments
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/admin/parking-manager"
-                  className={`flex items-center p-3 rounded-lg hover:bg-blue-50 ${
-                    isActive("/admin/parking-manager") ? "text-blue-600 font-medium" : "text-gray-700"
-                  }`}
-                >
-                  <FaCar className="mr-3" />
-                  Parking Manager
-                </Link>
-              </li>
-            </>
+        {/* Features */}
+        <section className="py-12">
+          <h2 className="text-3xl font-bold text-center mb-10 text-green-700">Get started with AirPark</h2>
+          <div className="flex flex-wrap justify-center gap-8">
+            <FeatureCard
+              icon={<FaParking />}
+              title="Manage parking spaces"
+              description="Streamline and improve the management of parking spaces for property owners, companies, and municipalities."
+            />
+            <FeatureCard
+              icon={<FaKey />}
+              title="Rent out parking"
+              description="Have an unused parking space? Rent it out to others and earn extra money with ease."
+            />
+            <FeatureCard
+              icon={<FaCar />}
+              title="Park with AirPark"
+              description="Find and book parking spaces easily. Enjoy a greener, more convenient parking experience."
+            />
+          </div>
+        </section>
+
+        {/* Available Spaces Section */}
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold mb-6">Available Spaces</h2>
+          {user && (
+            <div className="mb-4">
+              <span className="font-semibold text-blue-700">
+                Welcome, {user.name || user.email || user.id}!
+              </span>
+            </div>
           )}
-        </ul>
-      </nav>
-    </aside>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {parkingSpaces.slice(0, 3).map((space) => (
+              <div
+                key={space.id}
+                className="bg-white p-4 rounded-lg shadow-md flex flex-col justify-between items-start"
+              >
+                <div>
+                  <h3 className="text-lg font-semibold">{space.address || space.location || space.spaceName}</h3>
+                  <p className="text-sm text-gray-600">{space.description}</p>
+                  <p className="text-sm text-gray-600">
+                    {space.pricePerHour || space.price} KM / hr
+                  </p>
+                  <p className="text-sm text-gray-600">{space.isAvailable ? "Available" : "Unavailable"}</p>
+                </div>
+                <button
+                  className="mt-4 bg-blue-600 text-white px-3 py-1 rounded-md text-sm hover:bg-blue-700 transition"
+                  onClick={() => navigate("/all-spaces")}
+                >
+                  {space.isAvailable ? "Book Now" : "Details"}
+                </button>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* How it works Section */}
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold mb-8">How it works</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <div className="bg-blue-100 text-blue-800 w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl mb-4">
+                1
+              </div>
+              <h3 className="text-lg font-semibold mb-2">List Your Space</h3>
+              <p className="text-gray-600">
+                Share your unused spot and set your price.
+              </p>
+            </div>
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <div className="bg-blue-100 text-blue-800 w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl mb-4">
+                2
+              </div>
+              <h3 className="text-lg font-semibold mb-2">Find & Book</h3>
+              <p className="text-gray-600">
+                Browse, filter, and reserve a spot instantly.
+              </p>
+            </div>
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <div className="bg-blue-100 text-blue-800 w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl mb-4">
+                3
+              </div>
+              <h3 className="text-lg font-semibold mb-2">Check In</h3>
+              <p className="text-gray-600">
+                Scan the QR code to confirm your reservation.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Testimonial */}
+        <section className="py-16 bg-gray-100 rounded-xl mb-12">
+          <Testimonial />
+        </section>
+      </main>
+    </div>
   );
 };
 
-export default Sidebar;
+export default Homepage;

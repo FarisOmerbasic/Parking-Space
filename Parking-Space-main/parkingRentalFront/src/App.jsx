@@ -23,7 +23,7 @@ import Settings from "./pages/Settings";
 // Admin Pages
 import AdminPaymentsManagement from "./pages/AdminPaymentsManagement";
 import UsersManagement from "./pages/UsersManagement";
-import AdminParkingManager from "./pages/AdminParkingManager"; // <-- FIXED: Import the component
+import AdminParkingManager from "./pages/AdminParkingManager";
 
 // Map Page (use a page wrapper for MapAllSpaces)
 import MapAllSpaces from "./components/MapAllSpaces";
@@ -74,10 +74,10 @@ export default function App() {
         {
           element: <ProfileLayout />,
           children: [
-            { path: "/profile", element: <ProtectedRoute><UserProfile /></ProtectedRoute> },
-            { path: "/dashboard", element: <ProtectedRoute><Dashboard /></ProtectedRoute> },
-            { path: "/list-space", element: <ProtectedRoute><ListSpace /></ProtectedRoute> },
-            { path: "/my-spaces", element: <ProtectedRoute><MySpaces /></ProtectedRoute> },
+            { path: "profile", element: <ProtectedRoute><UserProfile /></ProtectedRoute> },
+            { path: "dashboard", element: <ProtectedRoute><Dashboard /></ProtectedRoute> },
+            { path: "list-space", element: <ProtectedRoute><ListSpace /></ProtectedRoute> },
+            { path: "my-spaces", element: <ProtectedRoute><MySpaces /></ProtectedRoute> },
           ],
         },
 
@@ -86,9 +86,28 @@ export default function App() {
           path: "/admin",
           element: <ProtectedRoute allowedRoles={["Admin"]}><Outlet /></ProtectedRoute>,
           children: [
+            {
+              index: true,
+              element: (
+                <div className="p-8 ml-64">
+                  <h1 className="text-2xl font-bold mb-6">Admin Panel</h1>
+                  <ul className="space-y-4">
+                    <li>
+                      <a href="/admin/users" className="text-blue-600 hover:underline text-lg">Users Management</a>
+                    </li>
+                    <li>
+                      <a href="/admin/payments" className="text-blue-600 hover:underline text-lg">Payments Management</a>
+                    </li>
+                    <li>
+                      <a href="/admin/parking-manager" className="text-blue-600 hover:underline text-lg">Parking Manager</a>
+                    </li>
+                  </ul>
+                </div>
+              ),
+            },
             { path: "users", element: <UsersManagement /> },
             { path: "payments", element: <AdminPaymentsManagement /> },
-            { path: "parking-manager", element: <AdminParkingManager /> }, // <-- FIXED
+            { path: "parking-manager", element: <AdminParkingManager /> },
           ],
         },
       ],
@@ -109,5 +128,5 @@ export default function App() {
     )}
   ]);
 
-  return <RouterProvider router={router} />;
+  return <AuthProvider><RouterProvider router={router} /></AuthProvider>;
 }

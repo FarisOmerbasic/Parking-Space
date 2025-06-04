@@ -13,7 +13,7 @@ const MySpaces = () => {
           withCredentials: true,
         });
         setSpaces(res.data);
-      } catch (err) {
+      } catch {
         setSpaces([]);
       } finally {
         setLoading(false);
@@ -30,7 +30,7 @@ const MySpaces = () => {
         withCredentials: true,
       });
       setSpaces((prev) => prev.filter((space) => space.id !== id));
-    } catch (err) {
+    } catch {
       alert("Failed to delete parking space.");
     } finally {
       setDeletingId(null);

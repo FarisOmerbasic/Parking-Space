@@ -3,7 +3,7 @@ import { useAuth } from "../services/AuthContext";
 import axios from "axios";
 
 const UserProfile = () => {
-  const { user, logout } = useAuth(); // 'user' will contain 'role'
+  const { user, logout } = useAuth();
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -17,7 +17,6 @@ const UserProfile = () => {
   const [error, setError] = useState("");
   const [balance, setBalance] = useState(null);
 
-  // Populate form with user data when available
   useEffect(() => {
     if (user) {
       setFormData((prev) => ({
@@ -25,7 +24,6 @@ const UserProfile = () => {
         fullName: user.name || "",
         email: user.email || "",
       }));
-      // Fetch balance
       axios
         .get("http://localhost:5164/api/bookings/balance", { withCredentials: true })
         .then(res => setBalance(res.data.balance))
@@ -55,7 +53,6 @@ const UserProfile = () => {
     setMessage("");
     setError("");
 
-    // Only attempt password change if any password field is filled
     if (
       formData.currentPassword ||
       formData.newPassword ||
@@ -103,14 +100,14 @@ const UserProfile = () => {
 
   if (!user) {
     return (
-      <div className="p-8 ml-64 max-w-4xl">
+      <div className="p-8 max-w-4xl">
         Please log in to view your profile.
       </div>
     );
   }
 
   return (
-    <div className="p-8 ml-64 max-w-4xl">
+    <div className="p-8 max-w-4xl">
       <h1 className="text-3xl font-bold mb-8">Profile</h1>
 
       {/* Wallet/Balance Section */}
@@ -142,7 +139,7 @@ const UserProfile = () => {
                 value={formData.fullName}
                 onChange={handleChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                disabled // Remove this if you want to allow editing name
+                disabled
               />
             </div>
             <div>

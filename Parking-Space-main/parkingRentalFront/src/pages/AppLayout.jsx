@@ -1,11 +1,11 @@
 import { Outlet } from "react-router-dom";
-import Sidebar from "../components/Sidebar";
+import Header from "../components/Header";
 
 function AppLayout() {
   return (
-    <div className="min-h-screen bg-gray-50 flex">
-      <Sidebar />
-      <main className="flex-1 p-8 ml-56">
+    <div className="min-h-screen bg-gray-50">
+      <Header />
+      <main className="pt-24">
         <Outlet />
       </main>
     </div>

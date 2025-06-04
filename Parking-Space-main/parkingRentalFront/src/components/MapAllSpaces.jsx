@@ -16,65 +16,62 @@ function MapAllSpaces() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // 1. Fetch parking spaces from your API
-        const response = await fetch('http://localhost:5164/api/ParkingSpaces');
-        if (!response.ok) throw new Error('Failed to fetch parking spaces');
-        
-        const parkingSpaces = await response.json();
-        console.log('Fetched parking spaces:', parkingSpaces);
-
-        if (!parkingSpaces || parkingSpaces.length === 0) {
-          setLoading(false);
-          return;
-        }
-
-        // 2. Geocode locations to coordinates
-        const geocodedMarkers = await Promise.all(
-          parkingSpaces.map(async (space) => {
-            if (!space.location) return null;
-            
-            try {
-              const geoResponse = await fetch(
-                `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(space.location)}&countrycodes=ba`
-              );
-              const geoData = await geoResponse.json();
-              
-              return geoData.length > 0 ? {
-                id: space.id,
-                location: space.location,
-                lat: parseFloat(geoData[0].lat),
-                lng: parseFloat(geoData[0].lon),
-                spaceData: space
-              } : null;
-            } catch (err) {
-              console.error(`Geocoding failed for: ${space.location}`, err);
-              return null;
-            }
-          })
-        );
-
-        const validMarkers = geocodedMarkers.filter(m => m !== null);
-        console.log('Geocoded markers:', validMarkers);
-        
-        setMarkers(validMarkers);
-      } catch (err) {
-        console.error('Error:', err);
-        setError(err.message);
-      } finally {
+  // Add a refresh function to reload parking spaces
+  const fetchData = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      // 1. Fetch parking spaces from your API
+      const response = await fetch('http://localhost:5164/api/ParkingSpaces');
+      if (!response.ok) throw new Error('Failed to fetch parking spaces');
+      
+      const parkingSpaces = await response.json();
+      if (!parkingSpaces || parkingSpaces.length === 0) {
+        setMarkers([]);
         setLoading(false);
+        return;
       }
-    };
 
+      // 2. Geocode using address, location, or spaceName
+      const geocodedMarkers = await Promise.all(
+        parkingSpaces.map(async (space) => {
+          const address = space.address || space.location || space.spaceName;
+          if (!address) return null;
+          try {
+            const geoResponse = await fetch(
+              `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}&countrycodes=ba`
+            );
+            const geoData = await geoResponse.json();
+            return geoData.length > 0 ? {
+              id: space.id,
+              location: address,
+              lat: parseFloat(geoData[0].lat),
+              lng: parseFloat(geoData[0].lon),
+              spaceData: space
+            } : null;
+          } catch (err) {
+            console.error(`Geocoding failed for: ${address}`, err);
+            return null;
+          }
+        })
+      );
+
+      const validMarkers = geocodedMarkers.filter(m => m !== null);
+      setMarkers(validMarkers);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchData();
   }, []);
 
   // Calculate center point from all markers
   const calculateCenter = () => {
     if (markers.length === 0) return [43.8563, 18.4131]; // Default to Sarajevo
-    
     const sum = markers.reduce(
       (acc, marker) => ({
         lat: acc.lat + marker.lat,
@@ -82,7 +79,6 @@ function MapAllSpaces() {
       }),
       { lat: 0, lng: 0 }
     );
-
     return [sum.lat / markers.length, sum.lng / markers.length];
   };
 
@@ -100,7 +96,7 @@ function MapAllSpaces() {
       <div className="text-center p-6 bg-white rounded-lg shadow-xl">
         <p className="text-lg font-medium text-red-600">Error: {error}</p>
         <button 
-          onClick={() => window.location.reload()}
+          onClick={fetchData}
           className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
         >
           Retry
@@ -113,12 +109,26 @@ function MapAllSpaces() {
     <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-90 z-50">
       <div className="text-center p-6 bg-white rounded-lg shadow-xl">
         <p className="text-lg font-medium">No geocodable parking spaces found</p>
+        <button 
+          onClick={fetchData}
+          className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        >
+          Refresh
+        </button>
       </div>
     </div>
   );
 
   return (
     <div className="fixed inset-0 w-full h-full z-0">
+      <div className="absolute top-4 right-4 z-[1000]">
+        <button
+          onClick={fetchData}
+          className="px-4 py-2 bg-green-600 text-white rounded shadow hover:bg-green-700"
+        >
+          Refresh Map
+        </button>
+      </div>
       <MapContainer 
         center={calculateCenter()} 
         zoom={14} 
