@@ -1,214 +1,169 @@
-using System.Security.Claims;
-using System.IdentityModel.Tokens.Jwt;
-using System.Text;
-
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.Http; // Required for CookieOptions
-
-using BCrypt.Net;
-
+using ParkingRentalSpace.API.DTOs;
+using ParkingRentalSpace.Application.DTOs;
+using ParkingRentalSpace.Application.Services.Interfaces;
+using ParkingRentalSpace.Domain.Entities;
 using ParkingRentalSpace.Infrastructure.Data;
-using ParkingRentalSpace.Domain.Entities; // Ensure this is present
 
-// Assuming these DTOs are defined in the same file or another relevant DTO file
-// For best practice, DTOs should be in a separate Dtos folder/file.
-// using ParkingRentalSpace.API.Dtos; // Example: if DTOs are in a Dtos folder
-
-namespace ParkingRentalSpace.Controllers;
+namespace ParkingRentalSpace.API.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/auth")]
 public class AuthController : ControllerBase
 {
     private readonly AppDbContext _context;
-    private readonly IConfiguration _config;
+    private readonly ITokenService _tokenService;
+    private readonly ILogger<AuthController> _logger;
 
-    public AuthController(AppDbContext context, IConfiguration config)
+    public AuthController(AppDbContext context, ITokenService tokenService, ILogger<AuthController> logger)
     {
         _context = context;
-        _config = config;
+        _tokenService = tokenService;
+        _logger = logger;
     }
 
+    /// <summary>
+    /// Register a new user.
+    /// </summary>
+    /// <param name="userDto">The user registration details.</param>
+    /// <returns>Details of the registered user.</returns>
     [HttpPost("register")]
+    [ProducesResponseType(typeof(ActionResult<UserDto?>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesErrorResponseType(typeof(void))]
     public async Task<IActionResult> Register(UserRegisterDto userDto)
     {
-        if (await _context.Users.AnyAsync(u => u.Email == userDto.Email))
+        try
         {
-            return BadRequest("User already exists");
+            _logger.LogDebug($"AuthController - {nameof(Register)} invoked. (userDto: {userDto})");
+
+            if (await _context.Users.AnyAsync(u => u.Email == userDto.Email))
+            {
+                _logger.LogWarning($"User with email {userDto.Email} already exists.");
+                return BadRequest("User already exists");
+            }
+
+            var user = new User
+            {
+                Email = userDto.Email,
+                Name = userDto.Name,
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(userDto.Password),
+                Role = "User"
+            };
+
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            var token = _tokenService.GenerateJwtToken(user);
+            var refreshToken = _tokenService.GenerateRefreshToken();
+
+            user.RefreshToken = refreshToken;
+            user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
+
+            await _context.SaveChangesAsync();
+
+            SetTokenCookie(token, refreshToken);
+
+            return Ok(new { user.Id, user.Email, user.Name, user.Role });
         }
-
-        var user = new User
+        catch (Exception ex)
         {
-            Email = userDto.Email,
-            Name = userDto.Name,
-            PasswordHash = BCrypt.Net.BCrypt.HashPassword(userDto.Password),
-            Role = "User"
-        };
-
-        _context.Users.Add(user);
-        await _context.SaveChangesAsync();
-
-        var token = GenerateJwtToken(user);
-        var refreshToken = GenerateRefreshToken();
-
-        user.RefreshToken = refreshToken;
-        user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
-
-        await _context.SaveChangesAsync();
-
-        SetTokenCookie(token, refreshToken);
-
-        return Ok(new { user.Id, user.Email, user.Name, user.Role });
+            _logger.LogError(ex, "Exception in AuthController.Register");
+            return StatusCode(500, "An error occurred while registering the user.");
+        }
     }
 
+    /// <summary>
+    /// Login a user.
+    /// </summary>
+    /// <param name="userDto">The user login details.</param>
+    /// <returns>Details of the logged-in user.</returns>
     [HttpPost("login")]
+    [ProducesResponseType(typeof(ActionResult<UserDto?>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesErrorResponseType(typeof(void))]
     public async Task<IActionResult> Login(UserLoginDto userDto)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == userDto.Email);
-        if (user == null || !BCrypt.Net.BCrypt.Verify(userDto.Password, user.PasswordHash))
+        try
         {
-            return Unauthorized("Invalid credentials");
+            _logger.LogDebug($"AuthController - {nameof(Login)} invoked. (userDto: {userDto})");
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == userDto.Email);
+            if (user == null || !BCrypt.Net.BCrypt.Verify(userDto.Password, user.PasswordHash))
+            {
+                _logger.LogWarning($"Invalid login attempt for email {userDto.Email}.");
+                return Unauthorized("Invalid credentials");
+            }
+
+            var token = _tokenService.GenerateJwtToken(user);
+            var refreshToken = _tokenService.GenerateRefreshToken();
+
+            user.RefreshToken = refreshToken;
+            user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
+
+            await _context.SaveChangesAsync();
+
+            SetTokenCookie(token, refreshToken);
+
+            return Ok(new { user.Id, user.Email, user.Name, user.Role });
         }
-
-        var token = GenerateJwtToken(user);
-        var refreshToken = GenerateRefreshToken();
-
-        user.RefreshToken = refreshToken;
-        user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
-
-        await _context.SaveChangesAsync();
-
-        SetTokenCookie(token, refreshToken);
-
-        return Ok(new { user.Id, user.Email, user.Name, user.Role });
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Exception in AuthController.Login");
+            return StatusCode(500, "An error occurred while logging in the user.");
+        }
     }
 
+    /// <summary>
+    /// Refresh the JWT token.
+    /// </summary>
+    /// <returns>A new JWT token and refresh token.</returns>
     [HttpPost("refresh-token")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesErrorResponseType(typeof(void))]
     public async Task<IActionResult> RefreshToken()
     {
-        var refreshToken = Request.Cookies["refreshToken"];
-        if (string.IsNullOrEmpty(refreshToken))
+        try
         {
-            return Unauthorized("Invalid refresh token");
-        }
+            _logger.LogDebug($"AuthController - {nameof(RefreshToken)} invoked.");
 
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.RefreshToken == refreshToken);
-        if (user == null || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
-        {
-            return Unauthorized("Invalid refresh token");
-        }
+            var refreshToken = Request.Cookies["refreshToken"];
+            if (string.IsNullOrEmpty(refreshToken))
+            {
+                _logger.LogWarning("Refresh token is missing or invalid.");
+                return Unauthorized("Invalid refresh token");
+            }
 
-        var newJwtToken = GenerateJwtToken(user);
-        var newRefreshToken = GenerateRefreshToken();
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.RefreshToken == refreshToken);
+            if (user == null || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
+            {
+                _logger.LogWarning("Refresh token is expired or invalid.");
+                return Unauthorized("Invalid refresh token");
+            }
 
-        user.RefreshToken = newRefreshToken;
-        user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
+            var newJwtToken = _tokenService.GenerateJwtToken(user);
+            var newRefreshToken = _tokenService.GenerateRefreshToken();
 
-        await _context.SaveChangesAsync();
+            user.RefreshToken = newRefreshToken;
+            user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
 
-        SetTokenCookie(newJwtToken, newRefreshToken);
-
-        return Ok();
-    }
-
-    [HttpGet("auth-check")]
-    [Authorize]
-    public IActionResult AuthCheck()
-    {
-        var user = new
-        {
-            Id = User.FindFirstValue(ClaimTypes.NameIdentifier),
-            Email = User.FindFirstValue(ClaimTypes.Email),
-            Name = User.FindFirstValue("name"),
-            Role = User.FindFirstValue(ClaimTypes.Role)
-        };
-
-        return Ok(new { user });
-    }
-
-    [HttpPost("logout")]
-    [Authorize]
-    public async Task<IActionResult> Logout()
-    {
-        var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        var user = await _context.Users.FindAsync(userId);
-
-        if (user != null)
-        {
-            user.RefreshToken = null;
-            user.RefreshTokenExpiryTime = null;
             await _context.SaveChangesAsync();
+
+            SetTokenCookie(newJwtToken, newRefreshToken);
+
+            return Ok(new { token = newJwtToken, refreshToken = newRefreshToken });
         }
-
-        Response.Cookies.Delete("token");
-        Response.Cookies.Delete("refreshToken");
-
-        return Ok("Logged out successfully");
-    }
-
-    [HttpPost("change-password")]
-    [Authorize]
-    public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto dto)
-    {
-        if (dto.NewPassword != dto.ConfirmPassword)
+        catch (Exception ex)
         {
-            return BadRequest("New password and confirmation do not match.");
+            _logger.LogError(ex, "Exception in AuthController.RefreshToken");
+            return StatusCode(500, "An error occurred while refreshing the token.");
         }
-
-        var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        var user = await _context.Users.FindAsync(userId);
-
-        if (user == null)
-        {
-            return NotFound("User not found.");
-        }
-
-        if (!BCrypt.Net.BCrypt.Verify(dto.CurrentPassword, user.PasswordHash))
-        {
-            return BadRequest("Current password is incorrect.");
-        }
-
-        user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.NewPassword);
-        await _context.SaveChangesAsync();
-
-        return Ok("Password changed successfully.");
-    }
-
-    private string GenerateJwtToken(User user)
-    {
-        var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim(ClaimTypes.Email, user.Email),
-            new Claim("name", user.Name)
-        };
-
-        if (!string.IsNullOrEmpty(user.Role))
-        {
-            claims.Add(new Claim(ClaimTypes.Role, user.Role));
-        }
-
-        var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_config["Jwt:Key"]!));
-        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
-
-        var token = new JwtSecurityToken(
-            issuer: _config["Jwt:Issuer"],
-            audience: _config["Jwt:Audience"],
-            claims: claims,
-            expires: DateTime.UtcNow.AddMinutes(_config.GetValue<int>("Jwt:ExpiryInMinutes")),
-            signingCredentials: creds
-        );
-
-        return new JwtSecurityTokenHandler().WriteToken(token);
-    }
-
-    private static string GenerateRefreshToken()
-    {
-        return Guid.NewGuid().ToString();
     }
 
     private void SetTokenCookie(string token, string refreshToken)
@@ -216,32 +171,12 @@ public class AuthController : ControllerBase
         var cookieOptions = new CookieOptions
         {
             HttpOnly = true,
-            Secure = true, // Set to true in production if using HTTPS
-            SameSite = SameSiteMode.None, // Required for cross-site cookies (e.g., frontend on different port)
+            Secure = true,
+            SameSite = SameSiteMode.None,
             Expires = DateTime.UtcNow.AddDays(7)
         };
 
         Response.Cookies.Append("token", token, cookieOptions);
         Response.Cookies.Append("refreshToken", refreshToken, cookieOptions);
     }
-}
-
-public class UserRegisterDto
-{
-    public string Email { get; set; } = string.Empty;
-    public string Password { get; set; } = string.Empty;
-    public string Name { get; set; } = string.Empty;
-}
-
-public class UserLoginDto
-{
-    public string Email { get; set; } = string.Empty;
-    public string Password { get; set; } = string.Empty;
-}
-
-public class ChangePasswordDto
-{
-    public string CurrentPassword { get; set; } = string.Empty;
-    public string NewPassword { get; set; } = string.Empty;
-    public string ConfirmPassword { get; set; } = string.Empty;
 }

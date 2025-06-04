@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using ParkingRentalSpace.Domain.Entities;
-using ParkingRentalSpace.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using BCrypt.Net;
+using ParkingRentalSpace.Application.DTOs;
+using ParkingRentalSpace.Application.Services.Interfaces;
 
 namespace ParkingRentalSpace.API.Controllers;
 
@@ -11,89 +10,117 @@ namespace ParkingRentalSpace.API.Controllers;
 [Authorize(Roles = "Admin")] // Restrict to admin users only
 public class UsersController : ControllerBase
 {
-    private readonly IRepository<User> _repo;
+    private readonly IUserService _userService;
 
-    public UsersController(IRepository<User> repo)
+    public UsersController(IUserService userService)
     {
-        _repo = repo;
+        _userService = userService;
     }
 
+    /// <summary>
+    /// Get all users.
+    /// </summary>
     [HttpGet]
+    [ProducesResponseType(typeof(IEnumerable<UserDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers()
     {
-        var users = await _repo.GetAllAsync();
-        return Ok(users.Select(u => new UserDto
+        try
         {
-            Id = u.Id,
-            Name = u.Name,
-            Email = u.Email,
-            CreatedAt = u.CreatedAt // If you add this property
-        }));
+            var users = await _userService.GetUsersAsync();
+            return Ok(users);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"An error occurred while fetching users: {ex.Message}");
+        }
     }
 
+    /// <summary>
+    /// Get a specific user by ID.
+    /// </summary>
     [HttpGet("{id}")]
+    [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<UserDto>> GetUser(int id)
     {
-        var user = await _repo.GetByIdAsync(id);
-        if (user == null) return NotFound();
-
-        return Ok(new UserDto
+        try
         {
-            Id = user.Id,
-            Name = user.Name,
-            Email = user.Email
-        });
+            var user = await _userService.GetUserByIdAsync(id);
+            if (user == null) return NotFound($"User with ID {id} not found.");
+            return Ok(user);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"An error occurred while fetching the user: {ex.Message}");
+        }
     }
 
+    /// <summary>
+    /// Create a new user.
+    /// </summary>
     [HttpPost]
     [AllowAnonymous] // Only if you want to allow user creation without auth
+    [ProducesResponseType(typeof(UserDto), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<UserDto>> CreateUser([FromBody] CreateUserDto dto)
     {
-        var existingUser = await _repo.FindAsync(u => u.Email == dto.Email);
-        if (existingUser != null)
-            return Conflict("Email already in use");
-
-        var user = new User
+        try
         {
-            Name = dto.Name,
-            PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password), // Hash the password
-            CreatedAt = DateTime.UtcNow // Optional
-        };
-
-        await _repo.AddAsync(user);
-        await _repo.SaveChangesAsync();
-
-        return CreatedAtAction(nameof(GetUser), new { id = user.Id }, new UserDto
+            var user = await _userService.CreateUserAsync(dto);
+            return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
+        }
+        catch (InvalidOperationException ex)
         {
-            Id = user.Id,
-            Name = user.Name,
-            Email = user.Email
-        });
+            return BadRequest(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"An error occurred while creating the user: {ex.Message}");
+        }
     }
 
-    // Add these new endpoints:
+    /// <summary>
+    /// Update a user by ID.
+    /// </summary>
     [HttpPut("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> UpdateUser(int id, [FromBody] UpdateUserDto dto)
     {
-        var user = await _repo.GetByIdAsync(id);
-        if (user == null) return NotFound();
-
-        user.Name = dto.Name;
-        // Don't update email as it's used for auth
-        await _repo.SaveChangesAsync();
-
-        return NoContent();
+        try
+        {
+            var success = await _userService.UpdateUserAsync(id, dto);
+            if (!success) return NotFound($"User with ID {id} not found.");
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"An error occurred while updating the user: {ex.Message}");
+        }
     }
 
+    /// <summary>
+    /// Delete a user by ID.
+    /// </summary>
     [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> DeleteUser(int id)
     {
-        var user = await _repo.GetByIdAsync(id);
-        if (user == null) return NotFound();
-
-
-        await _repo.SaveChangesAsync();
-
-        return NoContent();
+        try
+        {
+            var success = await _userService.DeleteUserAsync(id);
+            if (!success) return NotFound($"User with ID {id} not found.");
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"An error occurred while deleting the user: {ex.Message}");
+        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ParkingRentalSpace.Domain.Entities;
-using ParkingRentalSpace.Infrastructure.Repositories;
+using ParkingRentalSpace.Application.DTOs;
+using ParkingRentalSpace.Application.Services.Interfaces;
 
 namespace ParkingRentalSpace.API.Controllers;
 
@@ -8,32 +8,37 @@ namespace ParkingRentalSpace.API.Controllers;
 [Route("api/[controller]")]
 public class QrCheckinsController : ControllerBase
 {
-    private readonly IRepository<QrCheckin> _repo;
-    private readonly IRepository<Booking> _bookingRepo;
+    private readonly IQrCheckinService _qrCheckinService;
 
-    public QrCheckinsController(
-        IRepository<QrCheckin> repo,
-        IRepository<Booking> bookingRepo)
+    public QrCheckinsController(IQrCheckinService qrCheckinService)
     {
-        _repo = repo;
-        _bookingRepo = bookingRepo;
+        _qrCheckinService = qrCheckinService;
     }
 
+    /// <summary>
+    /// Validate a QR code for check-in.
+    /// </summary>
+    /// <param name="dto">QR validation details.</param>
+    /// <returns>Success or failure message.</returns>
     [HttpPost("validate")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> ValidateCheckin([FromBody] ValidateQrDto dto)
     {
-        var checkin = await _repo.GetByIdAsync(dto.CheckinId);
-        if (checkin == null) return BadRequest("Invalid QR code");
-
-        var booking = await _bookingRepo.GetByIdAsync(checkin.BookingId);
-        if (booking == null) return BadRequest("Invalid booking");
-
-        if (booking.Status != "Confirmed")
-            return BadRequest("Booking is not active");
-
-        checkin.ScannedAt = DateTime.UtcNow;
-        await _repo.SaveChangesAsync();
-
-        return Ok(new { message = "Check-in successful" });
+        try
+        {
+            var success = await _qrCheckinService.ValidateCheckinAsync(dto);
+            if (!success) return BadRequest("Validation failed");
+            return Ok(new { message = "Check-in successful" });
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"An error occurred during QR validation: {ex.Message}");
+        }
     }
 }

@@ -7,9 +7,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;      
-using Microsoft.Extensions.Logging;  
-using System;                          
+using Microsoft.AspNetCore.Http;
+using ParkingRentalSpace.Application.Services;
+using ParkingRentalSpace.Application.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -69,10 +69,19 @@ builder.Services.AddAuthorization(options =>
 // Register your new services here:
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+// Register application services
+builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddScoped<IParkingSpaceService, ParkingSpaceService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<IQrCheckinService, QrCheckinService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IUserService, UserService>();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
-        policy => policy.WithOrigins( "http://localhost:5173", "http://localhost:5174")
+        policy => policy.WithOrigins("http://localhost:5173", "http://localhost:5174")
                          .AllowAnyMethod()
                          .AllowAnyHeader()
                          .AllowCredentials());

@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ParkingRentalSpace.Application.DTOs;
-using ParkingRentalSpace.Domain.Entities;
-using ParkingRentalSpace.Infrastructure.Repositories;
-using Microsoft.AspNetCore.Authorization;
+using ParkingRentalSpace.Application.Services.Interfaces;
 using System.Security.Claims;
 
 namespace ParkingRentalSpace.API.Controllers;
@@ -11,133 +10,130 @@ namespace ParkingRentalSpace.API.Controllers;
 [Route("api/[controller]")]
 public class ParkingSpacesController : ControllerBase
 {
-    private readonly IRepository<ParkingSpace> _repo;
+    private readonly IParkingSpaceService _service;
 
-    public ParkingSpacesController(IRepository<ParkingSpace> repo)
+    public ParkingSpacesController(IParkingSpaceService service)
     {
-        _repo = repo;
+        _service = service;
     }
 
+    /// <summary>
+    /// Get all parking spaces.
+    /// </summary>
     [HttpGet]
+    [ProducesResponseType(typeof(IEnumerable<ParkingSpaceResponseDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<IEnumerable<ParkingSpaceResponseDto>>> GetParkingSpaces()
     {
-        var spaces = await _repo.GetAllAsync();
-        return Ok(spaces.Select(s => new ParkingSpaceResponseDto
+        try
         {
-            Id = s.Id,
-            Location = s.Address,
-            SpaceName = s.SpaceName,
-            Description = s.Description,
-            Price = s.PricePerHour,
-            AvailableTimes = s.AvailableTimes,
-            IsAvailable = s.IsAvailable,
-            OwnerId = s.OwnerId // <-- Added OwnerId here
-        }));
+            var spaces = await _service.GetAllParkingSpacesAsync();
+            return Ok(spaces);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"An error occurred while fetching parking spaces: {ex.Message}");
+        }
     }
 
+    /// <summary>
+    /// Get a specific parking space by ID.
+    /// </summary>
     [HttpGet("{id}")]
+    [ProducesResponseType(typeof(ParkingSpaceResponseDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<ParkingSpaceResponseDto>> GetParkingSpace(int id)
     {
-        var space = await _repo.GetByIdAsync(id);
-        if (space == null) return NotFound();
-
-        return Ok(new ParkingSpaceResponseDto
+        try
         {
-            Id = space.Id,
-            Location = space.Address,
-            SpaceName = space.SpaceName,
-            Description = space.Description,
-            Price = space.PricePerHour,
-            AvailableTimes = space.AvailableTimes,
-            IsAvailable = space.IsAvailable,
-            OwnerId = space.OwnerId // <-- Added OwnerId here
-        });
+            var space = await _service.GetParkingSpaceByIdAsync(id);
+            if (space == null) return NotFound($"Parking space with ID {id} not found.");
+            return Ok(space);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"An error occurred while fetching the parking space: {ex.Message}");
+        }
     }
 
+    /// <summary>
+    /// Get parking spaces owned by the current user.
+    /// </summary>
     [HttpGet("mine")]
     [Authorize]
+    [ProducesResponseType(typeof(IEnumerable<ParkingSpaceResponseDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<IEnumerable<ParkingSpaceResponseDto>>> GetMySpaces()
     {
-        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
-        if (userIdClaim == null)
-            return Unauthorized("User not authenticated.");
+        try
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim == null)
+                return Unauthorized("User not authenticated.");
 
-        int ownerId = int.Parse(userIdClaim.Value);
-
-        var spaces = await _repo.GetAllAsync();
-        var mySpaces = spaces
-            .Where(space => space.OwnerId == ownerId)
-            .Select(space => new ParkingSpaceResponseDto
-            {
-                Id = space.Id,
-                Location = space.Address,
-                SpaceName = space.SpaceName,
-                Description = space.Description,
-                Price = space.PricePerHour,
-                AvailableTimes = space.AvailableTimes,
-                IsAvailable = space.IsAvailable,
-                OwnerId = space.OwnerId // <-- Added OwnerId here
-            })
-            .ToList();
-
-        return Ok(mySpaces);
+            int ownerId = int.Parse(userIdClaim.Value);
+            var spaces = await _service.GetMyParkingSpacesAsync(ownerId);
+            return Ok(spaces);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"An error occurred while fetching your parking spaces: {ex.Message}");
+        }
     }
 
+    /// <summary>
+    /// Create a new parking space.
+    /// </summary>
     [HttpPost]
     [Authorize]
-    public async Task<ActionResult<ParkingSpaceResponseDto>> CreateParkingSpace(
-        [FromBody] CreateParkingSpaceDto dto)
+    [ProducesResponseType(typeof(ParkingSpaceResponseDto), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<ActionResult<ParkingSpaceResponseDto>> CreateParkingSpace([FromBody] CreateParkingSpaceDto dto)
     {
-        // Get user id from JWT claims
-        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
-        if (userIdClaim == null)
-            return Unauthorized("User not authenticated.");
-
-        int ownerId = int.Parse(userIdClaim.Value);
-
-        var space = new ParkingSpace
+        try
         {
-            OwnerId = ownerId,
-            Address = dto.Location,
-            SpaceName = dto.SpaceName,           // <-- FIXED: Save SpaceName
-            Description = dto.Description,
-            PricePerHour = dto.Price,
-            AvailableTimes = dto.AvailableTimes, // <-- FIXED: Save AvailableTimes
-            IsAvailable = true
-        };
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim == null)
+                return Unauthorized("User not authenticated.");
 
-        await _repo.AddAsync(space);
-        await _repo.SaveChangesAsync();
-
-        return CreatedAtAction(nameof(GetParkingSpace), new { id = space.Id },
-            new ParkingSpaceResponseDto
-            {
-                Id = space.Id,
-                Location = space.Address,
-                SpaceName = space.SpaceName,           // <-- FIXED: Return SpaceName
-                Description = space.Description,
-                Price = space.PricePerHour,
-                AvailableTimes = space.AvailableTimes, // <-- FIXED: Return AvailableTimes
-                IsAvailable = space.IsAvailable,
-                OwnerId = space.OwnerId // <-- Added OwnerId here
-            });
+            int ownerId = int.Parse(userIdClaim.Value);
+            var space = await _service.CreateParkingSpaceAsync(dto, ownerId);
+            return CreatedAtAction(nameof(GetParkingSpace), new { id = space.Id }, space);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"An error occurred while creating the parking space: {ex.Message}");
+        }
     }
 
+    /// <summary>
+    /// Delete a parking space by ID.
+    /// </summary>
     [HttpDelete("{id}")]
     [Authorize]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> DeleteParkingSpace(int id)
     {
-        var space = await _repo.GetByIdAsync(id);
-        if (space == null)
-            return NotFound();
+        try
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim == null)
+                return Unauthorized("User not authenticated.");
 
-        // Optional: Only allow the owner to delete
-        var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
-        if (userIdClaim == null || space.OwnerId != int.Parse(userIdClaim.Value))
-            return Forbid();
-
-        await _repo.DeleteAsync(space.Id);
-        await _repo.SaveChangesAsync();
-        return NoContent();
+            int ownerId = int.Parse(userIdClaim.Value);
+            var success = await _service.DeleteParkingSpaceAsync(id, ownerId);
+            if (!success) return NotFound($"Parking space with ID {id} not found or unauthorized.");
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"An error occurred while deleting the parking space: {ex.Message}");
+        }
     }
 }

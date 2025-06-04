@@ -1,233 +1,131 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using ParkingRentalSpace.Application.DTOs;
-using ParkingRentalSpace.Domain.Entities;
-using ParkingRentalSpace.Infrastructure.Data;
+using ParkingRentalSpace.Application.Services.Interfaces;
 using System.Security.Claims;
 
 namespace ParkingRentalSpace.API.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/bookings")]
 public class BookingsController : ControllerBase
 {
-    private readonly AppDbContext _context;
+    private readonly IBookingService _bookingService;
 
-    public BookingsController(AppDbContext context)
+    public BookingsController(IBookingService bookingService)
     {
-        _context = context;
+        _bookingService = bookingService;
     }
 
-    // POST: api/bookings
+    /// <summary>
+    /// Create a new booking.
+    /// </summary>
     [HttpPost]
     [Authorize]
     public async Task<IActionResult> Book([FromBody] CreateBookingDto dto)
     {
         var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        var user = await _context.Users.FindAsync(userId);
-
-        var space = await _context.ParkingSpaces.FindAsync(dto.ParkingSpaceId);
-        if (space == null || !space.IsAvailable)
-            return BadRequest("Space not available.");
-
-        var owner = await _context.Users.FindAsync(space.OwnerId);
-        if (owner == null)
-            return BadRequest("Owner not found.");
-
-        var totalPrice = space.PricePerHour * dto.Hours;
-
-        if (user.Balance < totalPrice)
-            return BadRequest("Insufficient balance.");
-
-        // Deduct from user, add to owner
-        user.Balance -= totalPrice;
-        owner.Balance += totalPrice;
-
-        var booking = new Booking
-        {
-            ParkingSpaceId = dto.ParkingSpaceId,
-            UserId = userId,
-            UserEmail = user.Email,
-            StartTime = dto.StartTime,
-            Hours = dto.Hours,
-            TotalPrice = totalPrice,
-            Status = "Pending"
-        };
-
-        _context.Bookings.Add(booking);
-        await _context.SaveChangesAsync();
-
+        var success = await _bookingService.CreateBookingAsync(dto, userId);
+        if (!success) return BadRequest("Failed to create booking.");
         return Ok(new { success = true });
     }
 
-    // GET: api/bookings/owner
+    /// <summary>
+    /// Get bookings for the owner.
+    /// </summary>
     [HttpGet("owner")]
     [Authorize]
-    public IActionResult GetOwnerBookings()
+    public async Task<IActionResult> GetOwnerBookings()
     {
         var ownerId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        var bookings = _context.Bookings
-            .Include(b => b.ParkingSpace)
-            .Where(b => b.ParkingSpace.OwnerId == ownerId)
-            .Select(b => new BookingDto
-            {
-                Id = b.Id,
-                ParkingSpaceId = b.ParkingSpaceId,
-                ParkingSpaceName = b.ParkingSpace.SpaceName,
-                UserEmail = b.UserEmail,
-                StartTime = b.StartTime,
-                Hours = b.Hours,
-                TotalPrice = b.TotalPrice
-            })
-            .OrderByDescending(b => b.StartTime)
-            .ToList();
-
+        var bookings = await _bookingService.GetOwnerBookingsAsync(ownerId);
         return Ok(bookings);
     }
 
-    // GET: api/bookings/my
+    /// <summary>
+    /// Get bookings for the current user.
+    /// </summary>
     [HttpGet("my")]
     [Authorize]
-    public IActionResult GetMyBookings()
+    public async Task<IActionResult> GetMyBookings()
     {
         var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        var bookings = _context.Bookings
-            .Include(b => b.ParkingSpace)
-            .Where(b => b.UserId == userId)
-            .Select(b => new
-            {
-                b.Id,
-                b.ParkingSpaceId,
-                ParkingSpaceName = b.ParkingSpace.SpaceName,
-                b.StartTime,
-                b.Hours,
-                b.TotalPrice,
-                b.Status
-            })
-            .OrderByDescending(b => b.StartTime)
-            .ToList();
-
+        var bookings = await _bookingService.GetMyBookingsAsync(userId);
         return Ok(bookings);
     }
 
-    // GET: api/bookings/my/upcoming
+    /// <summary>
+    /// Get upcoming bookings for the current user.
+    /// </summary>
     [HttpGet("my/upcoming")]
     [Authorize]
     public async Task<IActionResult> GetMyUpcomingBookings()
     {
         var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        var upcomingBookings = await _context.Bookings
-            .Where(b => b.UserId == userId && b.StartTime > DateTime.Now)
-            .OrderBy(b => b.StartTime)
-            .Take(5)
-            .Include(b => b.ParkingSpace)
-            .Include(b => b.User) // Include user details
-            .Select(b => new
-            {
-                b.Id,
-                b.TotalPrice,
-                b.StartTime,
-                b.EndTime,
-                SpaceName = b.ParkingSpace.SpaceName,
-                UserName = b.User.Name, // <-- include user name
-            })
-            .ToListAsync();
-
-        return Ok(upcomingBookings);
+        var bookings = await _bookingService.GetMyUpcomingBookingsAsync(userId);
+        return Ok(bookings);
     }
 
-
-    // GET: api/bookings/my/recent
+    /// <summary>
+    /// Get recent bookings for the current user.
+    /// </summary>
     [HttpGet("my/recent")]
     [Authorize]
     public async Task<IActionResult> GetRecentBookings()
     {
         var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        var now = DateTime.UtcNow;
-
-        var recent = await _context.Bookings
-            .Where(b => b.UserId == userId && b.StartTime <= now)
-            .OrderByDescending(b => b.StartTime)
-            .Take(5)
-            .Include(b => b.ParkingSpace)
-            .Include(b => b.User)
-            .Select(b => new
-            {
-                b.Id,
-                b.TotalPrice,
-                UserName = b.User.Name,
-                SpaceName = b.ParkingSpace.SpaceName,
-                b.StartTime,
-                b.EndTime,
-                b.Status
-            })
-            .ToListAsync();
-
-        return Ok(recent);
+        var bookings = await _bookingService.GetRecentBookingsAsync(userId);
+        return Ok(bookings);
     }
 
-    // GET: api/bookings/balance
+    /// <summary>
+    /// Get the balance for the current user.
+    /// </summary>
     [HttpGet("balance")]
     [Authorize]
     public async Task<IActionResult> GetBalance()
     {
         var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        var user = await _context.Users.FindAsync(userId);
-        return Ok(new { balance = user.Balance });
+        var balance = await _bookingService.GetBalanceAsync(userId);
+        return Ok(new { balance });
     }
 
-    // POST: api/bookings/topup
+    /// <summary>
+    /// Top up the balance for the current user.
+    /// </summary>
     [HttpPost("topup")]
     [Authorize]
     public async Task<IActionResult> TopUp([FromBody] decimal amount)
     {
         var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        var user = await _context.Users.FindAsync(userId);
-        user.Balance += amount;
-        await _context.SaveChangesAsync();
-        return Ok(new { balance = user.Balance });
+        var success = await _bookingService.TopUpBalanceAsync(userId, amount);
+        if (!success) return BadRequest("Failed to top up balance.");
+        return Ok(new { success = true });
     }
 
-    // POST: api/bookings/{id}/checkin
+    /// <summary>
+    /// Check in for a booking.
+    /// </summary>
     [HttpPost("{id}/checkin")]
     [Authorize]
     public async Task<IActionResult> CheckIn(int id)
     {
         var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        var booking = await _context.Bookings.FindAsync(id);
-        if (booking == null)
-            return NotFound();
-
-        if (booking.UserId != userId)
-            return Forbid();
-
-        if (booking.Status != "Pending")
-            return BadRequest("Booking is not pending.");
-
-        booking.Status = "Active";
-        await _context.SaveChangesAsync();
-        return Ok(new { status = "active" });
+        var success = await _bookingService.CheckInAsync(id, userId);
+        if (!success) return BadRequest("Failed to check in.");
+        return Ok(new { success = true });
     }
 
-    // POST: api/bookings/{id}/complete
+    /// <summary>
+    /// Complete a booking.
+    /// </summary>
     [HttpPost("{id}/complete")]
     [Authorize]
     public async Task<IActionResult> Complete(int id)
     {
         var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        var booking = await _context.Bookings.FindAsync(id);
-        if (booking == null)
-            return NotFound();
-
-        if (booking.UserId != userId)
-            return Forbid();
-
-        if (!string.Equals(booking.Status, "Active", StringComparison.OrdinalIgnoreCase))
-            return BadRequest("Booking is not active.");
-
-        booking.Status = "Completed";
-        await _context.SaveChangesAsync();
-        return Ok(new { status = "completed" });
+        var success = await _bookingService.CompleteBookingAsync(id, userId);
+        if (!success) return BadRequest("Failed to complete booking.");
+        return Ok(new { success = true });
     }
 }
