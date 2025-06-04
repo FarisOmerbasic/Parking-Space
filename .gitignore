@@ -1,6 +1,5 @@
 .vs/
 node_modules
 obj/
-**/obj/
-!ParkingRentalSpace/ParkingRentalSpace.Application/DTOs/AdminUserDTO.cs
-!ParkingRentalSpace/ParkingRentalSpace.Application/DTOs/PaymentRecordDTO.cs
+
+
