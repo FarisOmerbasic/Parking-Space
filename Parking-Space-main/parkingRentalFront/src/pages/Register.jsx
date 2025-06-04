@@ -16,7 +16,6 @@ const Register = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
-    // Clear error when user types
     if (errors[name]) {
       setErrors({ ...errors, [name]: "" });
     }

@@ -10,21 +10,21 @@ const AllSpaces = () => {
   const [paymentProcessing, setPaymentProcessing] = useState(false);
 
   useEffect(() => {
-    // Fetch all spaces
+  
     axios.get("http://localhost:5164/api/parkingspaces")
       .then(res => setSpaces(res.data));
-    // Fetch current user
+  
     axios.get("http://localhost:5164/api/auth/auth-check", { withCredentials: true })
       .then(res => setUser(res.data.user));
   }, []);
 
-  // Calculate hours between two times (as decimal)
+ 
   const calculateHours = (from, to) => {
     if (!from || !to) return 0;
     const fromDate = new Date(`1970-01-01T${from}`);
     const toDate = new Date(`1970-01-01T${to}`);
     let diff = (toDate - fromDate) / (1000 * 60 * 60);
-    if (diff < 0) diff += 24; // handle overnight
+    if (diff < 0) diff += 24; 
     return diff;
   };
 
@@ -50,12 +50,12 @@ const AllSpaces = () => {
     }
     const totalPrice = (space.price * hours).toFixed(2);
 
-    // Simulate payment (replace with real payment integration if needed)
+    
     try {
-      // 1. Simulate payment success
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // fake delay
+ 
+      await new Promise((resolve) => setTimeout(resolve, 1000)); 
 
-      // 2. Book the space
+      
       await axios.post(
         "http://localhost:5164/api/bookings",
         {
@@ -128,7 +128,6 @@ const AllSpaces = () => {
                       className="border p-1"
                     />
                   </div>
-                  {/* Show calculated price if possible */}
                   {booking[space.id]?.fromTime && booking[space.id]?.toTime && (
                     <div className="mb-2 text-sm text-gray-700">
                       Total:{" "}

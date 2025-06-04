@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Table, Spin, message, Tag } from 'antd'; // Ensure Tag is imported
+import { Table, Spin, message, Tag } from 'antd'; 
 
 const PaymentsManagement = () => {
   const [payments, setPayments] = useState([]);
@@ -9,11 +9,10 @@ const PaymentsManagement = () => {
   useEffect(() => {
     const fetchPayments = async () => {
       try {
-        // Ensure this matches your backend API URL
         const { data } = await axios.get('http://localhost:5164/api/admin/payments', { withCredentials: true });
         setPayments(data);
       } catch (error) {
-        console.error('Failed to fetch payments:', error); // Log the error for debugging
+        console.error('Failed to fetch payments:', error); 
         message.error('Failed to fetch payments');
       } finally {
         setLoading(false);
@@ -25,29 +24,29 @@ const PaymentsManagement = () => {
   const columns = [
     {
       title: 'User Email',
-      dataIndex: 'userEmail', // Matches PaymentRecordDto.UserEmail
+      dataIndex: 'userEmail',
       key: 'userEmail',
     },
     {
       title: 'Amount',
-      dataIndex: 'amount', // Matches PaymentRecordDto.Amount
+      dataIndex: 'amount',
       key: 'amount',
-      render: (amount) => `${parseFloat(amount).toFixed(2)} KM`, // Format to 2 decimal places
+      render: (amount) => `${parseFloat(amount).toFixed(2)} KM`, 
     },
     {
       title: 'Date',
-      dataIndex: 'paymentDate', // Matches PaymentRecordDto.PaymentDate
+      dataIndex: 'paymentDate', 
       key: 'paymentDate',
       render: (date) => new Date(date).toLocaleString(),
     },
     {
       title: 'Description',
-      dataIndex: 'description', // Matches PaymentRecordDto.Description
+      dataIndex: 'description', 
       key: 'description',
     },
     {
       title: 'Status',
-      dataIndex: 'status', // Matches PaymentRecordDto.Status
+      dataIndex: 'status', 
       key: 'status',
       render: (status) => (
         <Tag color={status === 'Completed' ? 'green' : 'orange'}>

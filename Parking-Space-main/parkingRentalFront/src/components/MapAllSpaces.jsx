@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 
-// Set default Leaflet icon
+
 const defaultIcon = L.icon({
   iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
   iconSize: [25, 41],
@@ -16,12 +16,10 @@ function MapAllSpaces() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Add a refresh function to reload parking spaces
   const fetchData = async () => {
     setLoading(true);
     setError(null);
     try {
-      // 1. Fetch parking spaces from your API
       const response = await fetch('http://localhost:5164/api/ParkingSpaces');
       if (!response.ok) throw new Error('Failed to fetch parking spaces');
       
@@ -32,7 +30,7 @@ function MapAllSpaces() {
         return;
       }
 
-      // 2. Geocode using address, location, or spaceName
+     
       const geocodedMarkers = await Promise.all(
         parkingSpaces.map(async (space) => {
           const address = space.address || space.location || space.spaceName;
@@ -69,9 +67,9 @@ function MapAllSpaces() {
     fetchData();
   }, []);
 
-  // Calculate center point from all markers
+
   const calculateCenter = () => {
-    if (markers.length === 0) return [43.8563, 18.4131]; // Default to Sarajevo
+    if (markers.length === 0) return [43.8563, 18.4131]; 
     const sum = markers.reduce(
       (acc, marker) => ({
         lat: acc.lat + marker.lat,

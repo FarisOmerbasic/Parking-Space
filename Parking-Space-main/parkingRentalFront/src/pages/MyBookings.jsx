@@ -75,7 +75,6 @@ const MyBookings = () => {
                 {b.status && b.status.toLowerCase() === "completed" && (
                   <span className="font-semibold text-gray-600">Completed</span>
                 )}
-                {/* Only show Check In if approved and not yet active */}
                 {b.status && b.status.toLowerCase() === "approved" && (
                   <button
                     onClick={() => handleCheckIn(b.id)}

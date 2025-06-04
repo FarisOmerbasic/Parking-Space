@@ -110,7 +110,6 @@ const UserProfile = () => {
     <div className="p-8 max-w-4xl">
       <h1 className="text-3xl font-bold mb-8">Profile</h1>
 
-      {/* Wallet/Balance Section */}
       {balance !== null && (
         <div className="mb-6 bg-blue-50 p-4 rounded flex items-center">
           <span className="font-semibold text-blue-700">
@@ -158,7 +157,6 @@ const UserProfile = () => {
           </div>
         </div>
 
-        {/* Change Password Section */}
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-xl font-semibold mb-4">Change password</h2>
           {message && <div className="mb-2 text-green-600">{message}</div>}
@@ -206,7 +204,6 @@ const UserProfile = () => {
           </div>
         </div>
 
-        {/* Save & Logout Buttons */}
         <div className="flex justify-between">
           <button
             type="button"

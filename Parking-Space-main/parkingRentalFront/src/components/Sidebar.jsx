@@ -19,7 +19,6 @@ const Homepage = () => {
     };
     getProducts();
 
-    // Fetch current user
     axios
       .get("http://localhost:5164/api/auth/auth-check", { withCredentials: true })
       .then((res) => setUser(res.data.user))
@@ -30,14 +29,14 @@ const Homepage = () => {
     <div className="bg-gray-50 min-h-screen">
       <Header />
       <main className="pt-28 max-w-6xl mx-auto px-4">
-        {/* Hero Section */}
+     
         <section className="bg-green-100 py-16 text-center rounded-xl mb-12">
           <h1 className="text-5xl font-bold mb-4 text-green-700">Welcome to AirPark</h1>
           <p className="text-xl mb-8 text-green-900">The easiest way to rent, manage, and find parking spaces.</p>
           <a href="/register" className="bg-green-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-green-600 transition">Create a free account</a>
         </section>
 
-        {/* Features */}
+       
         <section className="py-12">
           <h2 className="text-3xl font-bold text-center mb-10 text-green-700">Get started with AirPark</h2>
           <div className="flex flex-wrap justify-center gap-8">
@@ -59,7 +58,7 @@ const Homepage = () => {
           </div>
         </section>
 
-        {/* Available Spaces Section */}
+       
         <section className="mb-12">
           <h2 className="text-2xl font-bold mb-6">Available Spaces</h2>
           {user && (
@@ -94,7 +93,6 @@ const Homepage = () => {
           </div>
         </section>
 
-        {/* How it works Section */}
         <section className="mb-12">
           <h2 className="text-2xl font-bold mb-8">How it works</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -127,8 +125,6 @@ const Homepage = () => {
             </div>
           </div>
         </section>
-
-        {/* Testimonial */}
         <section className="py-16 bg-gray-100 rounded-xl mb-12">
           <Testimonial />
         </section>

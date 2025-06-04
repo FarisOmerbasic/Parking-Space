@@ -17,31 +17,27 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        // Fetch user info
+     
         const userRes = await axios.get("http://localhost:5164/api/auth/auth-check", {
           withCredentials: true,
         });
         setUser(userRes.data.user);
 
-        // Fetch user's balance
         const balanceRes = await axios.get("http://localhost:5164/api/bookings/balance", {
           withCredentials: true,
         });
         setBalance(balanceRes.data.balance || 0);
 
-        // Fetch user's spaces
         const spacesRes = await axios.get("http://localhost:5164/api/parkingspaces/mine", {
           withCredentials: true,
         });
         setSpaces(spacesRes.data);
 
-        // Fetch upcoming bookings
         const upcomingRes = await axios.get("http://localhost:5164/api/bookings/my/upcoming", {
           withCredentials: true,
         });
         setUpcomingBookings(upcomingRes.data);
 
-        // Fetch recent bookings
         const recentRes = await axios.get("http://localhost:5164/api/bookings/my/recent", {
           withCredentials: true,
         });
@@ -65,7 +61,6 @@ const Dashboard = () => {
     <div className="bg-gray-50 min-h-screen">
       <Header />
       <div className="p-8 max-w-6xl mx-auto pt-24">
-        {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold mb-2">Dashboard Overview</h1>
           <div className="flex items-center space-x-4 text-sm text-gray-500">
@@ -79,9 +74,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          {/* Account Card */}
           <div className="bg-white p-6 rounded-lg shadow-md">
             <h2 className="text-lg font-semibold mb-4">Account</h2>
             <div className="space-y-3">
@@ -96,7 +89,6 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* Earnings Card */}
           <div className="bg-white p-6 rounded-lg shadow-md">
             <h2 className="text-lg font-semibold mb-2">Earnings</h2>
             <p className="text-2xl font-bold text-green-600 mb-2">
@@ -105,7 +97,6 @@ const Dashboard = () => {
             <p className="text-sm text-gray-500">Current balance</p>
           </div>
 
-          {/* Occupancy Card */}
           <div className="bg-white p-6 rounded-lg shadow-md">
             <h2 className="text-lg font-semibold mb-2">Active Spaces</h2>
             <p className="text-2xl font-bold text-blue-600 mb-2">
@@ -115,7 +106,6 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Upcoming Bookings */}
         <div className="bg-white p-6 rounded-lg shadow-md mb-8">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-semibold">Upcoming Bookings</h2>
@@ -148,9 +138,7 @@ const Dashboard = () => {
           )}
         </div>
 
-        {/* My Spaces and Recent Bookings */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          {/* My Spaces */}
           <div className="bg-white p-6 rounded-lg shadow-md">
             <h2 className="text-xl font-semibold mb-4">My Spaces</h2>
             {loading.spaces ? (
@@ -178,7 +166,6 @@ const Dashboard = () => {
             )}
           </div>
 
-          {/* Recent Bookings */}
           <div className="bg-white p-6 rounded-lg shadow-md">
             <h2 className="text-xl font-semibold mb-4">Recent Bookings</h2>
             {loading.bookings ? (
@@ -207,7 +194,6 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Footer */}
         <div className="text-center border-t pt-4">
           <p className="font-medium">
             {user ? user.name || user.email || user.id : "User"}

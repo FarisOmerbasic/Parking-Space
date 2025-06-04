@@ -25,7 +25,7 @@ import AdminPaymentsManagement from "./pages/AdminPaymentsManagement";
 import UsersManagement from "./pages/UsersManagement";
 import AdminParkingManager from "./pages/AdminParkingManager";
 
-// Map Page (use a page wrapper for MapAllSpaces)
+// Map Page 
 import MapAllSpaces from "./components/MapAllSpaces";
 
 const MapAllSpacesPage = () => (
@@ -35,7 +35,7 @@ const MapAllSpacesPage = () => (
   </div>
 );
 
-// --- ProtectedRoute Component ---
+
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const { user, loading } = useContext(AuthContext);
 
@@ -61,10 +61,10 @@ export default function App() {
     {
       element: <AppLayout />,
       children: [
-        { index: true, element: <Homepage /> }, // PUBLIC
-        { path: "/map", element: <MapAllSpacesPage /> }, // PUBLIC
-        { path: "/login", element: <Login /> }, // PUBLIC
-        { path: "/register", element: <Register /> }, // PUBLIC
+        { index: true, element: <Homepage /> }, 
+        { path: "/map", element: <MapAllSpacesPage /> }, 
+        { path: "/login", element: <Login /> }, 
+        { path: "/register", element: <Register /> }, 
 
         { path: "/booking", element: <ProtectedRoute><Booking /></ProtectedRoute> },
         { path: "/my-bookings", element: <ProtectedRoute><MyBookings /></ProtectedRoute> },
@@ -81,7 +81,6 @@ export default function App() {
           ],
         },
 
-        // --- Admin Routes ---
         {
           path: "/admin",
           element: <ProtectedRoute allowedRoles={["Admin"]}><Outlet /></ProtectedRoute>,

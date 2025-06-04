@@ -37,7 +37,7 @@ const Login = () => {
     setIsSubmitting(true);
 
     try {
-      await login(form.email, form.password); // context handles user state
+      await login(form.email, form.password); 
       navigate("/");
     } catch (error) {
       setErrors({

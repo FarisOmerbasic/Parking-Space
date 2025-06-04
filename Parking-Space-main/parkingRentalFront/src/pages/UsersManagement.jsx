@@ -9,11 +9,10 @@ const UsersManagement = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        // Ensure this matches your backend API URL
         const { data } = await axios.get('http://localhost:5164/api/admin/users', { withCredentials: true });
         setUsers(data);
       } catch (err) {
-        console.error('Failed to fetch users:', err); // Log the error for debugging
+        console.error('Failed to fetch users:', err); 
         message.error('Failed to fetch users. Please try again later.');
       } finally {
         setLoading(false);
@@ -25,23 +24,23 @@ const UsersManagement = () => {
   const columns = [
     {
       title: 'Username',
-      dataIndex: 'name',  // Matches AdminUserDto.Name
+      dataIndex: 'name',  
       key: 'name',
     },
     {
       title: 'Email',
-      dataIndex: 'email', // Matches AdminUserDto.Email
+      dataIndex: 'email', 
       key: 'email',
     },
     {
       title: 'Balance',
-      dataIndex: 'balance', // Matches AdminUserDto.Balance
+      dataIndex: 'balance', 
       key: 'balance',
-      render: (balance) => `${parseFloat(balance).toFixed(2)} KM`, // Format to 2 decimal places
+      render: (balance) => `${parseFloat(balance).toFixed(2)} KM`, 
     },
     {
       title: 'Parking Spaces',
-      dataIndex: 'parkingSpacesCount', // Matches AdminUserDto.ParkingSpacesCount
+      dataIndex: 'parkingSpacesCount', 
       key: 'parkingSpacesCount',
     },
     {

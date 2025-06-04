@@ -92,7 +92,6 @@ const Booking = () => {
       >
         <h2 className="text-2xl font-bold mb-6">Book a Parking Space</h2>
 
-        {/* Location */}
         <div className="mb-6">
           <label className="block text-sm font-medium text-gray-700 mb-1">
             <FaMapMarkerAlt className="inline-block mr-1" />
@@ -111,7 +110,6 @@ const Booking = () => {
           )}
         </div>
 
-        {/* Space Name */}
         <div className="mb-6">
           <label className="block text-sm font-medium text-gray-700 mb-1">
             <FaTag className="inline-block mr-1" />
@@ -127,7 +125,6 @@ const Booking = () => {
           />
         </div>
 
-        {/* Description */}
         <div className="mb-6">
           <label className="block text-sm font-medium text-gray-700 mb-1">
             <FaAlignLeft className="inline-block mr-1" />
@@ -142,7 +139,6 @@ const Booking = () => {
           />
         </div>
 
-        {/* Price */}
         <div className="mb-6">
           <label className="block text-sm font-medium text-gray-700 mb-1">
             <FaDollarSign className="inline-block mr-1" />
@@ -157,7 +153,6 @@ const Booking = () => {
           />
         </div>
 
-        {/* Date/Time Pickers */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -197,7 +192,7 @@ const Booking = () => {
           </div>
         </div>
 
-        {/* Recurring Booking Toggle */}
+  
 <div className="mb-6">
   <label className="flex items-center space-x-2">
     <input
@@ -212,7 +207,6 @@ const Booking = () => {
 
 {isRecurring && (
   <div className="mb-6">
-    {/* Recurrence Pattern */}
     <div className="mb-4">
       <label className="block text-sm font-medium text-gray-700 mb-1">
         Recurrence Pattern
@@ -227,7 +221,6 @@ const Booking = () => {
       </select>
     </div>
 
-    {/* Weekly Day Selection */}
     {recurrencePattern === "WEEKLY" && (
       <div className="mb-4">
         <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -260,7 +253,6 @@ const Booking = () => {
 )}
 
 
-        {/* Payment Method (Simple) */}
         <div className="mb-6">
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Payment Method
@@ -275,7 +267,6 @@ const Booking = () => {
           </select>
         </div>
 
-        {/* Success Message */}
         {bookingSuccess && (
           <div className="mb-6 p-4 bg-green-50 rounded-md text-center">
             <h3 className="text-lg font-medium text-green-800 mb-2">
@@ -285,7 +276,6 @@ const Booking = () => {
           </div>
         )}
 
-        {/* Submit Button */}
         <button
           type="submit"
           className="w-full py-3 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700"
