@@ -2,12 +2,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ParkingRentalSpace.Application.DTOs;
 using ParkingRentalSpace.Application.Services.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace ParkingRentalSpace.API.Controllers;
 
 [ApiController]
 [Route("api/admin")]
-[Authorize(Roles = "Admin")]
+[Authorize(Policy = "RequireAdminRole")]
 public class AdminController : ControllerBase
 {
     private readonly IAdminService _adminService;
@@ -20,9 +21,9 @@ public class AdminController : ControllerBase
     }
 
     /// <summary>
-    /// Get all users.
+    /// Get all users with details.
     /// </summary>
-    /// <returns>List of users with details.</returns>
+    /// <returns>List of users.</returns>
     [HttpGet("users")]
     [ProducesResponseType(typeof(List<AdminUserDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -30,7 +31,7 @@ public class AdminController : ControllerBase
     {
         try
         {
-            _logger.LogInformation("Fetching all users.");
+            _logger.LogDebug("AdminController - GetAllUsers invoked.");
             var users = await _adminService.GetAllUsersAsync();
             return Ok(users);
         }
@@ -44,7 +45,7 @@ public class AdminController : ControllerBase
     /// <summary>
     /// Get all payments.
     /// </summary>
-    /// <returns>List of payments with details.</returns>
+    /// <returns>List of payments.</returns>
     [HttpGet("payments")]
     [ProducesResponseType(typeof(List<PaymentRecordDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -52,7 +53,7 @@ public class AdminController : ControllerBase
     {
         try
         {
-            _logger.LogInformation("Fetching all payments.");
+            _logger.LogDebug("AdminController - GetAllPayments invoked.");
             var payments = await _adminService.GetAllPaymentsAsync();
             return Ok(payments);
         }
@@ -74,7 +75,7 @@ public class AdminController : ControllerBase
     {
         try
         {
-            _logger.LogInformation("Fetching pending bookings.");
+            _logger.LogDebug("AdminController - GetPendingBookings invoked.");
             var bookings = await _adminService.GetPendingBookingsAsync();
             return Ok(bookings);
         }
@@ -93,11 +94,11 @@ public class AdminController : ControllerBase
     [HttpPost("approve-booking/{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> ApproveBooking(int id)
+    public async Task<IActionResult> ApproveBooking([FromRoute, Range(1, int.MaxValue)] int id)
     {
         try
         {
-            _logger.LogInformation($"Approving booking with ID {id}.");
+            _logger.LogDebug($"AdminController - ApproveBooking invoked for booking ID {id}.");
             var success = await _adminService.ApproveBookingAsync(id);
             if (!success) return NotFound("Booking not found.");
 
@@ -118,11 +119,11 @@ public class AdminController : ControllerBase
     [HttpPost("reject-booking/{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> RejectBooking(int id)
+    public async Task<IActionResult> RejectBooking([FromRoute, Range(1, int.MaxValue)] int id)
     {
         try
         {
-            _logger.LogInformation($"Rejecting booking with ID {id}.");
+            _logger.LogDebug($"AdminController - RejectBooking invoked for booking ID {id}.");
             var success = await _adminService.RejectBookingAsync(id);
             if (!success) return NotFound("Booking not found.");
 

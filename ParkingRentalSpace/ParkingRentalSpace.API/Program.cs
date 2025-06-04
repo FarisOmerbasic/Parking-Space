@@ -7,7 +7,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using ParkingRentalSpace.Application.Services;
 using ParkingRentalSpace.Application.Services.Interfaces;
 
@@ -87,7 +86,45 @@ builder.Services.AddCors(options =>
                          .AllowCredentials());
 });
 
+// Middleware for correlation ID (request tracing)
+builder.Services.AddHttpContextAccessor();
+
 var app = builder.Build();
+
+// Exception handling middleware
+app.Use(async (context, next) =>
+{
+    try
+    {
+        await next();
+    }
+    catch (Exception ex)
+    {
+        var logger = context.RequestServices.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "Unhandled exception occurred while processing the request.");
+        context.Response.StatusCode = 500;
+        await context.Response.WriteAsync("An unexpected error occurred.");
+    }
+});
+
+// Correlation ID middleware
+app.Use(async (context, next) =>
+{
+    var correlationId = Guid.NewGuid().ToString();
+    context.Items["CorrelationId"] = correlationId;
+    context.Response.Headers.Add("X-Correlation-ID", correlationId);
+    await next();
+});
+
+// Logging middleware (logs request path and correlation ID)
+app.Use(async (context, next) =>
+{
+    var logger = context.RequestServices.GetRequiredService<ILogger<Program>>();
+    var correlationId = context.Items["CorrelationId"]?.ToString() ?? "none";
+    logger.LogInformation("Handling request: {Path} | CorrelationId: {CorrelationId}", context.Request.Path, correlationId);
+    await next();
+    logger.LogInformation("Finished handling request: {Path} | CorrelationId: {CorrelationId}", context.Request.Path, correlationId);
+});
 
 if (app.Environment.IsDevelopment())
 {

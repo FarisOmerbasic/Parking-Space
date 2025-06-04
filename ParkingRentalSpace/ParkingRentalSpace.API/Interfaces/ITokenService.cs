@@ -4,6 +4,6 @@ namespace ParkingRentalSpace.Application.Services.Interfaces;
 
 public interface ITokenService
 {
-    string GenerateJwtToken(User user);
+    Task<string> GenerateJwtToken(User user);
     string GenerateRefreshToken();
 }

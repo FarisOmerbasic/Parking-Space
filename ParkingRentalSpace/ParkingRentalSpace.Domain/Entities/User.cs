@@ -12,7 +12,7 @@ public class User
     public decimal Balance { get; set; }
     public DateTime CreatedAt { get; set; }
     public string? RefreshToken { get; set; } 
-    public DateTime? RefreshTokenExpiryTime { get; set; } 
+    public DateTime? RefreshTokenExpiryTime { get; set; }   
     public string Role { get; set; } = "User"; 
 
     public List<ParkingSpace> OwnedParkingSpaces { get; set; } = new();

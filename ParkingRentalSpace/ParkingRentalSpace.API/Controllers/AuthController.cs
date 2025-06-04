@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -57,7 +58,7 @@ public class AuthController : ControllerBase
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            var token = _tokenService.GenerateJwtToken(user);
+            var token = await _tokenService.GenerateJwtToken(user);
             var refreshToken = _tokenService.GenerateRefreshToken();
 
             user.RefreshToken = refreshToken;
@@ -99,7 +100,7 @@ public class AuthController : ControllerBase
                 return Unauthorized("Invalid credentials");
             }
 
-            var token = _tokenService.GenerateJwtToken(user);
+            var token = await _tokenService.GenerateJwtToken(user);
             var refreshToken = _tokenService.GenerateRefreshToken();
 
             user.RefreshToken = refreshToken;
@@ -147,7 +148,7 @@ public class AuthController : ControllerBase
                 return Unauthorized("Invalid refresh token");
             }
 
-            var newJwtToken = _tokenService.GenerateJwtToken(user);
+            var newJwtToken = await _tokenService.GenerateJwtToken(user);
             var newRefreshToken = _tokenService.GenerateRefreshToken();
 
             user.RefreshToken = newRefreshToken;
@@ -164,6 +165,30 @@ public class AuthController : ControllerBase
             _logger.LogError(ex, "Exception in AuthController.RefreshToken");
             return StatusCode(500, "An error occurred while refreshing the token.");
         }
+    }
+
+    [Authorize]
+    [HttpGet("auth-check")]
+    public async Task<IActionResult> AuthCheck()
+    {
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(userId))
+            return Unauthorized();
+
+        var user = await _context.Users.FindAsync(int.Parse(userId));
+        if (user == null)
+            return Unauthorized();
+
+        return Ok(new { user = new { user.Id, user.Email, user.Name, user.Role } });
+    }
+
+    [HttpPost("logout")]
+    public IActionResult Logout()
+    {
+
+        Response.Cookies.Delete("token");
+        Response.Cookies.Delete("refreshToken");
+        return Ok(new { message = "Logged out" });
     }
 
     private void SetTokenCookie(string token, string refreshToken)
