@@ -40,7 +40,7 @@ public class AdminService : IAdminService
                 UserName = user.Name,
                 Email = user.Email,
                 Balance = user.Balance,
-                ParkingSpacesCount = spacesCount,
+                ParkingSpacesCount = spacesCount,w
                 BookingsCount = bookingsCount
             });
         }
